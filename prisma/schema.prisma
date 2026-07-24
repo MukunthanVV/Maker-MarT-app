@@ -1,0 +1,105 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id               String      @id
+  email            String      @unique
+  name             String?
+  avatar_url       String?
+  bio              String?
+  mobile_number    String?
+  register_no      String?
+  year             String?
+  department       String?
+  classroom_no     String?
+  is_blocked       Boolean     @default(false)
+  is_admin         Boolean     @default(false)
+  role             String      @default("Member")
+  createdAt        DateTime    @default(now())
+
+  components       Component[]
+
+  ordersBought     Order[]     @relation("BuyerOrders")
+  ordersSold       Order[]     @relation("SellerOrders")
+
+  chatsAsBuyer     Chat[]      @relation("BuyerChats")
+  chatsAsSeller    Chat[]      @relation("SellerChats")
+
+  messagesSent     Message[]   @relation("SenderMessages")
+  messagesReceived Message[]   @relation("ReceiverMessages")
+}
+
+model Component {
+  id          String   @id @default(uuid())
+  title       String
+  description String?
+  category    String
+  price       Float
+  condition   String
+  seller_id   String
+  seller      User     @relation(fields: [seller_id], references: [id])
+  status      String   @default("Active")
+  image_url   String?
+  images      String[]
+  is_free     Boolean  @default(false)
+  tech_specs  String?
+  why_sell    String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  chats       Chat[]
+}
+
+model Order {
+  id               String   @id @default(uuid())
+  order_id         String   @unique
+  buyer_id         String
+  buyer            User     @relation("BuyerOrders", fields: [buyer_id], references: [id])
+  seller_id        String
+  seller           User     @relation("SellerOrders", fields: [seller_id], references: [id])
+  product_id       String
+  product_name     String
+  product_image    String?
+  quantity         Int
+  subtotal         Float
+  platform_fee     Float
+  delivery_fee     Float
+  gst              Float
+  grand_total      Float
+  payment_id       String?
+  status           String?
+  order_status     String   @default("Pending")
+  payment_status   String
+  delivery_address String
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+}
+
+model Chat {
+  id           String    @id @default(uuid())
+  buyer_id     String
+  buyer        User      @relation("BuyerChats", fields: [buyer_id], references: [id])
+  seller_id    String
+  seller       User      @relation("SellerChats", fields: [seller_id], references: [id])
+  component_id String
+  component    Component @relation(fields: [component_id], references: [id])
+  messages     Message[]
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+}
+
+model Message {
+  id          String   @id @default(uuid())
+  chat_id     String
+  chat        Chat     @relation(fields: [chat_id], references: [id])
+  sender_id   String
+  sender      User     @relation("SenderMessages", fields: [sender_id], references: [id])
+  receiver_id String
+  receiver    User     @relation("ReceiverMessages", fields: [receiver_id], references: [id])
+  content     String
+  createdAt   DateTime @default(now())
+}

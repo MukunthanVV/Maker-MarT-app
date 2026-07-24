@@ -1,0 +1,54 @@
+import prisma from '../config/prisma.js';
+
+export const getAllComponents = async (filters = {}) => {
+    // Add logic for filters (category, search, condition, status) if passed
+    const where = {};
+    if (filters.category && filters.category !== 'All Categories') where.category = filters.category;
+    if (filters.status) where.status = filters.status;
+    if (filters.seller_id) where.seller_id = filters.seller_id;
+    if (filters.search) {
+        where.OR = [
+            { title: { contains: filters.search, mode: 'insensitive' } },
+            { description: { contains: filters.search, mode: 'insensitive' } },
+        ];
+    }
+    
+    return await prisma.component.findMany({
+        where,
+        include: { seller: { select: { id: true, name: true, email: true, avatar_url: true } } },
+        orderBy: { createdAt: 'desc' },
+    });
+};
+
+export const getComponentById = async (id) => {
+    return await prisma.component.findUnique({
+        where: { id },
+        include: { seller: { select: { id: true, name: true, avatar_url: true, role: true } } },
+    });
+};
+
+export const getComponentsBySeller = async (sellerId) => {
+    return await prisma.component.findMany({
+        where: { seller_id: sellerId },
+        orderBy: { createdAt: 'desc' },
+    });
+};
+
+export const createComponent = async (data) => {
+    return await prisma.component.create({
+        data,
+    });
+};
+
+export const updateComponent = async (id, data) => {
+    return await prisma.component.update({
+        where: { id },
+        data,
+    });
+};
+
+export const deleteComponent = async (id) => {
+    return await prisma.component.delete({
+        where: { id },
+    });
+};
