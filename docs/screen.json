@@ -1,0 +1,303 @@
+{
+  "screenshot": {
+    "name": "projects/17265918686892945237/files/1687034230004887949",
+    "downloadUrl": "https://lh3.googleusercontent.com/aida/AP1WRLuYA_NDYFXT2H4JMa6gbXZapK5osrxtu2N87uEfwtONV1n4SAyCw0r-sxq41LI1k8xwnvRElllYg4ayq8RhQW64t_iDjdzml3203K0bD_JQVeN9q08mPZnLX97UsmqAwgBEAt9McZvOBjW-NhtgY2VlWnjskuwyBKMx5NUs69E4mKG7aliYyfmrQCy51Xo-y48AZagTxWE7GqEHC-UzAhn1QlJdsYwodcMGtxBUoTm5dI6P9D4z83qWKAA"
+  },
+  "htmlCode": {
+    "name": "projects/17265918686892945237/files/7872630678758083845",
+    "downloadUrl": "https://contribution.usercontent.google.com/download?c=CgthaWRhX2NvZGVmeBJ8Eh1hcHBfY29tcGFuaW9uX2dlbmVyYXRlZF9maWxlcxpbCiVodG1sXzAwMDY1M2E4MzBhNzMxZGYwODE2ZmVkMDJlMzI0MjkyEgsSBxCN7_PnoRIYAZIBJAoKcHJvamVjdF9pZBIWQhQxNzI2NTkxODY4Njg5Mjk0NTIzNw&filename=&opi=89354086",
+    "mimeType": "text/html"
+  },
+  "id": "0907eca580ce4741925f57b321a59aca",
+  "generatedBy": "figaro_agent",
+  "width": "780",
+  "height": "3182",
+  "title": "Component Details",
+  "prompt": "Product Details screen for a specific component, e.g., 'Raspberry Pi 4 Model B (4GB RAM)'.\n- Image Gallery: A large hero image of the Pi with small thumbnails below for other angles.\n- Title & Price: Large bold title with the price prominently displayed (e.g., ₹3,200).\n- Seller Info: A small section showing the seller's name (\"Arjun S.\"), department (\"ECE, Year 3\"), and rating.\n- Technical Specs: A section with a mono-spaced font list: \"Processor: Broadcom BCM2711\", \"RAM: 4GB LPDDR4\", \"Condition: Gently Used - 6 months\".\n- Project History: A short text area: \"Used this for a home automation project. Includes a 32GB SD card pre-loaded with Raspbian.\"\n- Action Buttons: A primary \"Chat with Seller\" button and a secondary \"Buy Now\" button.\n- Bottom: Hidden nav bar for a focused view, or keep the BottomNavBar.",
+  "name": "projects/17265918686892945237/screens/0907eca580ce4741925f57b321a59aca",
+  "theme": {
+    "colorMode": "LIGHT",
+    "font": "INTER",
+    "roundness": "ROUND_EIGHT",
+    "customColor": "#2d6a4f",
+    "headlineFont": "INTER",
+    "bodyFont": "INTER",
+    "labelFont": "JETBRAINS_MONO",
+    "namedColors": {
+      "error": "#ba1a1a",
+      "on_error": "#ffffff",
+      "on_surface": "#191c1a",
+      "inverse_primary": "#95d4b3",
+      "error_container": "#ffdad6",
+      "primary_fixed": "#b1f0ce",
+      "tertiary": "#713638",
+      "outline_variant": "#bfc9c1",
+      "on_secondary": "#ffffff",
+      "primary_fixed_dim": "#95d4b3",
+      "on_surface_variant": "#404943",
+      "surface_container_high": "#e7e9e5",
+      "surface": "#f8faf6",
+      "tertiary_fixed": "#ffdad9",
+      "secondary_container": "#bbd3fd",
+      "surface_container": "#eceeea",
+      "surface_container_lowest": "#ffffff",
+      "surface_container_highest": "#e1e3df",
+      "on_secondary_container": "#445a7f",
+      "surface_bright": "#f8faf6",
+      "on_tertiary": "#ffffff",
+      "primary_container": "#2d6a4f",
+      "surface_variant": "#e1e3df",
+      "inverse_on_surface": "#eff1ed",
+      "tertiary_container": "#8d4d4e",
+      "surface_tint": "#2c694e",
+      "background": "#f8faf6",
+      "on_tertiary_fixed_variant": "#6f3537",
+      "on_primary": "#ffffff",
+      "inverse_surface": "#2e312f",
+      "secondary_fixed": "#d5e3ff",
+      "outline": "#707973",
+      "primary": "#0f5238",
+      "secondary_fixed_dim": "#b0c7f1",
+      "tertiary_fixed_dim": "#ffb3b3",
+      "on_primary_container": "#a8e7c5",
+      "on_primary_fixed_variant": "#0e5138",
+      "on_secondary_fixed_variant": "#30476a",
+      "on_error_container": "#93000a",
+      "on_secondary_fixed": "#001b3c",
+      "on_tertiary_container": "#ffcfce",
+      "on_primary_fixed": "#002114",
+      "surface_container_low": "#f2f4f0",
+      "on_tertiary_fixed": "#390b0e",
+      "surface_dim": "#d8dbd7",
+      "secondary": "#485f84",
+      "on_background": "#191c1a"
+    },
+    "designMd": "---\nname: MakerMart Design System\ncolors:\n  surface: '#f8faf6'\n  surface-dim: '#d8dbd7'\n  surface-bright: '#f8faf6'\n  surface-container-lowest: '#ffffff'\n  surface-container-low: '#f2f4f0'\n  surface-container: '#eceeea'\n  surface-container-high: '#e7e9e5'\n  surface-container-highest: '#e1e3df'\n  on-surface: '#191c1a'\n  on-surface-variant: '#404943'\n  inverse-surface: '#2e312f'\n  inverse-on-surface: '#eff1ed'\n  outline: '#707973'\n  outline-variant: '#bfc9c1'\n  surface-tint: '#2c694e'\n  primary: '#0f5238'\n  on-primary: '#ffffff'\n  primary-container: '#2d6a4f'\n  on-primary-container: '#a8e7c5'\n  inverse-primary: '#95d4b3'\n  secondary: '#485f84'\n  on-secondary: '#ffffff'\n  secondary-container: '#bbd3fd'\n  on-secondary-container: '#445a7f'\n  tertiary: '#713638'\n  on-tertiary: '#ffffff'\n  tertiary-container: '#8d4d4e'\n  on-tertiary-container: '#ffcfce'\n  error: '#ba1a1a'\n  on-error: '#ffffff'\n  error-container: '#ffdad6'\n  on-error-container: '#93000a'\n  primary-fixed: '#b1f0ce'\n  primary-fixed-dim: '#95d4b3'\n  on-primary-fixed: '#002114'\n  on-primary-fixed-variant: '#0e5138'\n  secondary-fixed: '#d5e3ff'\n  secondary-fixed-dim: '#b0c7f1'\n  on-secondary-fixed: '#001b3c'\n  on-secondary-fixed-variant: '#30476a'\n  tertiary-fixed: '#ffdad9'\n  tertiary-fixed-dim: '#ffb3b3'\n  on-tertiary-fixed: '#390b0e'\n  on-tertiary-fixed-variant: '#6f3537'\n  background: '#f8faf6'\n  on-background: '#191c1a'\n  surface-variant: '#e1e3df'\ntypography:\n  headline-xl:\n    fontFamily: Inter\n    fontSize: 48px\n    fontWeight: '700'\n    lineHeight: 56px\n    letterSpacing: -0.02em\n  headline-lg:\n    fontFamily: Inter\n    fontSize: 32px\n    fontWeight: '600'\n    lineHeight: 40px\n    letterSpacing: -0.01em\n  headline-lg-mobile:\n    fontFamily: Inter\n    fontSize: 28px\n    fontWeight: '600'\n    lineHeight: 36px\n  headline-md:\n    fontFamily: Inter\n    fontSize: 24px\n    fontWeight: '600'\n    lineHeight: 32px\n  body-lg:\n    fontFamily: Inter\n    fontSize: 18px\n    fontWeight: '400'\n    lineHeight: 28px\n  body-md:\n    fontFamily: Inter\n    fontSize: 16px\n    fontWeight: '400'\n    lineHeight: 24px\n  body-sm:\n    fontFamily: Inter\n    fontSize: 14px\n    fontWeight: '400'\n    lineHeight: 20px\n  label-mono-md:\n    fontFamily: JetBrains Mono\n    fontSize: 14px\n    fontWeight: '500'\n    lineHeight: 20px\n  label-mono-sm:\n    fontFamily: JetBrains Mono\n    fontSize: 12px\n    fontWeight: '500'\n    lineHeight: 16px\nrounded:\n  sm: 0.25rem\n  DEFAULT: 0.5rem\n  md: 0.75rem\n  lg: 1rem\n  xl: 1.5rem\n  full: 9999px\nspacing:\n  base: 8px\n  xs: 4px\n  sm: 8px\n  md: 16px\n  lg: 24px\n  xl: 48px\n  xxl: 80px\n  container-max: 1280px\n  gutter: 24px\n---\n\n## Brand & Style\nThe design system is built for a peer-to-peer ecosystem of engineering students, balancing technical precision with environmental responsibility. The brand personality is **Collaborative, Technical, and Sustainable**. \n\nThe visual style follows a **Modern Corporate** aesthetic with **Technical Minimalism**. It utilizes a structured grid, thin hairline dividers, and subtle monospaced accents to evoke the feel of engineering schematics and blueprints. The interface prioritizes clarity and functional efficiency, ensuring that the \"Maker\" spirit—resourcefulness and precision—is reflected in every interaction.\n\n## Colors\nThis design system uses a palette that bridges the gap between hardware engineering and eco-conscious consumption.\n- **Primary (Sustainable Green):** Used for brand presence, success states, and elements related to the circular economy.\n- **Secondary (Engineering Blue):** Applied to navigation, secondary actions, and structural headers to establish trust and technical authority.\n- **Accent (Safety Orange):** Reserved strictly for high-priority Call-to-Actions (CTAs) and critical alerts, mimicking industrial safety markers.\n- **Neutral (Slate Gray & Off-White):** A scale of grays starting from #F8F9FA ensures high legibility for product photography and technical diagrams without visual fatigue.\n\n## Typography\nThe typography strategy employs a dual-font approach. **Inter** provides high legibility for long-form content and UI labels, while **JetBrains Mono** is used for technical metadata, part numbers, and specifications.\n\n- **Headlines:** Bold and tight-tracking for a modern, confident feel.\n- **Body:** Generous line-height to ensure readability during technical research.\n- **Technical Labels:** Monospaced fonts are used for pricing, stock levels, and hardware specs to reinforce the engineering context.\n\n## Layout & Spacing\nThe design system utilizes a **12-column fluid grid** for desktop and a **4-column grid** for mobile. \n\n- **Grid Logic:** Use 24px gutters to allow technical layouts to breathe. \n- **Modular Scale:** Spacing follows an 8px base unit.\n- **Technical Accents:** Use 1px hairlines (#DEE2E6) to separate sections, mimicking technical drawing margins. Avoid heavy drop shadows; use these lines to define structure.\n\n## Elevation & Depth\nDepth is conveyed through **Tonal Layers** and **Low-Contrast Outlines** rather than heavy shadows. This maintains a clean, schematic-like appearance.\n\n- **Level 0 (Background):** #F8F9FA.\n- **Level 1 (Cards/Containers):** Pure white (#FFFFFF) with a 1px stroke in #DEE2E6.\n- **Level 2 (Hover/Active):** A very soft, diffused shadow (0px 4px 12px rgba(0,0,0,0.05)) to indicate interactivity without breaking the flat engineering aesthetic.\n- **Overlays:** Use a subtle backdrop blur (8px) for modals to maintain context of the underlying workspace.\n\n## Shapes\nShapes are disciplined yet approachable. The standard **8px (0.5rem)** radius is used for most components to balance the \"industrial\" feel with user-friendliness. \n\n- **Buttons & Inputs:** 8px radius.\n- **Product Cards:** 12px (rounded-lg) to frame photography softly.\n- **Status Tags:** Full-pill (3rem) to distinguish them from interactive buttons.\n\n## Components\n\n- **Buttons:** \n  - **Primary:** Safety Orange (#FB8500) with white text for main actions. \n  - **Secondary:** Engineering Blue (#1D3557) outline with 1px stroke.\n  - **Ghost:** No background, Sustainable Green (#2D6A4F) text for low-priority navigation.\n- **Inputs:** 1px solid border (#DEE2E6) that turns Engineering Blue on focus. Use monospaced labels for numerical inputs or dimensions.\n- **Chips/Tags:** Used for \"Condition\" (New, Used, Parts) or \"Category\" (Robotics, Electrical). Use Sustainable Green backgrounds for \"Eco-friendly/Refurbished\" badges.\n- **Cards:** White background, 1px border. No shadow by default. The header of the card should use a 1px bottom divider to separate the title from the body.\n- **Data Tables:** Crucial for part listings. Use a zebra-stripe pattern with #F8F9FA and JetBrains Mono for all cell data to emphasize precision.\n- **Checkboxes:** Square with an 4px radius, using Sustainable Green for the checked state.",
+    "colorVariant": "FIDELITY",
+    "overridePrimaryColor": "#2d6a4f",
+    "overrideSecondaryColor": "#1d3557",
+    "spacingScale": 2,
+    "typography": {
+      "label-mono-sm": {
+        "fontFamily": "JetBrains Mono",
+        "fontSize": "12px",
+        "fontWeight": "500",
+        "lineHeight": "16px"
+      },
+      "body-lg": {
+        "fontFamily": "Inter",
+        "fontSize": "18px",
+        "fontWeight": "400",
+        "lineHeight": "28px"
+      },
+      "headline-md": {
+        "fontFamily": "Inter",
+        "fontSize": "24px",
+        "fontWeight": "600",
+        "lineHeight": "32px"
+      },
+      "body-md": {
+        "fontFamily": "Inter",
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "lineHeight": "24px"
+      },
+      "label-mono-md": {
+        "fontFamily": "JetBrains Mono",
+        "fontSize": "14px",
+        "fontWeight": "500",
+        "lineHeight": "20px"
+      },
+      "headline-lg-mobile": {
+        "fontFamily": "Inter",
+        "fontSize": "28px",
+        "fontWeight": "600",
+        "lineHeight": "36px"
+      },
+      "body-sm": {
+        "fontFamily": "Inter",
+        "fontSize": "14px",
+        "fontWeight": "400",
+        "lineHeight": "20px"
+      },
+      "headline-xl": {
+        "fontFamily": "Inter",
+        "fontSize": "48px",
+        "fontWeight": "700",
+        "lineHeight": "56px",
+        "letterSpacing": "-0.02em"
+      },
+      "headline-lg": {
+        "fontFamily": "Inter",
+        "fontSize": "32px",
+        "fontWeight": "600",
+        "lineHeight": "40px",
+        "letterSpacing": "-0.01em"
+      }
+    },
+    "spacing": {
+      "sm": "8px",
+      "base": "8px",
+      "lg": "24px",
+      "xxl": "80px",
+      "gutter": "24px",
+      "md": "16px",
+      "container-max": "1280px",
+      "xs": "4px",
+      "xl": "48px"
+    },
+    "headlineFontFamily": "Inter",
+    "bodyFontFamily": "Inter",
+    "labelFontFamily": "Jetbrains Mono"
+  },
+  "deviceType": "MOBILE",
+  "screenType": "DESIGN",
+  "screenMetadata": {
+    "agentType": "PRO_AGENT",
+    "status": "COMPLETE",
+    "displayMode": "HTML"
+  },
+  "designSystem": {
+    "name": "assets/da7067d91f2348758f40445c8b90cc0d",
+    "designSystem": {
+      "displayName": "MakerMart Design System",
+      "styleGuidelines": "## Brand & Style\nThe design system is built for a peer-to-peer ecosystem of engineering students, balancing technical precision with environmental responsibility. The brand personality is **Collaborative, Technical, and Sustainable**. \n\nThe visual style follows a **Modern Corporate** aesthetic with **Technical Minimalism**. It utilizes a structured grid, thin hairline dividers, and subtle monospaced accents to evoke the feel of engineering schematics and blueprints. The interface prioritizes clarity and functional efficiency, ensuring that the \"Maker\" spirit—resourcefulness and precision—is reflected in every interaction.\n\n## Layout & Spacing\nThe design system utilizes a **12-column fluid grid** for desktop and a **4-column grid** for mobile. \n\n- **Grid Logic:** Use 24px gutters to allow technical layouts to breathe. \n- **Modular Scale:** Spacing follows an 8px base unit.\n- **Technical Accents:** Use 1px hairlines (#DEE2E6) to separate sections, mimicking technical drawing margins. Avoid heavy drop shadows; use these lines to define structure.\n\n## Elevation & Depth\nDepth is conveyed through **Tonal Layers** and **Low-Contrast Outlines** rather than heavy shadows. This maintains a clean, schematic-like appearance.\n\n- **Level 0 (Background):** #F8F9FA.\n- **Level 1 (Cards/Containers):** Pure white (#FFFFFF) with a 1px stroke in #DEE2E6.\n- **Level 2 (Hover/Active):** A very soft, diffused shadow (0px 4px 12px rgba(0,0,0,0.05)) to indicate interactivity without breaking the flat engineering aesthetic.\n- **Overlays:** Use a subtle backdrop blur (8px) for modals to maintain context of the underlying workspace.\n\n## Components\n\n- **Buttons:** \n  - **Primary:** Safety Orange (#FB8500) with white text for main actions. \n  - **Secondary:** Engineering Blue (#1D3557) outline with 1px stroke.\n  - **Ghost:** No background, Sustainable Green (#2D6A4F) text for low-priority navigation.\n- **Inputs:** 1px solid border (#DEE2E6) that turns Engineering Blue on focus. Use monospaced labels for numerical inputs or dimensions.\n- **Chips/Tags:** Used for \"Condition\" (New, Used, Parts) or \"Category\" (Robotics, Electrical). Use Sustainable Green backgrounds for \"Eco-friendly/Refurbished\" badges.\n- **Cards:** White background, 1px border. No shadow by default. The header of the card should use a 1px bottom divider to separate the title from the body.\n- **Data Tables:** Crucial for part listings. Use a zebra-stripe pattern with #F8F9FA and JetBrains Mono for all cell data to emphasize precision.\n- **Checkboxes:** Square with an 4px radius, using Sustainable Green for the checked state.",
+      "theme": {
+        "colorMode": "LIGHT",
+        "font": "INTER",
+        "roundness": "ROUND_EIGHT",
+        "customColor": "#2d6a4f",
+        "headlineFont": "INTER",
+        "bodyFont": "INTER",
+        "labelFont": "JETBRAINS_MONO",
+        "namedColors": {
+          "on_tertiary_fixed": "#390b0e",
+          "surface_dim": "#d8dbd7",
+          "secondary": "#485f84",
+          "on_background": "#191c1a",
+          "on_secondary_fixed_variant": "#30476a",
+          "on_error_container": "#93000a",
+          "on_secondary_fixed": "#001b3c",
+          "on_tertiary_container": "#ffcfce",
+          "on_primary_fixed": "#002114",
+          "surface_container_low": "#f2f4f0",
+          "on_primary": "#ffffff",
+          "inverse_surface": "#2e312f",
+          "secondary_fixed": "#d5e3ff",
+          "outline": "#707973",
+          "primary": "#0f5238",
+          "secondary_fixed_dim": "#b0c7f1",
+          "tertiary_fixed_dim": "#ffb3b3",
+          "on_primary_container": "#a8e7c5",
+          "on_primary_fixed_variant": "#0e5138",
+          "on_tertiary_fixed_variant": "#6f3537",
+          "on_tertiary": "#ffffff",
+          "primary_container": "#2d6a4f",
+          "surface_variant": "#e1e3df",
+          "inverse_on_surface": "#eff1ed",
+          "background": "#f8faf6",
+          "tertiary_container": "#8d4d4e",
+          "surface_tint": "#2c694e",
+          "surface_container_high": "#e7e9e5",
+          "surface": "#f8faf6",
+          "tertiary_fixed": "#ffdad9",
+          "surface_container": "#eceeea",
+          "surface_container_highest": "#e1e3df",
+          "surface_container_lowest": "#ffffff",
+          "secondary_container": "#bbd3fd",
+          "on_secondary_container": "#445a7f",
+          "surface_bright": "#f8faf6",
+          "primary_fixed": "#b1f0ce",
+          "tertiary": "#713638",
+          "outline_variant": "#bfc9c1",
+          "on_secondary": "#ffffff",
+          "primary_fixed_dim": "#95d4b3",
+          "on_surface_variant": "#404943",
+          "error": "#ba1a1a",
+          "on_error": "#ffffff",
+          "on_surface": "#191c1a",
+          "inverse_primary": "#95d4b3",
+          "error_container": "#ffdad6"
+        },
+        "designMd": "---\nname: MakerMart Design System\ncolors:\n  surface: '#f8faf6'\n  surface-dim: '#d8dbd7'\n  surface-bright: '#f8faf6'\n  surface-container-lowest: '#ffffff'\n  surface-container-low: '#f2f4f0'\n  surface-container: '#eceeea'\n  surface-container-high: '#e7e9e5'\n  surface-container-highest: '#e1e3df'\n  on-surface: '#191c1a'\n  on-surface-variant: '#404943'\n  inverse-surface: '#2e312f'\n  inverse-on-surface: '#eff1ed'\n  outline: '#707973'\n  outline-variant: '#bfc9c1'\n  surface-tint: '#2c694e'\n  primary: '#0f5238'\n  on-primary: '#ffffff'\n  primary-container: '#2d6a4f'\n  on-primary-container: '#a8e7c5'\n  inverse-primary: '#95d4b3'\n  secondary: '#485f84'\n  on-secondary: '#ffffff'\n  secondary-container: '#bbd3fd'\n  on-secondary-container: '#445a7f'\n  tertiary: '#713638'\n  on-tertiary: '#ffffff'\n  tertiary-container: '#8d4d4e'\n  on-tertiary-container: '#ffcfce'\n  error: '#ba1a1a'\n  on-error: '#ffffff'\n  error-container: '#ffdad6'\n  on-error-container: '#93000a'\n  primary-fixed: '#b1f0ce'\n  primary-fixed-dim: '#95d4b3'\n  on-primary-fixed: '#002114'\n  on-primary-fixed-variant: '#0e5138'\n  secondary-fixed: '#d5e3ff'\n  secondary-fixed-dim: '#b0c7f1'\n  on-secondary-fixed: '#001b3c'\n  on-secondary-fixed-variant: '#30476a'\n  tertiary-fixed: '#ffdad9'\n  tertiary-fixed-dim: '#ffb3b3'\n  on-tertiary-fixed: '#390b0e'\n  on-tertiary-fixed-variant: '#6f3537'\n  background: '#f8faf6'\n  on-background: '#191c1a'\n  surface-variant: '#e1e3df'\ntypography:\n  headline-xl:\n    fontFamily: Inter\n    fontSize: 48px\n    fontWeight: '700'\n    lineHeight: 56px\n    letterSpacing: -0.02em\n  headline-lg:\n    fontFamily: Inter\n    fontSize: 32px\n    fontWeight: '600'\n    lineHeight: 40px\n    letterSpacing: -0.01em\n  headline-lg-mobile:\n    fontFamily: Inter\n    fontSize: 28px\n    fontWeight: '600'\n    lineHeight: 36px\n  headline-md:\n    fontFamily: Inter\n    fontSize: 24px\n    fontWeight: '600'\n    lineHeight: 32px\n  body-lg:\n    fontFamily: Inter\n    fontSize: 18px\n    fontWeight: '400'\n    lineHeight: 28px\n  body-md:\n    fontFamily: Inter\n    fontSize: 16px\n    fontWeight: '400'\n    lineHeight: 24px\n  body-sm:\n    fontFamily: Inter\n    fontSize: 14px\n    fontWeight: '400'\n    lineHeight: 20px\n  label-mono-md:\n    fontFamily: JetBrains Mono\n    fontSize: 14px\n    fontWeight: '500'\n    lineHeight: 20px\n  label-mono-sm:\n    fontFamily: JetBrains Mono\n    fontSize: 12px\n    fontWeight: '500'\n    lineHeight: 16px\nrounded:\n  sm: 0.25rem\n  DEFAULT: 0.5rem\n  md: 0.75rem\n  lg: 1rem\n  xl: 1.5rem\n  full: 9999px\nspacing:\n  base: 8px\n  xs: 4px\n  sm: 8px\n  md: 16px\n  lg: 24px\n  xl: 48px\n  xxl: 80px\n  container-max: 1280px\n  gutter: 24px\n---\n\n## Brand & Style\nThe design system is built for a peer-to-peer ecosystem of engineering students, balancing technical precision with environmental responsibility. The brand personality is **Collaborative, Technical, and Sustainable**. \n\nThe visual style follows a **Modern Corporate** aesthetic with **Technical Minimalism**. It utilizes a structured grid, thin hairline dividers, and subtle monospaced accents to evoke the feel of engineering schematics and blueprints. The interface prioritizes clarity and functional efficiency, ensuring that the \"Maker\" spirit—resourcefulness and precision—is reflected in every interaction.\n\n## Colors\nThis design system uses a palette that bridges the gap between hardware engineering and eco-conscious consumption.\n- **Primary (Sustainable Green):** Used for brand presence, success states, and elements related to the circular economy.\n- **Secondary (Engineering Blue):** Applied to navigation, secondary actions, and structural headers to establish trust and technical authority.\n- **Accent (Safety Orange):** Reserved strictly for high-priority Call-to-Actions (CTAs) and critical alerts, mimicking industrial safety markers.\n- **Neutral (Slate Gray & Off-White):** A scale of grays starting from #F8F9FA ensures high legibility for product photography and technical diagrams without visual fatigue.\n\n## Typography\nThe typography strategy employs a dual-font approach. **Inter** provides high legibility for long-form content and UI labels, while **JetBrains Mono** is used for technical metadata, part numbers, and specifications.\n\n- **Headlines:** Bold and tight-tracking for a modern, confident feel.\n- **Body:** Generous line-height to ensure readability during technical research.\n- **Technical Labels:** Monospaced fonts are used for pricing, stock levels, and hardware specs to reinforce the engineering context.\n\n## Layout & Spacing\nThe design system utilizes a **12-column fluid grid** for desktop and a **4-column grid** for mobile. \n\n- **Grid Logic:** Use 24px gutters to allow technical layouts to breathe. \n- **Modular Scale:** Spacing follows an 8px base unit.\n- **Technical Accents:** Use 1px hairlines (#DEE2E6) to separate sections, mimicking technical drawing margins. Avoid heavy drop shadows; use these lines to define structure.\n\n## Elevation & Depth\nDepth is conveyed through **Tonal Layers** and **Low-Contrast Outlines** rather than heavy shadows. This maintains a clean, schematic-like appearance.\n\n- **Level 0 (Background):** #F8F9FA.\n- **Level 1 (Cards/Containers):** Pure white (#FFFFFF) with a 1px stroke in #DEE2E6.\n- **Level 2 (Hover/Active):** A very soft, diffused shadow (0px 4px 12px rgba(0,0,0,0.05)) to indicate interactivity without breaking the flat engineering aesthetic.\n- **Overlays:** Use a subtle backdrop blur (8px) for modals to maintain context of the underlying workspace.\n\n## Shapes\nShapes are disciplined yet approachable. The standard **8px (0.5rem)** radius is used for most components to balance the \"industrial\" feel with user-friendliness. \n\n- **Buttons & Inputs:** 8px radius.\n- **Product Cards:** 12px (rounded-lg) to frame photography softly.\n- **Status Tags:** Full-pill (3rem) to distinguish them from interactive buttons.\n\n## Components\n\n- **Buttons:** \n  - **Primary:** Safety Orange (#FB8500) with white text for main actions. \n  - **Secondary:** Engineering Blue (#1D3557) outline with 1px stroke.\n  - **Ghost:** No background, Sustainable Green (#2D6A4F) text for low-priority navigation.\n- **Inputs:** 1px solid border (#DEE2E6) that turns Engineering Blue on focus. Use monospaced labels for numerical inputs or dimensions.\n- **Chips/Tags:** Used for \"Condition\" (New, Used, Parts) or \"Category\" (Robotics, Electrical). Use Sustainable Green backgrounds for \"Eco-friendly/Refurbished\" badges.\n- **Cards:** White background, 1px border. No shadow by default. The header of the card should use a 1px bottom divider to separate the title from the body.\n- **Data Tables:** Crucial for part listings. Use a zebra-stripe pattern with #F8F9FA and JetBrains Mono for all cell data to emphasize precision.\n- **Checkboxes:** Square with an 4px radius, using Sustainable Green for the checked state.",
+        "colorVariant": "FIDELITY",
+        "overridePrimaryColor": "#2d6a4f",
+        "overrideSecondaryColor": "#1d3557",
+        "spacingScale": 2,
+        "typography": {
+          "headline-md": {
+            "fontFamily": "Inter",
+            "fontSize": "24px",
+            "fontWeight": "600",
+            "lineHeight": "32px"
+          },
+          "body-md": {
+            "fontFamily": "Inter",
+            "fontSize": "16px",
+            "fontWeight": "400",
+            "lineHeight": "24px"
+          },
+          "body-sm": {
+            "fontFamily": "Inter",
+            "fontSize": "14px",
+            "fontWeight": "400",
+            "lineHeight": "20px"
+          },
+          "label-mono-md": {
+            "fontFamily": "JetBrains Mono",
+            "fontSize": "14px",
+            "fontWeight": "500",
+            "lineHeight": "20px"
+          },
+          "headline-lg-mobile": {
+            "fontFamily": "Inter",
+            "fontSize": "28px",
+            "fontWeight": "600",
+            "lineHeight": "36px"
+          },
+          "label-mono-sm": {
+            "fontFamily": "JetBrains Mono",
+            "fontSize": "12px",
+            "fontWeight": "500",
+            "lineHeight": "16px"
+          },
+          "body-lg": {
+            "fontFamily": "Inter",
+            "fontSize": "18px",
+            "fontWeight": "400",
+            "lineHeight": "28px"
+          },
+          "headline-lg": {
+            "fontFamily": "Inter",
+            "fontSize": "32px",
+            "fontWeight": "600",
+            "lineHeight": "40px",
+            "letterSpacing": "-0.01em"
+          },
+          "headline-xl": {
+            "fontFamily": "Inter",
+            "fontSize": "48px",
+            "fontWeight": "700",
+            "lineHeight": "56px",
+            "letterSpacing": "-0.02em"
+          }
+        },
+        "spacing": {
+          "xxl": "80px",
+          "gutter": "24px",
+          "base": "8px",
+          "sm": "8px",
+          "lg": "24px",
+          "xl": "48px",
+          "md": "16px",
+          "container-max": "1280px",
+          "xs": "4px"
+        },
+        "headlineFontFamily": "Inter",
+        "bodyFontFamily": "Inter",
+        "labelFontFamily": "Jetbrains Mono"
+      }
+    },
+    "version": "1"
+  }
+}

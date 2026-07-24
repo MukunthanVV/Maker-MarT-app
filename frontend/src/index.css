@@ -1,0 +1,148 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap');
+
+@import "tailwindcss";
+@config "../tailwind.config.js";
+
+:root {
+  /* Green-first Brand Colors */
+  --color-primary: #46A857;
+  --color-primary-hover: #2E9445;
+  --color-primary-dark: #0A7A2D;
+  --color-accent-light: #8ED08A;
+  --color-success: #4CAF50;
+  --color-warning: #F59E0B; /* Amber - Auctions only */
+  --color-danger: #EF4444;
+  --color-info: #38BDF8;
+
+  /* Light Mode Semantics */
+  --color-background: #F9FCF8;
+  --color-surface: #FFFFFF;
+  --color-card: #FFFFFF;
+  --color-elevated: #FFFFFF;
+  --color-border: #E7EFE8;
+  --color-text-primary: #1E293B;
+  --color-text-secondary: #64748B;
+  --color-text-inverse: #FFFFFF;
+}
+
+.dark {
+  /* Dark Mode Semantics */
+  --color-background: #0B0F0C;
+  --color-surface: #131A14;
+  --color-card: #1A241C;
+  --color-elevated: #233026;
+  --color-border: #304236;
+  --color-text-primary: #F8FAFC;
+  --color-text-secondary: #B8C6BA;
+  --color-text-inverse: #0B0F0C;
+}
+
+@layer utilities {
+  .material-symbols-outlined {
+    font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    display: inline-block;
+    line-height: 1;
+    text-transform: none;
+    letter-spacing: normal;
+    word-wrap: normal;
+    white-space: nowrap;
+    direction: ltr;
+  }
+  .hide-scrollbar::-webkit-scrollbar { display: none; }
+  .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+}
+
+@layer components {
+  /* Buttons */
+  .btn-base {
+    @apply h-12 px-6 rounded-xl font-bold tracking-wide transition-all duration-200 flex items-center justify-center gap-2 active:scale-95 disabled:opacity-50 disabled:pointer-events-none;
+  }
+  .btn-primary {
+    @apply h-12 px-6 rounded-xl font-bold tracking-wide transition-all duration-200 flex items-center justify-center gap-2 active:scale-95 disabled:opacity-50 disabled:pointer-events-none bg-[var(--color-primary)] text-[var(--color-text-inverse)] hover:bg-[var(--color-primary-hover)] shadow-sm hover:shadow-md;
+  }
+  .btn-secondary {
+    @apply h-12 px-6 rounded-xl font-bold tracking-wide transition-all duration-200 flex items-center justify-center gap-2 active:scale-95 disabled:opacity-50 disabled:pointer-events-none bg-[var(--color-surface)] text-[var(--color-text-primary)] border border-[var(--color-border)] hover:border-[var(--color-primary)] hover:text-[var(--color-primary)] shadow-sm;
+  }
+  .btn-outline {
+    @apply h-12 px-6 rounded-xl font-bold tracking-wide transition-all duration-200 flex items-center justify-center gap-2 active:scale-95 disabled:opacity-50 disabled:pointer-events-none border-2 border-[var(--color-border)] text-[var(--color-text-primary)] hover:border-[var(--color-primary)] hover:text-[var(--color-primary)];
+  }
+  .btn-danger {
+    @apply h-12 px-6 rounded-xl font-bold tracking-wide transition-all duration-200 flex items-center justify-center gap-2 active:scale-95 disabled:opacity-50 disabled:pointer-events-none bg-[var(--color-danger)] text-white hover:opacity-90 shadow-sm hover:shadow-md;
+  }
+  .btn-auction {
+    @apply h-12 px-6 rounded-xl font-bold tracking-wide transition-all duration-200 flex items-center justify-center gap-2 active:scale-95 disabled:opacity-50 disabled:pointer-events-none bg-gradient-to-r from-[var(--color-warning)] to-amber-400 text-amber-950 hover:opacity-90 shadow-sm hover:shadow-md;
+  }
+  .btn-icon {
+    @apply p-2 text-[var(--color-text-secondary)] hover:text-[var(--color-primary)] hover:bg-[var(--color-primary)]/10 transition-colors rounded-full;
+  }
+  
+  /* Cards */
+  .card-standard {
+    @apply bg-[var(--color-card)] rounded-[24px] border border-[var(--color-border)] shadow-sm;
+  }
+  .card-interactive {
+    @apply bg-[var(--color-card)] rounded-[24px] border border-[var(--color-border)] shadow-sm hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300 cursor-pointer;
+  }
+  .card-auction {
+    @apply bg-[var(--color-card)] rounded-[24px] border border-[var(--color-warning)]/30 shadow-md hover:shadow-xl hover:-translate-y-2 hover:border-[var(--color-warning)]/60 transition-all duration-300 cursor-pointer relative overflow-hidden;
+  }
+  
+  /* Forms */
+  .input-standard {
+    @apply w-full bg-[var(--color-surface)] border border-[var(--color-border)] text-[var(--color-text-primary)] rounded-xl py-3.5 px-4 focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]/50 focus:border-[var(--color-primary)] transition-all placeholder:text-[var(--color-text-secondary)]/70;
+  }
+  .input-label {
+    @apply block text-sm font-semibold text-[var(--color-text-primary)] mb-1.5;
+  }
+
+  /* Typography */
+  .text-hero {
+    @apply text-4xl md:text-5xl lg:text-6xl font-bold leading-tight tracking-tight text-[var(--color-text-primary)];
+  }
+  .text-h1 {
+    @apply text-3xl md:text-4xl font-bold text-[var(--color-text-primary)] tracking-tight;
+  }
+  .text-h2 {
+    @apply text-2xl md:text-3xl font-bold text-[var(--color-text-primary)];
+  }
+  .text-h3 {
+    @apply text-xl md:text-2xl font-bold text-[var(--color-text-primary)];
+  }
+  .text-body {
+    @apply text-base text-[var(--color-text-primary)] leading-relaxed;
+  }
+  .text-caption {
+    @apply text-sm text-[var(--color-text-secondary)];
+  }
+  
+  /* Badges */
+  .badge-neutral {
+    @apply px-2.5 py-1 rounded-lg bg-[var(--color-surface)] border border-[var(--color-border)] text-xs font-bold text-[var(--color-text-primary)] flex items-center gap-1.5 shadow-sm;
+  }
+  .badge-primary {
+    @apply px-2.5 py-1 rounded-lg bg-[var(--color-primary)]/10 border border-[var(--color-primary)]/20 text-xs font-bold text-[var(--color-primary)] flex items-center gap-1.5;
+  }
+
+  /* Skeletons */
+  .skeleton {
+    @apply animate-pulse bg-[var(--color-border)] rounded-md;
+  }
+  .skeleton-shimmer {
+    @apply relative overflow-hidden bg-[var(--color-border)];
+  }
+  .skeleton-shimmer::after {
+    content: "";
+    @apply absolute inset-0 -translate-x-full;
+    background-image: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+    animation: shimmer 1.5s infinite;
+  }
+  .dark .skeleton-shimmer::after {
+    background-image: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.05), transparent);
+  }
+  @keyframes shimmer {
+    100% {
+      transform: translateX(100%);
+    }
+  }
+}
