@@ -102,6 +102,13 @@ export const BottomNav = () => {
         <span className="text-xs font-semibold mt-1">Home</span>
       </Link>
       <Link 
+        className={`flex flex-col items-center justify-center p-2 transition-transform duration-150 active:scale-90 ${isActive('/explore') ? 'text-[var(--color-primary)]' : 'text-[var(--color-text-secondary)] hover:text-[var(--color-primary)]'}`} 
+        to="/explore"
+      >
+        <span className="material-symbols-outlined">explore</span>
+        <span className="text-xs font-semibold mt-1">Explore</span>
+      </Link>
+      <Link 
         className={`flex flex-col items-center justify-center p-2 transition-transform duration-150 active:scale-90 ${isActive('/sell') ? 'text-[var(--color-primary)]' : 'text-[var(--color-text-secondary)] hover:text-[var(--color-primary)]'}`} 
         to="/sell"
       >

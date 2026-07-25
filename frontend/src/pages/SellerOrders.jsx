@@ -61,11 +61,11 @@ export const SellerOrders = () => {
 
   const getStatusStyle = (status) => {
     switch(status) {
-      case 'Pending': return 'bg-amber-100 text-amber-800 border-amber-200';
-      case 'Confirmed': return 'bg-blue-100 text-blue-800 border-blue-200';
-      case 'Packed': return 'bg-purple-100 text-purple-800 border-purple-200';
-      case 'Shipped': return 'bg-indigo-100 text-indigo-800 border-indigo-200';
-      case 'Out for Delivery': return 'bg-orange-100 text-orange-800 border-orange-200';
+      case 'Pending': return 'bg-[var(--color-primary)]/10 text-[var(--color-primary)] border-[var(--color-primary)]/20';
+      case 'Confirmed': return 'bg-[var(--color-primary)]/20 text-[var(--color-primary)] border-[var(--color-primary)]/30';
+      case 'Packed': return 'bg-[var(--color-primary)]/30 text-[var(--color-primary)] border-[var(--color-primary)]/40';
+      case 'Shipped': return 'bg-[var(--color-primary)]/40 text-[var(--color-primary)] border-[var(--color-primary)]/50';
+      case 'Out for Delivery': return 'bg-[var(--color-primary)]/50 text-[var(--color-primary)] border-[var(--color-primary)]/60';
       case 'Delivered': return 'bg-[var(--color-success)]/10 text-[var(--color-success)] border-[var(--color-success)]/20';
       case 'Cancelled': return 'bg-[var(--color-danger)]/10 text-[var(--color-danger)] border-[var(--color-danger)]/20';
       default: return 'bg-[var(--color-surface)] text-[var(--color-text-secondary)] border-[var(--color-border)]';

@@ -14,6 +14,8 @@ import { EngineerChat } from './pages/EngineerChat';
 import { Login } from './pages/Login';
 import { PersonalProfile } from './pages/PersonalProfile';
 import { PublicProfile } from './pages/PublicProfile';
+import { Explore } from './pages/Explore';
+import { AiChatBot } from './components/AiChatBot';
 import { supabase } from './supabaseClient';
 import apiClient from './api/client';
 import { AdminRoute } from './components/AdminRoute';
@@ -108,10 +110,12 @@ function App() {
   return (
     <Router>
       <GlobalNotifications />
+      <AiChatBot />
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route element={<ProtectedRoute />}>
           <Route path="/" element={<Home />} />
+          <Route path="/explore" element={<Explore />} />
           <Route path="/product/:id" element={<ComponentDetails />} />
           <Route path="/sell" element={<ListComponent />} />
           <Route path="/edit-component/:id" element={<EditComponent />} />

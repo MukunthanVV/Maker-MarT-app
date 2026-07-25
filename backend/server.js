@@ -10,6 +10,7 @@ import componentRoutes from "./routes/componentRoutes.js";
 import chatRoutes from "./routes/chatRoutes.js";
 import messageRoutes from "./routes/messageRoutes.js";
 import uploadRoutes from "./routes/uploadRoutes.js";
+import newsRoutes from "./routes/newsRoutes.js";
 import { errorHandler } from "./middleware/errorHandler.js";
 
 dotenv.config();
@@ -29,6 +30,7 @@ app.use("/api/components", componentRoutes);
 app.use("/api/chats", chatRoutes);
 app.use("/api/messages", messageRoutes);
 app.use("/api/upload", uploadRoutes);
+app.use("/api/news", newsRoutes);
 
 app.get("/", (req, res) => {
     res.send("🚀 MakerMarT Backend Running");
@@ -37,7 +39,7 @@ app.get("/", (req, res) => {
 // Centralized Error Handler (must be after routes)
 app.use(errorHandler);
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 5001;
 
 server.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
