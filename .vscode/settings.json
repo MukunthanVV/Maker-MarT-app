@@ -1,0 +1,8 @@
+{
+  "css.lint.unknownAtRules": "ignore",
+  "python.defaultInterpreterPath": "/Users/a.v.tharunkarthik/skctmart/Maker-MarT-app/ai-engine/venv/bin/python",
+  "python.analysis.extraPaths": [
+    "/Users/a.v.tharunkarthik/skctmart/Maker-MarT-app/ai-engine",
+    "/Users/a.v.tharunkarthik/skctmart/Maker-MarT-app/ai-engine/venv/lib/python3.14/site-packages"
+  ]
+}
