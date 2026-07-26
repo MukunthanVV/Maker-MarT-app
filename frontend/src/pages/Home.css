@@ -1,0 +1,92 @@
+.makermart-home {
+  padding-bottom: var(--space-xxl);
+}
+
+.hero-section {
+  padding: var(--space-xxl) 0;
+  background-color: var(--surface-container-low);
+  border-bottom: 1px solid var(--divider);
+}
+
+.hero-content {
+  max-width: 800px;
+}
+
+.hero-title {
+  color: var(--brand-secondary);
+  margin-bottom: var(--space-md);
+}
+
+.hero-subtitle {
+  font-size: 20px;
+  color: var(--on-surface-variant);
+  margin-bottom: var(--space-lg);
+  line-height: 1.6;
+}
+
+.hero-actions {
+  display: flex;
+  gap: var(--space-md);
+}
+
+.section-title {
+  margin: var(--space-xl) 0 var(--space-lg) 0;
+  color: var(--on-surface);
+}
+
+.featured-grid {
+  grid-template-columns: repeat(12, 1fr);
+}
+
+.product-card {
+  grid-column: span 4;
+  display: flex;
+  flex-direction: column;
+}
+
+@media (max-width: 768px) {
+  .product-card {
+    grid-column: span 12;
+  }
+}
+
+.product-image-placeholder {
+  height: 200px;
+  background-color: var(--surface-container-high);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--outline);
+  border-radius: var(--rounded-md);
+  margin-bottom: var(--space-md);
+}
+
+.product-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: var(--space-xs);
+}
+
+.product-header h3 {
+  font-size: 18px;
+  margin: 0;
+}
+
+.seller-info {
+  font-size: 14px;
+  color: var(--on-surface-variant);
+  margin: 0;
+}
+
+.product-card-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.price {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--brand-primary);
+}
