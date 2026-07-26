@@ -15,10 +15,10 @@ export const initSocket = (server) => {
         try {
             const token = socket.handshake.auth.token;
             if (!token) return next(new Error('Authentication error'));
-            
+
             const { data: { user }, error } = await supabase.auth.getUser(token);
             if (error || !user) return next(new Error('Authentication error'));
-            
+
             socket.user = user;
             next();
         } catch (err) {
