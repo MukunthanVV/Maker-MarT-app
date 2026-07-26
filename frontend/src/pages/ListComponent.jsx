@@ -22,8 +22,10 @@ export const ListComponent = () => {
 
   const [formData, setFormData] = useState({
     title: '',
-    category: 'Development Boards',
-    isFree: false,
+    category: 'Processing Units',
+    listingType: 'SELL',
+    auctionDuration: '3 Days',
+    autoWinPrice: '',
     price: '',
     condition: 'NEW',
     techSpecs: '',
@@ -151,44 +153,74 @@ export const ListComponent = () => {
                 <label className="input-label block">Category</label>
                 <div className="relative">
                   <select className="input-standard appearance-none pr-10" value={formData.category} onChange={e => setFormData({...formData, category: e.target.value})}>
-                    <option>Development Boards</option>
-                    <option>Robotics Components</option>
+                    <option>Processing Units</option>
                     <option>Sensors</option>
+                    <option>Actuators and Displays</option>
                     <option>Communication Modules</option>
-                    <option>Motors & Actuators</option>
-                    <option>Power & Batteries</option>
-                    <option>Displays</option>
-                    <option>Electronic Components</option>
-                    <option>Refurbished Gear</option>
-                    <option>Cameras & Vision</option>
-                    <option>Mechanical Parts</option>
-                    <option>3D Printing</option>
-                    <option>Drone Components</option>
-                    <option>AI Hardware</option>
-                    <option>Networking</option>
-                    <option>Lab Equipment</option>
-                    <option>Project Assets</option>
-                    <option>Project Kits</option>
-                    <option>Driver Modules</option>
+                    <option>Power Management Electronics</option>
+                    <option>Discrete & Analog Components</option>
+                    <option>Prototyping & Manufacturing Gear</option>
+                    <option>Enclosures & Mechanical Shells</option>
                   </select>
                   <span className="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-[var(--color-text-secondary)] pointer-events-none">expand_more</span>
                 </div>
               </div>
-              <div className="space-y-2">
-                <div className="flex justify-between items-center">
-                  <label className="input-label block">Price</label>
-                  <div className="flex items-center gap-3">
-                    <span className="text-xs font-bold text-[var(--color-text-secondary)]">Free / Donate</span>
-                    <button className={`w-12 h-6 rounded-full p-[3px] transition-colors relative shadow-inner ${formData.isFree ? 'bg-[var(--color-success)]' : 'bg-[var(--color-border)]'}`} onClick={() => setFormData({...formData, isFree: !formData.isFree, price: !formData.isFree ? '0.00' : formData.price})}>
-                      <div className={`w-4 h-4 bg-white rounded-full shadow-sm transition-transform ${formData.isFree ? 'translate-x-6' : 'translate-x-0'}`}></div>
+
+              {/* Listing Type */}
+              <div className="space-y-3 col-span-full mt-2">
+                <label className="input-label block">Listing Type</label>
+                <div className="grid grid-cols-3 gap-3">
+                  {['SELL', 'DONATE', 'AUCTION'].map(type => (
+                    <button 
+                      key={type}
+                      className={`py-3 rounded-xl font-bold text-sm transition-all border-2 ${formData.listingType === type ? 'border-[var(--color-primary)] bg-[var(--color-primary)]/10 text-[var(--color-primary)] shadow-sm' : 'border-[var(--color-border)] bg-[var(--color-background)] text-[var(--color-text-secondary)] hover:border-[var(--color-primary)]/50 hover:text-[var(--color-primary)]'}`} 
+                      onClick={() => setFormData({...formData, listingType: type, price: type === 'DONATE' ? '0' : formData.price})}
+                    >
+                      {type}
                     </button>
-                  </div>
-                </div>
-                <div className="relative">
-                  <span className="absolute left-4 top-1/2 -translate-y-1/2 font-bold text-[var(--color-text-secondary)]">₹</span>
-                  <input className={`input-standard pl-10 ${formData.isFree ? 'opacity-50 cursor-not-allowed bg-[var(--color-background)]' : ''}`} placeholder="0.00" type="number" disabled={formData.isFree} value={formData.price} onChange={e => setFormData({...formData, price: e.target.value})} />
+                  ))}
                 </div>
               </div>
+
+              {/* Conditional Fields based on Listing Type */}
+              {formData.listingType !== 'DONATE' && (
+                <div className="space-y-2">
+                  <label className="input-label block">{formData.listingType === 'AUCTION' ? 'Starting Bid' : 'Price'}</label>
+                  <div className="relative">
+                    <span className="absolute left-4 top-1/2 -translate-y-1/2 font-bold text-[var(--color-text-secondary)]">₹</span>
+                    <input className="input-standard pl-10" placeholder="0.00" type="number" min="0" onKeyDown={(e) => { if (e.key === '-') e.preventDefault(); }} value={formData.price} onChange={e => setFormData({...formData, price: e.target.value})} />
+                  </div>
+                </div>
+              )}
+
+              {formData.listingType === 'AUCTION' && (
+                <>
+                  <div className="space-y-2">
+                    <label className="input-label block">Auction Duration</label>
+                    <div className="relative">
+                      <select className="input-standard appearance-none pr-10" value={formData.auctionDuration} onChange={e => setFormData({...formData, auctionDuration: e.target.value})}>
+                        <option>3 Days</option>
+                        <option>5 Days</option>
+                        <option>7 Days</option>
+                        <option>10 Days</option>
+                      </select>
+                      <span className="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-[var(--color-text-secondary)] pointer-events-none">expand_more</span>
+                    </div>
+                  </div>
+                  
+                  <div className="space-y-2">
+                    <div className="flex justify-between items-center">
+                      <label className="input-label block">Auto-Win Price (Optional)</label>
+                      <span className="text-[10px] bg-[var(--color-background)] px-2 py-0.5 rounded text-[var(--color-text-secondary)] font-bold">Buy it Now</span>
+                    </div>
+                    <div className="relative">
+                      <span className="absolute left-4 top-1/2 -translate-y-1/2 font-bold text-[var(--color-text-secondary)]">₹</span>
+                      <input className="input-standard pl-10" placeholder="e.g. 5000" type="number" min="0" onKeyDown={(e) => { if (e.key === '-') e.preventDefault(); }} value={formData.autoWinPrice} onChange={e => setFormData({...formData, autoWinPrice: e.target.value})} />
+                    </div>
+                    <p className="text-xs text-[var(--color-text-secondary)]">Auction automatically ends if a bid reaches this amount.</p>
+                  </div>
+                </>
+              )}
             </div>
 
             {/* Condition Toggle */}

@@ -15,6 +15,11 @@ import { Login } from './pages/Login';
 import { PersonalProfile } from './pages/PersonalProfile';
 import { PublicProfile } from './pages/PublicProfile';
 import { Explore } from './pages/Explore';
+import { SearchResults } from './pages/SearchResults';
+import { Hackathon } from './pages/Hackathon';
+import { TechExpo } from './pages/TechExpo';
+import { RoboticsWorkshop } from './pages/RoboticsWorkshop';
+import { CampusEvents } from './pages/CampusEvents';
 import { AiChatBot } from './components/AiChatBot';
 import { supabase } from './supabaseClient';
 import apiClient from './api/client';
@@ -116,6 +121,7 @@ function App() {
         <Route element={<ProtectedRoute />}>
           <Route path="/" element={<Home />} />
           <Route path="/explore" element={<Explore />} />
+          <Route path="/products" element={<SearchResults />} />
           <Route path="/product/:id" element={<ComponentDetails />} />
           <Route path="/sell" element={<ListComponent />} />
           <Route path="/edit-component/:id" element={<EditComponent />} />
@@ -128,6 +134,10 @@ function App() {
           <Route path="/chat/:chatId" element={<EngineerChat />} />
           <Route path="/profile" element={<PersonalProfile />} />
           <Route path="/user/:userId" element={<PublicProfile />} />
+          <Route path="/events/hackathon" element={<Hackathon />} />
+          <Route path="/events/expo" element={<TechExpo />} />
+          <Route path="/events/workshop" element={<RoboticsWorkshop />} />
+          <Route path="/events/campus" element={<CampusEvents />} />
         </Route>
         
         {/* Admin Routes */}

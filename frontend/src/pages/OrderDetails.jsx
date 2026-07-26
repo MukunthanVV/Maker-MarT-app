@@ -166,14 +166,6 @@ export const OrderDetails = () => {
                   <span className="text-[var(--color-text-secondary)] font-semibold">Platform Fee</span>
                   <span className="font-bold text-[var(--color-text-primary)]">₹{order.platform_fee}</span>
                 </div>
-                <div className="flex justify-between items-center text-sm">
-                  <span className="text-[var(--color-text-secondary)] font-semibold">Delivery Fee</span>
-                  <span className="font-bold text-[var(--color-text-primary)]">₹{order.delivery_fee}</span>
-                </div>
-                <div className="flex justify-between items-center text-sm">
-                  <span className="text-[var(--color-text-secondary)] font-semibold">GST</span>
-                  <span className="font-bold text-[var(--color-text-primary)]">₹{order.gst}</span>
-                </div>
               </div>
 
               <div className="border-t-2 border-dashed border-[var(--color-border)] pt-4 mb-6">

@@ -46,9 +46,8 @@ export const CheckoutPayment = () => {
   // Parse price (remove currency symbol and commas)
   const basePrice = parseInt(product.price.replace(/[^0-9]/g, '')) || 0;
   const platformFee = 20;
-  const deliveryFee = 40;
   const subtotal = basePrice * quantity;
-  const grandTotal = subtotal + platformFee + deliveryFee;
+  const grandTotal = subtotal + platformFee;
 
   const handlePlaceOrder = async () => {
     try {
@@ -164,7 +163,7 @@ export const CheckoutPayment = () => {
       {/* Payment Failed Dialog */}
       {paymentFailed && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
-          <div className="bg-[var(--color-surface)] rounded-3xl p-8 max-w-sm w-full text-center shadow-xl border border-[var(--color-border)]">
+          <div className="bg-[var(--color-surface)] rounded-3xl p-8 max-w-sm w-full min-w-[320px] text-center shadow-xl border border-[var(--color-border)]">
             <div className="w-16 h-16 bg-[var(--color-danger)]/10 rounded-full flex items-center justify-center mx-auto mb-6">
                <span className="material-symbols-outlined text-[var(--color-danger)] text-[32px]">error</span>
             </div>
@@ -321,14 +320,6 @@ export const CheckoutPayment = () => {
                 <div className="flex justify-between items-center text-[var(--color-text-secondary)] text-sm">
                   <span className="font-semibold">Platform Fee</span>
                   <span className="font-bold">₹{platformFee}</span>
-                </div>
-                <div className="flex justify-between items-center text-[var(--color-text-secondary)] text-sm">
-                  <span className="font-semibold">Delivery Fee</span>
-                  <span className="font-bold">₹{deliveryFee}</span>
-                </div>
-                <div className="flex justify-between items-center text-[var(--color-text-secondary)] text-sm">
-                  <span className="font-semibold">GST (18%)</span>
-                  <span className="font-bold text-[var(--color-success)]">Included</span>
                 </div>
               </div>
 

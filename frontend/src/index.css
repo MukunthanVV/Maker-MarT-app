@@ -68,7 +68,7 @@
   }
 
   .btn-primary {
-    @apply h-12 px-6 rounded-xl font-bold tracking-wide transition-all duration-200 flex items-center justify-center gap-2 active:scale-95 disabled:opacity-50 disabled:pointer-events-none bg-[var(--color-primary)] text-[var(--color-text-inverse)] hover:bg-[var(--color-primary-hover)] shadow-sm hover:shadow-md;
+    @apply h-12 px-6 rounded-xl font-bold tracking-wide transition-all duration-200 flex items-center justify-center gap-2 active:scale-95 disabled:opacity-50 disabled:pointer-events-none bg-[var(--color-primary-dark)] text-[var(--color-text-inverse)] hover:bg-[var(--color-primary)] shadow-sm hover:shadow-md;
   }
 
   .btn-secondary {
@@ -80,7 +80,7 @@
   }
 
   .btn-danger {
-    @apply h-12 px-6 rounded-xl font-bold tracking-wide transition-all duration-200 flex items-center justify-center gap-2 active:scale-95 disabled:opacity-50 disabled:pointer-events-none bg-[var(--color-danger)] text-white hover:opacity-90 shadow-sm hover:shadow-md;
+    @apply h-12 px-6 rounded-xl font-bold tracking-wide transition-all duration-200 flex items-center justify-center gap-2 active:scale-95 disabled:opacity-50 disabled:pointer-events-none bg-red-500 text-white hover:bg-red-600 shadow-sm hover:shadow-md;
   }
 
   .btn-auction {

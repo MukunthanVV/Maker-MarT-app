@@ -17,7 +17,8 @@ const BANNERS = [
     button: "Register Now",
     bg: "bg-[var(--color-primary-dark)]",
     textColor: "text-[var(--color-text-inverse)]",
-    btnBg: "bg-[var(--color-accent-light)] text-[var(--color-primary-dark)] hover:opacity-90 shadow-sm"
+    btnBg: "bg-[var(--color-accent-light)] text-[var(--color-primary-dark)] hover:opacity-90 shadow-sm",
+    link: "/events/hackathon"
   },
   {
     id: 2,
@@ -30,7 +31,8 @@ const BANNERS = [
     button: "Book a Stall",
     bg: "bg-[var(--color-primary-dark)]",
     textColor: "text-[var(--color-text-inverse)]",
-    btnBg: "bg-[var(--color-accent-light)] text-[var(--color-primary-dark)] hover:opacity-90 shadow-sm"
+    btnBg: "bg-[var(--color-accent-light)] text-[var(--color-primary-dark)] hover:opacity-90 shadow-sm",
+    link: "/events/expo"
   },
   {
     id: 3,
@@ -43,21 +45,23 @@ const BANNERS = [
     button: "Join Workshop",
     bg: "bg-[var(--color-primary-dark)]",
     textColor: "text-[var(--color-text-inverse)]",
-    btnBg: "bg-[var(--color-accent-light)] text-[var(--color-primary-dark)] hover:opacity-90 shadow-sm"
+    btnBg: "bg-[var(--color-accent-light)] text-[var(--color-primary-dark)] hover:opacity-90 shadow-sm",
+    link: "/events/workshop"
   },
   {
     id: 4,
-    title: "⚡ Hardware Swap Meet",
+    title: "🎉 Campus Events",
     content: (
       <div className="space-y-1">
-        <div className="font-bold text-lg">Trade your old components.</div>
-        <div>Find rare vintage electronics.</div>
+        <div className="font-bold text-lg">Join guest lectures & seminars.</div>
+        <div>Stay updated with all campus activities.</div>
       </div>
     ),
-    button: "Explore Meetup",
+    button: "View Calendar",
     bg: "bg-[var(--color-primary-dark)]",
     textColor: "text-[var(--color-text-inverse)]",
-    btnBg: "bg-[var(--color-accent-light)] text-[var(--color-primary-dark)] hover:opacity-90 shadow-sm font-bold"
+    btnBg: "bg-[var(--color-accent-light)] text-[var(--color-primary-dark)] hover:opacity-90 shadow-sm font-bold",
+    link: "/events/campus"
   }
 ];
 
@@ -66,6 +70,15 @@ const LIVE_AUCTIONS = PRODUCTS.filter(p => p.isAuction).slice(0, 5);
 
 export const Home = () => {
   const navigate = useNavigate();
+  
+  const getGreeting = () => {
+    const hour = new Date().getHours();
+    if (hour < 12) return 'Good Morning';
+    if (hour === 12) return 'Good Noon';
+    if (hour < 17) return 'Good Afternoon';
+    if (hour < 20) return 'Good Evening';
+    return 'Good Night';
+  };
   const [searchQuery, setSearchQuery] = useState('');
   const [activeBanner, setActiveBanner] = useState(0);
 
@@ -113,7 +126,7 @@ export const Home = () => {
 
             <div className="relative z-10 flex flex-col gap-3 w-full md:w-3/4 lg:w-2/3">
               <p className="text-base md:text-lg text-[var(--color-text-secondary)] font-medium tracking-wide">
-                Good Evening, Engineer 👋
+                {getGreeting()}, Engineer 👋
               </p>
 
               <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold leading-[1.1] tracking-tight">
@@ -134,7 +147,7 @@ export const Home = () => {
             <div className="relative">
               <div
                 onScroll={handleBannerScroll}
-                className="flex gap-4 overflow-x-auto snap-x snap-mandatory hide-scrollbar pb-2"
+                className="flex gap-4 overflow-x-auto snap-x snap-mandatory hide-scrollbar pb-2 pt-2 px-1 -mx-1"
               >
                 {BANNERS.map((banner) => (
                   <div
@@ -149,7 +162,10 @@ export const Home = () => {
                         </div>
                       </div>
 
-                      <button className={`relative z-10 w-fit px-6 py-2.5 rounded-xl font-bold text-sm tracking-wide transition-all active:scale-95 ${banner.btnBg}`}>
+                      <button 
+                        onClick={() => navigate(banner.link)}
+                        className={`relative z-10 w-fit px-6 py-2.5 rounded-xl font-bold text-sm tracking-wide transition-all active:scale-95 ${banner.btnBg}`}
+                      >
                         {banner.button}
                       </button>
                     </div>
@@ -201,33 +217,46 @@ export const Home = () => {
               <input
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' && searchQuery.trim()) {
+                    navigate(`/products?q=${encodeURIComponent(searchQuery.trim())}`);
+                  }
+                }}
                 className="flex-1 bg-transparent border-none focus:ring-0 py-4 pr-4 text-lg text-[var(--color-text-primary)] placeholder:text-[var(--color-text-secondary)]/60 focus:outline-none w-full"
                 placeholder="Search components, microcontrollers, and vintage electronics..."
                 type="text"
               />
-              <button className="bg-[var(--color-accent-light)] text-[var(--color-text-inverse)] px-8 py-3 rounded-xl mr-2 font-bold hover:opacity-90 transition-opacity text-base shadow-sm">
+              <button 
+                onClick={() => {
+                  if (searchQuery.trim()) {
+                    navigate(`/products?q=${encodeURIComponent(searchQuery.trim())}`);
+                  }
+                }}
+                className="bg-[var(--color-primary-dark)] text-[var(--color-text-inverse)] px-8 py-3 rounded-xl mr-2 font-bold hover:bg-[var(--color-primary)] transition-colors text-base shadow-sm"
+              >
                 Search
               </button>
             </div>
           </div>
 
           <h2 className="text-h3 mb-4">⚡ Popular Categories</h2>
-          <div className="flex overflow-x-auto gap-4 pb-4 snap-x hide-scrollbar">
+          <div className="grid grid-cols-2 md:grid-cols-4 xl:grid-cols-8 gap-4 pb-4 pt-2">
             {[
-              { name: 'Development Boards', count: '245 Items', icon: 'developer_board' },
+              { name: 'Processing Units', count: '245 Items', icon: 'memory' },
               { name: 'Sensors', count: '418 Items', icon: 'sensors' },
-              { name: 'Motors', count: '152 Items', icon: 'bolt' },
-              { name: 'Batteries', count: '87 Items', icon: 'battery_full' },
-              { name: 'Displays', count: '61 Items', icon: 'monitor' },
-              { name: 'Tools', count: '133 Items', icon: 'hardware' },
-              { name: 'Communication', count: '94 Items', icon: 'router' },
-              { name: 'Power', count: '73 Items', icon: 'power' },
+              { name: 'Actuators and Displays', count: '213 Items', icon: 'smart_display' },
+              { name: 'Communication Modules', count: '94 Items', icon: 'router' },
+              { name: 'Power Management Electronics', count: '112 Items', icon: 'battery_full' },
+              { name: 'Discrete & Analog Components', count: '305 Items', icon: 'electric_bolt' },
+              { name: 'Prototyping & Manufacturing Gear', count: '87 Items', icon: 'precision_manufacturing' },
+              { name: 'Enclosures & Mechanical Shells', count: '45 Items', icon: 'inventory_2' },
             ].map((cat, idx) => (
               <div
                 key={idx}
-                className="snap-start shrink-0 w-[140px] md:w-[150px] card-interactive p-5 flex flex-col items-center text-center gap-3 group"
+                onClick={() => navigate(`/products?category=${encodeURIComponent(cat.name)}`)}
+                className="card-interactive p-4 flex flex-col items-center justify-start text-center gap-3 group cursor-pointer h-full"
               >
-                <div className="w-14 h-14 rounded-full bg-[var(--color-background)] flex items-center justify-center text-[var(--color-primary)] group-hover:bg-[var(--color-primary)] group-hover:text-white transition-all duration-300">
+                <div className="w-14 h-14 rounded-full bg-[var(--color-background)] flex items-center justify-center text-[var(--color-primary)] group-hover:bg-[var(--color-primary-dark)] group-hover:text-white transition-all duration-300">
                   <span className="material-symbols-outlined text-[28px]">{cat.icon}</span>
                 </div>
                 <div>
@@ -243,13 +272,13 @@ export const Home = () => {
         <section>
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-h3">🆕 Recently Added</h2>
-            <button className="text-[var(--color-primary)] font-bold text-sm hover:underline flex items-center gap-1 group">
+            <button onClick={() => navigate('/products?type=recent')} className="text-[var(--color-primary)] font-bold text-sm hover:underline flex items-center gap-1 group">
               View All
               <span className="material-symbols-outlined text-[18px] group-hover:translate-x-1 transition-transform">arrow_forward</span>
             </button>
           </div>
 
-          <div className="flex overflow-x-auto gap-5 pb-4 hide-scrollbar snap-x">
+          <div className="flex overflow-x-auto gap-5 pb-4 pt-2 px-1 -mx-1 hide-scrollbar snap-x">
             {RECENT_PRODUCTS.map((product) => (
               <div
                 key={product.id}
@@ -319,13 +348,13 @@ export const Home = () => {
               <span className="text-[var(--color-primary)] material-symbols-outlined" style={{ fontVariationSettings: "'FILL' 1" }}>local_fire_department</span>
               Live Auctions
             </h2>
-            <button className="text-[var(--color-primary)] font-bold text-sm hover:underline flex items-center gap-1 group">
+            <button onClick={() => navigate('/products?type=auction')} className="text-[var(--color-primary)] font-bold text-sm hover:underline flex items-center gap-1 group">
               View All
               <span className="material-symbols-outlined text-[18px] group-hover:translate-x-1 transition-transform">arrow_forward</span>
             </button>
           </div>
 
-          <div className="flex overflow-x-auto gap-5 pb-4 hide-scrollbar snap-x">
+          <div className="flex overflow-x-auto gap-5 pb-4 pt-2 px-1 -mx-1 hide-scrollbar snap-x">
             {LIVE_AUCTIONS.map((auction) => (
               <div
                 key={auction.id}

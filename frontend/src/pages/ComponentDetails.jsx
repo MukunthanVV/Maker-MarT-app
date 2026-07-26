@@ -87,7 +87,7 @@ export const ComponentDetails = () => {
             </div>
 
             {/* Right Column: Details */}
-            <div className="md:col-span-7 flex flex-col gap-6">
+            <div className="md:col-span-7 flex flex-col gap-6 md:h-[calc(100vh-180px)] md:overflow-y-auto hide-scrollbar md:pr-4 pb-12">
               
               {/* Header Info */}
               <div className="flex flex-col gap-4">

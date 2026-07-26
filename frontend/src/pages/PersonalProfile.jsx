@@ -338,7 +338,7 @@ export const PersonalProfile = () => {
       <main className="max-w-7xl mx-auto px-4 md:px-8 py-8">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8">
           {/* Profile Sidebar Section */}
-          <aside className="lg:col-span-4 flex flex-col gap-6">
+          <aside className="lg:col-span-4 flex flex-col gap-6 lg:sticky lg:top-24 h-fit min-w-0 pr-1">
             <div className="card-standard p-8 flex flex-col items-center text-center relative overflow-hidden">
               <div className="absolute top-0 left-0 w-full h-24 bg-[var(--color-primary)]/10"></div>
               
@@ -359,7 +359,7 @@ export const PersonalProfile = () => {
                   <span className="material-symbols-outlined text-[16px]" >verified</span>
                 </div>
               </div>
-              <h2 className="text-h2 line-clamp-1 px-4 z-10">{userData?.name || authEmail || 'Unknown User'}</h2>
+              <h2 className="text-h2 px-4 z-10 w-full break-all">{userData?.name || authEmail || 'Unknown User'}</h2>
               <p className="text-body text-[var(--color-text-secondary)] z-10 mt-1">{userData?.department || 'Engineering'}</p>
               <p className="text-sm font-semibold text-[var(--color-text-secondary)] mb-4 z-10">Year {userData?.year || 'N/A'}</p>
               <div className="badge-primary z-10 mb-6">
@@ -395,7 +395,7 @@ export const PersonalProfile = () => {
           </aside>
 
           {/* Detailed Content Section */}
-          <section className="lg:col-span-8 flex flex-col gap-6">
+          <section className="lg:col-span-8 flex flex-col gap-6 min-w-0">
             
             {/* Account Details Card */}
             <div className="card-standard overflow-hidden">
