@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { BottomNav } from '../components/BottomNav';
 import { PRODUCTS } from '../data/products';
+import apiClient from '../api/client';
 
 const BANNERS = [
   {
@@ -70,6 +71,65 @@ const LIVE_AUCTIONS = PRODUCTS.filter(p => p.isAuction).slice(0, 5);
 
 export const Home = () => {
   const navigate = useNavigate();
+  const [activeBanner, setActiveBanner] = useState(0);
+  const [events, setEvents] = useState([]);
+
+  const [components, setComponents] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const [eventsRes, compRes] = await Promise.all([
+          apiClient.get('/events').catch(() => ({ data: [] })),
+          apiClient.get('/components').catch(() => ({ data: [] }))
+        ]);
+        setEvents(eventsRes.data || []);
+        
+        // Map backend components to frontend format
+        const mappedComponents = (compRes.data || []).map(comp => ({
+          id: comp.id,
+          name: comp.title,
+          price: `₹${comp.price}`,
+          originalPrice: `₹${comp.price + 200}`,
+          condition: comp.condition,
+          status: comp.status === 'ACTIVE' ? 'Available' : 'Sold',
+          rating: '5.0',
+          college: 'SKCT',
+          time: 'Just now',
+          description: comp.why_sell || comp.tech_specs || '',
+          category: comp.category,
+          isAuction: comp.listing_type === 'AUCTION',
+          images: comp.images?.length > 0 ? comp.images : ['https://picsum.photos/800/800?random=99'],
+          image: comp.image_url || (comp.images?.length > 0 ? comp.images[0] : 'https://picsum.photos/800/800?random=99')
+        }));
+        setComponents(mappedComponents);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+    fetchData();
+  }, []);
+
+  const allRecent = components.filter(c => !c.isAuction);
+
+  const allAuctions = components.filter(c => c.isAuction);
+
+  const displayBanners = events.length > 0 ? events.map(e => ({
+    id: e.id,
+    title: e.title,
+    content: (
+      <div className="space-y-1">
+        {e.description && e.description.map((desc, i) => (
+          <div key={i} className="flex items-center gap-2"><span>{desc}</span></div>
+        ))}
+      </div>
+    ),
+    button: e.buttonText,
+    bg: e.bgClass,
+    textColor: e.textClass,
+    btnBg: e.btnClass,
+    link: e.link
+  })) : BANNERS;
   
   const getGreeting = () => {
     const hour = new Date().getHours();
@@ -80,13 +140,12 @@ export const Home = () => {
     return 'Good Night';
   };
   const [searchQuery, setSearchQuery] = useState('');
-  const [activeBanner, setActiveBanner] = useState(0);
 
   const handleBannerScroll = (e) => {
     const scrollLeft = e.target.scrollLeft;
     const itemWidth = e.target.firstElementChild?.offsetWidth || e.target.offsetWidth;
     const index = Math.round(scrollLeft / itemWidth);
-    if (index !== activeBanner && index >= 0 && index < BANNERS.length) {
+    if (index !== activeBanner && index >= 0 && index < displayBanners.length) {
       setActiveBanner(index);
     }
   };
@@ -149,7 +208,7 @@ export const Home = () => {
                 onScroll={handleBannerScroll}
                 className="flex gap-4 overflow-x-auto snap-x snap-mandatory hide-scrollbar pb-2 pt-2 px-1 -mx-1"
               >
-                {BANNERS.map((banner) => (
+                {displayBanners.map((banner) => (
                   <div
                     key={banner.id}
                     className="snap-center shrink-0 w-[85vw] md:w-[60vw] lg:w-[45vw] max-w-[500px]"
@@ -175,7 +234,7 @@ export const Home = () => {
 
               {/* Indicator Dots */}
               <div className="flex justify-center gap-2 mt-4">
-                {BANNERS.map((_, idx) => (
+                {displayBanners.map((_, idx) => (
                   <div
                     key={idx}
                     className={`h-2 rounded-full transition-all duration-300 ${activeBanner === idx ? 'w-6 bg-[var(--color-primary)]' : 'w-2 bg-[var(--color-border)]'}`}
@@ -279,15 +338,19 @@ export const Home = () => {
           </div>
 
           <div className="flex overflow-x-auto gap-5 pb-4 pt-2 px-1 -mx-1 hide-scrollbar snap-x">
-            {RECENT_PRODUCTS.map((product) => (
+            {allRecent.map((product) => (
               <div
                 key={product.id}
                 onClick={() => navigate(`/product/${product.id}`)}
                 className="snap-start shrink-0 w-[240px] card-interactive flex flex-col overflow-hidden group"
               >
                 {/* Image Section */}
-                <div className="w-full aspect-square bg-[var(--color-background)] relative overflow-hidden flex items-center justify-center">
-                  <span className="material-symbols-outlined text-[64px] text-[var(--color-border)] group-hover:scale-110 transition-transform duration-500">memory</span>
+                <div className="w-full aspect-square bg-[var(--color-background)] relative overflow-hidden flex items-center justify-center border-b border-[var(--color-border)]">
+                  {product.image ? (
+                    <img src={product.image} alt={product.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" onError={(e) => { e.target.onerror = null; e.target.src = `https://picsum.photos/800/800?random=${product.id}`; }} />
+                  ) : (
+                    <span className="material-symbols-outlined text-[64px] text-[var(--color-border)] group-hover:scale-110 transition-transform duration-500">memory</span>
+                  )}
 
                   {/* Status Badge */}
                   <div className="absolute top-3 left-3">
@@ -355,7 +418,7 @@ export const Home = () => {
           </div>
 
           <div className="flex overflow-x-auto gap-5 pb-4 pt-2 px-1 -mx-1 hide-scrollbar snap-x">
-            {LIVE_AUCTIONS.map((auction) => (
+            {allAuctions.map((auction) => (
               <div
                 key={auction.id}
                 onClick={() => navigate(`/product/${auction.id}`)}
@@ -365,8 +428,12 @@ export const Home = () => {
                 <div className="absolute top-0 left-0 w-full h-1 bg-[var(--color-primary)] z-20"></div>
 
                 {/* Image Section */}
-                <div className="w-full h-[160px] bg-[var(--color-background)] relative overflow-hidden flex items-center justify-center border-b border-[var(--color-border)]">
-                  <span className="material-symbols-outlined text-[64px] text-[var(--color-border)] group-hover:scale-110 transition-transform duration-500">memory</span>
+                <div className="w-full aspect-square bg-[var(--color-background)] relative overflow-hidden flex items-center justify-center border-b border-[var(--color-border)]">
+                  {auction.image ? (
+                    <img src={auction.image} alt={auction.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" onError={(e) => { e.target.onerror = null; e.target.src = `https://picsum.photos/800/800?random=${auction.id}`; }} />
+                  ) : (
+                    <span className="material-symbols-outlined text-[64px] text-[var(--color-border)] group-hover:scale-110 transition-transform duration-500">memory</span>
+                  )}
 
                   {/* Heat Badge */}
                   <div className="absolute top-3 left-3 z-10">

@@ -76,13 +76,16 @@ export const ListComponent = () => {
       await apiClient.post('/components', {
         title: formData.title,
         category: formData.category,
-        is_free: formData.isFree,
-        price: formData.isFree ? 0 : parseFloat(formData.price),
+        is_free: formData.listingType === 'DONATE',
+        price: formData.listingType === 'DONATE' ? 0 : parseFloat(formData.price || 0),
         condition: formData.condition,
         tech_specs: formData.techSpecs,
         why_sell: formData.whySell,
         images: uploadedImageUrls,
-        status: 'ACTIVE'
+        status: 'ACTIVE',
+        listing_type: formData.listingType,
+        auction_duration: formData.auctionDuration,
+        auto_win_price: parseFloat(formData.autoWinPrice || 0)
       });
 
       alert('Listing posted successfully!');

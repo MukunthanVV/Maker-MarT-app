@@ -1,0 +1,262 @@
+{
+  "user": [
+    {
+      "id": "87650734-b92a-4465-b397-325f392c0267",
+      "createdAt": "2026-07-27T15:13:49.367Z",
+      "updatedAt": "2026-07-27T17:45:50.408Z",
+      "email": "727824tuio032@skct.edu.in",
+      "name": "Mukunthan vv",
+      "mobile_number": "70927 45599",
+      "register_no": "727824tuio032",
+      "year": "3rd year",
+      "department": "be cse iot",
+      "classroom_no": "cb1"
+    },
+    {
+      "id": "ee73ba88-0838-4b39-bf82-c2677d661502",
+      "createdAt": "2026-07-27T15:39:00.975Z",
+      "updatedAt": "2026-07-27T17:46:15.068Z",
+      "email": "727824tuio054@skct.edu.in",
+      "name": "tharun karthik av",
+      "mobile_number": "7539973689",
+      "register_no": "727824tuio054",
+      "year": "3rd year",
+      "department": "be cse iot",
+      "classroom_no": "cb1",
+      "edit_count": 1,
+      "last_edit_at": "2026-07-27T17:23:43.206Z",
+      "edit_request_status": null
+    }
+  ],
+  "component": [
+    {
+      "id": "i7xjoez8t",
+      "createdAt": "2026-07-27T16:30:34.334Z",
+      "updatedAt": "2026-07-27T16:30:34.334Z",
+      "title": "demodemo",
+      "category": "Communication Modules",
+      "is_free": false,
+      "price": 0,
+      "condition": "USED",
+      "tech_specs": "demodemo",
+      "why_sell": "demodemo",
+      "images": [
+        "https://pub-6e0174a742ad497487c3868e80dafb72.r2.dev/components/be9afa96-4b7e-4848-ae85-248c74fa34d7.webp"
+      ],
+      "status": "ACTIVE",
+      "listing_type": "SELL",
+      "auction_duration": "3 Days",
+      "auto_win_price": 0,
+      "seller_id": "87650734-b92a-4465-b397-325f392c0267",
+      "image_url": "https://pub-6e0174a742ad497487c3868e80dafb72.r2.dev/components/be9afa96-4b7e-4848-ae85-248c74fa34d7.webp"
+    },
+    {
+      "id": "f5faelwk5",
+      "createdAt": "2026-07-27T16:31:20.070Z",
+      "updatedAt": "2026-07-27T16:31:20.070Z",
+      "title": "demodemodemodemo",
+      "category": "Processing Units",
+      "is_free": false,
+      "price": 300,
+      "condition": "USED",
+      "tech_specs": "demodemo",
+      "why_sell": "demodemodemodemodemodemo",
+      "images": [
+        "https://pub-6e0174a742ad497487c3868e80dafb72.r2.dev/components/118bce00-7020-4b45-bcbc-f6b6d18ea17e.webp"
+      ],
+      "status": "ACTIVE",
+      "listing_type": "AUCTION",
+      "auction_duration": "3 Days",
+      "auto_win_price": 497,
+      "seller_id": "87650734-b92a-4465-b397-325f392c0267",
+      "image_url": "https://pub-6e0174a742ad497487c3868e80dafb72.r2.dev/components/118bce00-7020-4b45-bcbc-f6b6d18ea17e.webp"
+    }
+  ],
+  "order": [],
+  "chat": [],
+  "message": [],
+  "event": [],
+  "news": [
+    {
+      "id": "hclblmeoy",
+      "createdAt": "2026-07-27T17:48:14.509Z",
+      "updatedAt": "2026-07-27T17:48:14.509Z",
+      "title": "Why budding birders are flocking to Shazam-like apps to identify avians",
+      "source": "BBC Tech",
+      "time": "27/07/2026",
+      "link": "https://www.bbc.co.uk/news/articles/cr59m5nmemno?at_medium=RSS&at_campaign=rss",
+      "image": "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/ed6f/live/ee815b00-85ac-11f1-9454-77c2271a5b4a.jpg",
+      "description": "Birdwatchers tell the BBC how apps have changed their lifelong hobby - and attracted new birders.",
+      "author": "BBC Tech"
+    },
+    {
+      "id": "4qb57naqm",
+      "createdAt": "2026-07-27T17:48:14.509Z",
+      "updatedAt": "2026-07-27T17:48:14.509Z",
+      "title": "Warning shot or publicity stunt - how worried should we be about the OpenAI hack?",
+      "source": "BBC Tech",
+      "time": "25/07/2026",
+      "link": "https://www.bbc.co.uk/news/articles/cd9w22n9e4go?at_medium=RSS&at_campaign=rss",
+      "image": "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/658a/live/19bf2440-8770-11f1-b430-afa19a42b819.jpg",
+      "description": "Hugging Face said the hack was done at superhuman speed by an AI with little or no human guidance.",
+      "author": "BBC Tech"
+    },
+    {
+      "id": "30wn1xvnv",
+      "createdAt": "2026-07-27T17:48:14.509Z",
+      "updatedAt": "2026-07-27T17:48:14.509Z",
+      "title": "PlayStation Network outage resolved after thousands of gamers unable to play",
+      "source": "BBC Tech",
+      "time": "25/07/2026",
+      "link": "https://www.bbc.co.uk/news/articles/cx2j0wy1gl5o?at_medium=RSS&at_campaign=rss",
+      "image": "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/e7bf/live/312e9270-8782-11f1-9428-e17279226993.jpg",
+      "description": "The outage affected gamers' ability to launch games, apps or network features on their PlayStation.",
+      "author": "BBC Tech"
+    },
+    {
+      "id": "fm8h3ua1t",
+      "createdAt": "2026-07-27T17:48:14.509Z",
+      "updatedAt": "2026-07-27T17:48:14.509Z",
+      "title": "Trump vows to investigate EU over fining of US tech companies",
+      "source": "BBC Tech",
+      "time": "25/07/2026",
+      "link": "https://www.bbc.co.uk/news/articles/cvgjenp4680o?at_medium=RSS&at_campaign=rss",
+      "image": "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/92c8/live/180ebdb0-8787-11f1-9428-e17279226993.jpg",
+      "description": "The US president says fines against Google, as well as Apple, Meta and Amazon, should be \"entirely reversed.\"",
+      "author": "BBC Tech"
+    },
+    {
+      "id": "lklykjyvy",
+      "createdAt": "2026-07-27T17:48:14.509Z",
+      "updatedAt": "2026-07-27T17:48:14.509Z",
+      "title": "How Jimothy the raccoon became the internet's latest animal obsession",
+      "source": "BBC Tech",
+      "time": "24/07/2026",
+      "link": "https://www.bbc.co.uk/news/articles/cd0xnge2zx7o?at_medium=RSS&at_campaign=rss",
+      "image": "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/e2f4/live/05f5eed0-876b-11f1-ad88-45636c6b0d72.jpg",
+      "description": "It all began with an innocuous video shared by Seattle resident Kiana Hall on Instagram.",
+      "author": "BBC Tech"
+    },
+    {
+      "id": "8k0he1wh9",
+      "createdAt": "2026-07-27T17:48:14.509Z",
+      "updatedAt": "2026-07-27T17:48:14.509Z",
+      "title": "How Meta Got Everything It Wanted in a Secret Louisiana Data Center Deal",
+      "source": "NYT Tech",
+      "time": "27/07/2026",
+      "link": "https://www.nytimes.com/2026/07/27/technology/meta-data-center-louisiana.html",
+      "image": "https://static01.nyt.com/images/2026/02/21/multimedia/21biz-ai-backlash-meta-lqfh/21biz-ai-backlash-meta-lqfh-mediumSquareAt3X.jpg",
+      "description": "A Times examination details how the Silicon Valley giant used private talks with local officials to start a project big enough to cover nearly six ...",
+      "author": "Eli Tan and Maureen Farrell"
+    },
+    {
+      "id": "jm5ng2d8j",
+      "createdAt": "2026-07-27T17:48:14.509Z",
+      "updatedAt": "2026-07-27T17:48:14.509Z",
+      "title": "5 Things to Know About Meta’s Giant Data Center in Louisiana",
+      "source": "NYT Tech",
+      "time": "27/07/2026",
+      "link": "https://www.nytimes.com/2026/07/27/business/meta-data-center-louisiana-takeaways.html",
+      "image": "https://static01.nyt.com/images/2026/07/21/multimedia/biz-meta-louisiana-takeaways-gwml/biz-meta-louisiana-takeaways-gwml-mediumSquareAt3X.jpg",
+      "description": "The road to the giant project was paved with secret meetings and an ever-expanding building plan.",
+      "author": "Eli Tan"
+    },
+    {
+      "id": "t4803zajw",
+      "createdAt": "2026-07-27T17:48:14.509Z",
+      "updatedAt": "2026-07-27T17:48:14.509Z",
+      "title": "Silicon Valley Splits Over Closing the Borders to Chinese A.I.",
+      "source": "NYT Tech",
+      "time": "26/07/2026",
+      "link": "https://www.nytimes.com/2026/07/25/technology/open-source-silicon-valley-china.html",
+      "image": "https://static01.nyt.com/images/2026/07/24/multimedia/00biz-ai-open-source-china-02-gtqc/00biz-ai-open-source-china-02-gtqc-mediumSquareAt3X.jpg",
+      "description": "Anthropic and OpenAI are clashing with the rest of the tech industry over whether “open-source” models from China should be freely available or res...",
+      "author": "Mike Isaac, Kate Conger, Ana Swanson and Meaghan Tobin"
+    },
+    {
+      "id": "qco8auy1j",
+      "createdAt": "2026-07-27T17:48:14.509Z",
+      "updatedAt": "2026-07-27T17:48:14.509Z",
+      "title": "OpenAI Models Go Rogue + Kimi K3 Freakout + A.I. Superforecasting",
+      "source": "NYT Tech",
+      "time": "24/07/2026",
+      "link": "https://www.nytimes.com/2026/07/24/podcasts/hardfork-hugging-face-openai.html",
+      "image": "https://static01.nyt.com/images/2026/07/24/podcasts/24hardfork-openai-hug/24hardfork-openai-hug-mediumSquareAt3X.png",
+      "description": "“The story that we’re talking about in this segment was science fiction until Tuesday, OK?”",
+      "author": "Kevin Roose, Casey Newton, Whitney Jones, Rachel Cohn, Davis Land, John Woo, Alyssa Moxley, Dan Powell, Elisheba Ittoop, Marion Lozano and Leah Shaw Dameron"
+    },
+    {
+      "id": "vck7l06qu",
+      "createdAt": "2026-07-27T17:48:14.509Z",
+      "updatedAt": "2026-07-27T17:48:14.509Z",
+      "title": "Microsoft Unveils A.I. Cybersecurity Tools",
+      "source": "NYT Tech",
+      "time": "27/07/2026",
+      "link": "https://www.nytimes.com/2026/07/27/technology/microsoft-unveils-ai-cybersecurity-tools.html",
+      "image": "https://static01.nyt.com/images/2026/07/27/multimedia/27BIZ-MICROSOFT-CYBERSECURITY-1-gfpw/27BIZ-MICROSOFT-CYBERSECURITY-1-gfpw-mediumSquareAt3X.jpg",
+      "description": "As some executives fret over the safety of new A.I. systems, protecting against them could be a big business for tech companies.",
+      "author": "Cade Metz and Karen Weise"
+    },
+    {
+      "id": "evwyz1475",
+      "createdAt": "2026-07-27T17:48:14.509Z",
+      "updatedAt": "2026-07-27T17:48:14.509Z",
+      "title": "Why China is giving away its best AI models",
+      "source": "The Verge",
+      "time": "27/07/2026",
+      "link": "https://www.theverge.com/ai-artificial-intelligence/971444/how-chinese-open-weight-ai-models-impact-us-companies",
+      "image": "https://platform.theverge.com/wp-content/uploads/sites/2/2026/07/gettyimages-2286280160.jpg?quality=90&#038;strip=all&#038;crop=0,0,100,100",
+      "description": "People visit the booth of Kimi, an LLM developed by the Chinese startup Moonshot, during the World AI Conference in Shanghai, China, July 20th. | I...",
+      "author": "The Verge"
+    },
+    {
+      "id": "lhhqf0t27",
+      "createdAt": "2026-07-27T17:48:14.509Z",
+      "updatedAt": "2026-07-27T17:48:14.509Z",
+      "title": "YouTube Premium will include Peacock starting next year",
+      "source": "The Verge",
+      "time": "27/07/2026",
+      "link": "https://www.theverge.com/streaming/971452/youtube-premium-peacock-streaming-deal",
+      "image": "https://platform.theverge.com/wp-content/uploads/sites/2/2026/07/YouTubePeacock_0.jpg?quality=90&#038;strip=all&#038;crop=0,0,100,100",
+      "description": "YouTube's ad-free Premium subscription is getting another perk: access to Peacock. In an announcement on Monday, NBCUniversal says the multi-year a...",
+      "author": "The Verge"
+    },
+    {
+      "id": "ckgtgfhw1",
+      "createdAt": "2026-07-27T17:48:14.509Z",
+      "updatedAt": "2026-07-27T17:48:14.509Z",
+      "title": "Amazon&#8217;s trying to launch a global satellite cellphone network in 2028",
+      "source": "The Verge",
+      "time": "27/07/2026",
+      "link": "https://www.theverge.com/tech/971437/amazon-leo-direct-to-device-satellite-network",
+      "image": "https://platform.theverge.com/wp-content/uploads/sites/2/2025/11/amazon-leo-announcement-hero.png?quality=90&#038;strip=all&#038;crop=0,0,100,100",
+      "description": "Amazon filed an FCC application on Saturday to launch a new Leo satellite constellation that will provide direct-to-device satellite service for \"v...",
+      "author": "The Verge"
+    },
+    {
+      "id": "wds433ts4",
+      "createdAt": "2026-07-27T17:48:14.509Z",
+      "updatedAt": "2026-07-27T17:48:14.509Z",
+      "title": "This is my new favorite laptop, but thanks to RAMageddon it already went up in price by $800",
+      "source": "The Verge",
+      "time": "27/07/2026",
+      "link": "https://www.theverge.com/tech/971160/framework-laptop-13-pro-intel-review",
+      "image": "https://platform.theverge.com/wp-content/uploads/sites/2/2026/07/268670_Framework_Laptop_13_Pro_laptop_review_ADiBenedetto_0038.jpg?quality=90&#038;strip=all&#038;crop=0,0,100,100",
+      "description": "Framework’s Laptop 13 Pro looks great in black but costs lots of green. | Photo: Antonio G. Di Benedetto / The Verge\t\n\nFramework laptops always com...",
+      "author": "The Verge"
+    },
+    {
+      "id": "qssyhecjx",
+      "createdAt": "2026-07-27T17:48:14.509Z",
+      "updatedAt": "2026-07-27T17:48:14.509Z",
+      "title": "Tariffs didn’t bring manufacturing jobs back to the US",
+      "source": "The Verge",
+      "time": "27/07/2026",
+      "link": "https://www.theverge.com/podcast/971306/tariffs-liberation-day-ai-trade-shipping-jobs-canada",
+      "image": "https://platform.theverge.com/wp-content/uploads/sites/2/2026/07/DCD_20260727_SmithAltana.jpg?quality=90&#038;strip=all&#038;crop=0,0,100,100",
+      "description": "Today, I’m talking with Evan Smith, who is cofounder and CEO of Altana, a company that develops software tools to manage big, messy supply chain ne...",
+      "author": "The Verge"
+    }
+  ],
+  "problemStatement": []
+}

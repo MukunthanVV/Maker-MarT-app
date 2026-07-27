@@ -21,6 +21,9 @@ model User {
   is_admin         Boolean     @default(false)
   role             String      @default("Member")
   createdAt        DateTime    @default(now())
+  edit_count       Int         @default(0)
+  last_edit_at     DateTime?
+  edit_request_status String?
 
   components       Component[]
 
@@ -46,10 +49,13 @@ model Component {
   status      String   @default("Active")
   image_url   String?
   images      String[]
-  is_free     Boolean  @default(false)
-  tech_specs  String?
-  why_sell    String?
-  createdAt   DateTime @default(now())
+  is_free          Boolean  @default(false)
+  listing_type     String   @default("SELL")
+  auction_duration String?
+  auto_win_price   Float?
+  tech_specs       String?
+  why_sell         String?
+  createdAt        DateTime @default(now())
   updatedAt   DateTime @updatedAt
   chats       Chat[]
 }
@@ -102,4 +108,40 @@ model Message {
   receiver    User     @relation("ReceiverMessages", fields: [receiver_id], references: [id])
   content     String
   createdAt   DateTime @default(now())
+}
+
+model Event {
+  id          String   @id @default(uuid())
+  title       String
+  description String[]
+  buttonText  String   @default("Register Now")
+  link        String
+  bgClass     String   @default("bg-[var(--color-primary-dark)]")
+  textClass   String   @default("text-[var(--color-text-inverse)]")
+  btnClass    String   @default("bg-[var(--color-accent-light)] text-[var(--color-primary-dark)] hover:opacity-90 shadow-sm")
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model News {
+  id          String   @id @default(uuid())
+  title       String
+  source      String
+  time        String
+  link        String
+  image       String?
+  description String?
+  author      String?
+  fetchedAt   DateTime @default(now())
+}
+
+model ProblemStatement {
+  id        String   @id @default(uuid())
+  org       String
+  title     String
+  desc      String
+  tags      String[]
+  category  String   // "SIH", "India Innovate", or "Startup India"
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }

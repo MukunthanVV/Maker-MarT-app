@@ -61,6 +61,16 @@ export const AdminUsers = () => {
     }
   };
 
+  const handleApproveEdit = async (userId) => {
+    try {
+      await apiClient.post(`/users/${userId}/approve-edit`);
+      setUsers(users.map(u => u.id === userId ? { ...u, edit_request_status: 'APPROVED', edit_count: 0 } : u));
+      alert('Edit request approved successfully!');
+    } catch (err) {
+      alert('Failed to approve edit request: ' + (err.response?.data?.error || err.message));
+    }
+  };
+
   const filteredUsers = users.filter(u => 
     (u.name || '').toLowerCase().includes(searchQuery.toLowerCase()) ||
     (u.email || '').toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -123,12 +133,25 @@ export const AdminUsers = () => {
                         <span className="material-symbols-outlined text-[16px]">check_circle</span> Active
                       </span>
                     )}
+                    {user.edit_request_status === 'PENDING' && (
+                      <span className="text-[var(--color-warning)] font-bold flex items-center gap-1 text-xs bg-[var(--color-warning)]/10 w-fit px-2.5 py-0.5 rounded-full border border-[var(--color-warning)]/20 shadow-sm mt-1.5">
+                        <span className="material-symbols-outlined text-[14px]">hourglass_empty</span> Edit Req
+                      </span>
+                    )}
                   </td>
                   <td className="py-4 px-6 text-sm font-semibold text-[var(--color-text-secondary)]">
                     {new Date(user.created_at).toLocaleDateString()}
                   </td>
                   <td className="py-4 px-6 text-right">
                     <div className="flex items-center justify-end gap-3">
+                      {user.edit_request_status === 'PENDING' && (
+                        <button 
+                          onClick={(e) => { e.stopPropagation(); handleApproveEdit(user.id); }}
+                          className="px-4 py-2 text-xs font-bold shadow-sm bg-[var(--color-success)] text-white hover:opacity-90 rounded-md transition-opacity"
+                        >
+                          Approve Edit
+                        </button>
+                      )}
                       <button 
                         onClick={(e) => { e.stopPropagation(); handleToggleAdmin(user.id, user.is_admin); }}
                         className={`btn-outline px-4 py-2 text-xs shadow-sm bg-white ${user.is_admin ? 'hover:bg-[var(--color-background)]' : 'text-[var(--color-primary)] border-[var(--color-primary)]/50 hover:bg-[var(--color-primary)]/10 hover:border-[var(--color-primary)]'}`}

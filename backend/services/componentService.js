@@ -23,7 +23,7 @@ export const getAllComponents = async (filters = {}) => {
 export const getComponentById = async (id) => {
     return await prisma.component.findUnique({
         where: { id },
-        include: { seller: { select: { id: true, name: true, avatar_url: true, role: true } } },
+        include: { seller: { select: { id: true, name: true, email: true, avatar_url: true } } },
     });
 };
 

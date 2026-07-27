@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { BottomNav } from '../components/BottomNav';
+import apiClient from '../api/client';
 
 const HACKATHONS = Array.from({ length: 10 }, (_, i) => ({
   id: i + 1,
@@ -13,6 +14,23 @@ const HACKATHONS = Array.from({ length: 10 }, (_, i) => ({
 
 export const Hackathon = () => {
   const navigate = useNavigate();
+  const [externalEvents, setExternalEvents] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchExternal = async () => {
+      try {
+        const res = await apiClient.get('/external-events/hackathons');
+        setExternalEvents(res.data);
+      } catch (err) {
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchExternal();
+  }, []);
+
   return (
     <div className="bg-[var(--color-background)] text-[var(--color-text-primary)] font-sans min-h-screen pb-24 relative">
       <header className="bg-[var(--color-surface)] sticky top-0 z-50 flex justify-between items-center px-4 md:px-8 w-full h-16 border-b border-[var(--color-border)] shadow-sm">
@@ -47,6 +65,48 @@ export const Hackathon = () => {
               <button className="btn-primary w-full mt-auto">Register Team</button>
             </div>
           ))}
+
+          {externalEvents.length > 0 && (
+            <>
+              <div className="flex items-center gap-3 mt-4 mb-2">
+                <div className="h-px flex-1 bg-[var(--color-border)]"></div>
+                <h3 className="text-xl font-bold text-[var(--color-text-secondary)] whitespace-nowrap">External Competitions</h3>
+                <div className="h-px flex-1 bg-[var(--color-border)]"></div>
+              </div>
+              
+              {externalEvents.map((event) => (
+                <div key={event.id} className="card-standard p-8 flex flex-col relative overflow-hidden border-2 border-transparent hover:border-[var(--color-primary)] transition-colors">
+                  <div className="absolute top-4 right-4 bg-[var(--color-primary)]/10 text-[var(--color-primary)] px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wide">
+                    {event.source}
+                  </div>
+                  <h2 className="text-2xl font-bold mb-4 pr-24">{event.title}</h2>
+                  <p className="text-base text-[var(--color-text-secondary)] mb-6 flex-1">{event.desc}</p>
+                  <div className="space-y-3 mb-6">
+                    <div className="flex items-center gap-3">
+                      <span className="material-symbols-outlined text-green-500">event</span>
+                      <span className="font-semibold text-sm">{event.date}</span>
+                    </div>
+                    <div className="flex items-center gap-3">
+                      <span className="material-symbols-outlined text-blue-500">public</span>
+                      <span className="font-semibold text-sm">{event.location}</span>
+                    </div>
+                    <div className="flex items-center gap-3">
+                      <span className="material-symbols-outlined text-yellow-500">emoji_events</span>
+                      <span className="font-semibold text-sm">{event.prize}</span>
+                    </div>
+                  </div>
+                  <a href={event.link} target="_blank" rel="noopener noreferrer" className="btn-primary w-full mt-auto text-center !bg-zinc-800 hover:!bg-zinc-700 flex justify-center items-center gap-2">
+                    Apply Externally <span className="material-symbols-outlined text-sm">open_in_new</span>
+                  </a>
+                </div>
+              ))}
+            </>
+          )}
+          {loading && (
+            <div className="flex justify-center p-8">
+              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[var(--color-primary)]"></div>
+            </div>
+          )}
           </section>
           
           <aside className="lg:col-span-4 flex flex-col gap-6 lg:sticky lg:top-24 lg:h-[calc(100vh-160px)] lg:overflow-y-auto min-w-0 pr-1 pb-20">

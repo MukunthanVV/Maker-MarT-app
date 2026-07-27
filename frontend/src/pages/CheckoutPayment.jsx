@@ -1,18 +1,41 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { PRODUCTS } from '../data/products';
 import { supabase } from '../supabaseClient';
+import apiClient from '../api/client';
 
 export const CheckoutPayment = () => {
   const { id } = useParams();
   const navigate = useNavigate();
 
-  const product = PRODUCTS.find(p => String(p.id) === String(id));
-
+  const [product, setProduct] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
   const [quantity, setQuantity] = useState(1);
   const [paymentMethod, setPaymentMethod] = useState('UPI');
   const [isProcessing, setIsProcessing] = useState(false);
   const [paymentFailed, setPaymentFailed] = useState(null); 
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+    const fetchProduct = async () => {
+      try {
+        const response = await apiClient.get(`/components/${id}`);
+        const comp = response.data;
+        setProduct({
+          id: comp.id,
+          name: comp.title,
+          price: `₹${comp.price}`,
+          images: comp.images?.length > 0 ? comp.images : ['https://picsum.photos/800/800?random=99'],
+          image: comp.image_url || (comp.images?.length > 0 ? comp.images[0] : 'https://picsum.photos/800/800?random=99'),
+          seller: comp.seller?.name || comp.seller?.email?.split('@')[0] || 'Maker'
+        });
+      } catch (err) {
+        console.error("Error fetching product:", err);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    fetchProduct();
+  }, [id]);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -26,6 +49,14 @@ export const CheckoutPayment = () => {
       document.body.appendChild(script);
     }
   }, []);
+
+  if (isLoading) {
+    return (
+      <div className="bg-[var(--color-background)] min-h-screen flex items-center justify-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[var(--color-primary)]"></div>
+      </div>
+    );
+  }
 
   if (!product) {
     return (
@@ -46,8 +77,9 @@ export const CheckoutPayment = () => {
   // Parse price (remove currency symbol and commas)
   const basePrice = parseInt(product.price.replace(/[^0-9]/g, '')) || 0;
   const platformFee = 20;
+  const deliveryFee = 0;
   const subtotal = basePrice * quantity;
-  const grandTotal = subtotal + platformFee;
+  const grandTotal = subtotal + platformFee + deliveryFee;
 
   const handlePlaceOrder = async () => {
     try {

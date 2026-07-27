@@ -2,24 +2,98 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { BottomNav } from '../components/BottomNav';
 import { PRODUCTS } from '../data/products';
+import apiClient from '../api/client';
 
 export const ComponentDetails = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   
-  const currentProduct = PRODUCTS.find(p => p.id === id || p.id === String(id));
-  const RELATED_PRODUCTS = PRODUCTS.filter(p => p.id !== id && p.id !== String(id)).slice(0, 4);
-  
-  const [activeImage, setActiveImage] = useState(currentProduct ? currentProduct.images[0] : null);
+  const [currentProduct, setCurrentProduct] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [activeImage, setActiveImage] = useState(null);
+  const [error, setError] = useState(null);
+  const [relatedProducts, setRelatedProducts] = useState([]);
 
   useEffect(() => {
     window.scrollTo(0, 0);
-    if (currentProduct) {
-      setActiveImage(currentProduct.images[0]);
-    }
-  }, [id, currentProduct]);
+    const fetchProduct = async () => {
+      try {
+        setIsLoading(true);
+        const [response, allRes] = await Promise.all([
+          apiClient.get(`/components/${id}`),
+          apiClient.get(`/components`).catch(() => ({ data: [] }))
+        ]);
+        
+        const comp = response.data;
+        const mappedProduct = {
+          id: comp.id,
+          name: comp.title,
+          price: `₹${comp.price}`,
+          originalPrice: `₹${comp.price + 200}`,
+          condition: comp.condition,
+          availability: comp.status === 'ACTIVE' ? 'Available' : 'Sold',
+          sellerRating: '5.0',
+          sellerCollege: 'SKCT',
+          postedTime: 'Just now',
+          description: comp.why_sell || comp.tech_specs || comp.description || '',
+          category: comp.category,
+          isAuction: comp.listing_type === 'AUCTION',
+          images: comp.images?.length > 0 ? comp.images : ['https://picsum.photos/800/800?random=99'],
+          image: comp.image_url || (comp.images?.length > 0 ? comp.images[0] : 'https://picsum.photos/800/800?random=99'),
+          seller: { 
+            id: comp.seller_id,
+            name: comp.seller?.name || 'Maker', 
+            avatar: comp.seller?.avatar_url || 'https://i.pravatar.cc/150?u=maker', 
+            role: comp.seller?.role || 'Member',
+            college: 'SKCT',
+            isVerified: true,
+            rating: '4.9',
+            responseTime: '< 1 hr'
+          },
+          specs: [
+            { label: 'Category', value: comp.category },
+            { label: 'Condition', value: comp.condition },
+            ...(comp.tech_specs ? [{ label: 'Tech Specs', value: comp.tech_specs }] : [])
+          ],
+          techSpecs: comp.tech_specs || '',
+          whySell: comp.why_sell || ''
+        };
+        
+        const allComps = allRes.data || [];
+        const related = allComps
+          .filter(c => String(c.id) !== String(id))
+          .map(c => ({
+            id: c.id,
+            name: c.title,
+            price: `₹${c.price}`,
+            condition: c.condition,
+            image: c.image_url || (c.images?.length > 0 ? c.images[0] : null)
+          }))
+          .slice(0, 4);
+          
+        setCurrentProduct(mappedProduct);
+        setActiveImage(mappedProduct.images[0]);
+        setRelatedProducts(related);
+      } catch (err) {
+        console.error("Error fetching product details:", err);
+        setError(err);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    
+    fetchProduct();
+  }, [id]);
 
-  if (!currentProduct) {
+  if (isLoading) {
+    return (
+      <div className="bg-[var(--color-background)] min-h-screen flex items-center justify-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[var(--color-primary)]"></div>
+      </div>
+    );
+  }
+
+  if (error || !currentProduct) {
     return (
       <div className="bg-[var(--color-background)] text-[var(--color-text-primary)] min-h-screen flex flex-col items-center justify-center p-4 pb-24">
         <div className="w-24 h-24 bg-[var(--color-surface)] rounded-full flex items-center justify-center text-[var(--color-text-secondary)] mb-6 shadow-sm border border-[var(--color-border)]">
@@ -187,12 +261,33 @@ export const ComponentDetails = () => {
                   </button>
                 )}
                 
-                <button className="btn-secondary py-3.5">
+                <button onClick={async (e) => {
+                  const btn = e.currentTarget;
+                  const originalHtml = btn.innerHTML;
+                  btn.disabled = true;
+                  btn.innerHTML = '<span class="animate-spin material-symbols-outlined text-[20px]">sync</span> Starting...';
+                  try {
+                    const res = await apiClient.post('/chats', {
+                      seller_id: DUMMY_PRODUCT.seller.id,
+                      component_id: DUMMY_PRODUCT.id
+                    });
+                    navigate(`/chat/${res.data.id}`);
+                  } catch (err) {
+                    console.error("Error creating chat:", err);
+                    alert("Could not start chat.");
+                    btn.disabled = false;
+                    btn.innerHTML = originalHtml;
+                  }
+                }} className="btn-secondary py-3.5">
                   <span className="material-symbols-outlined text-[20px]">chat</span>
                   Chat with Seller
                 </button>
-                <button className="btn-secondary py-3.5">
-                  <span className="material-symbols-outlined text-[20px]">favorite</span>
+                <button onClick={(e) => {
+                  e.currentTarget.classList.toggle('text-[var(--color-danger)]');
+                  e.currentTarget.querySelector('span').style.fontVariationSettings = "'FILL' 1";
+                  alert("Added to Wishlist!");
+                }} className="btn-secondary py-3.5 group">
+                  <span className="material-symbols-outlined text-[20px] group-hover:scale-110 transition-transform">favorite</span>
                   Add to Wishlist
                 </button>
               </div>
@@ -211,14 +306,18 @@ export const ComponentDetails = () => {
             </div>
             
             <div className="flex overflow-x-auto gap-5 pb-8 hide-scrollbar snap-x">
-              {RELATED_PRODUCTS.map((prod) => (
+              {relatedProducts.map((prod) => (
                 <div 
                   key={prod.id} 
                   onClick={() => navigate(`/product/${prod.id}`)}
                   className="snap-start shrink-0 w-[240px] card-interactive flex flex-col group"
                 >
                   <div className="w-full aspect-square bg-[var(--color-background)] relative overflow-hidden flex items-center justify-center">
-                    <img src={prod.images[0]} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" alt={prod.name} />
+                    {prod.image ? (
+                      <img src={prod.image} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" alt={prod.name} onError={(e) => { e.target.onerror = null; e.target.src = `https://picsum.photos/800/800?random=${prod.id}`; }} />
+                    ) : (
+                      <span className="material-symbols-outlined text-[64px] text-[var(--color-border)] group-hover:scale-110 transition-transform duration-500">memory</span>
+                    )}
                     <div className="absolute top-3 left-3 badge-neutral bg-white/95 backdrop-blur-md">
                       {prod.condition}
                     </div>

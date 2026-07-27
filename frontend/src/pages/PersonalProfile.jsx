@@ -80,9 +80,31 @@ export const PersonalProfile = () => {
     }
   };
 
+  const checkEditLock = () => {
+    if (!userData) return { isLocked: false, remainingDays: 0 };
+    if (!userData.last_edit_at) return { isLocked: false, remainingDays: 0 };
+    
+    const COOLDOWN_DAYS = 3;
+    const COOLDOWN_MS = COOLDOWN_DAYS * 24 * 60 * 60 * 1000;
+    const timeSinceLastEdit = Date.now() - new Date(userData.last_edit_at).getTime();
+    
+    if (timeSinceLastEdit < COOLDOWN_MS) {
+      const remainingDays = ((COOLDOWN_MS - timeSinceLastEdit) / (24 * 60 * 60 * 1000)).toFixed(1);
+      return { isLocked: true, remainingDays: parseFloat(remainingDays) };
+    }
+    
+    return { isLocked: false, remainingDays: 0 };
+  };
+
+  const editLock = checkEditLock();
+  const maxEditsReached = userData?.edit_count >= 3 && userData?.edit_request_status !== 'APPROVED';
+  const isRequestPending = userData?.edit_request_status === 'PENDING';
+  const canEdit = !editLock.isLocked && !maxEditsReached;
+
   useEffect(() => {
     const fetchProfile = async () => {
-      const { data: { user } } = await supabase.auth.getUser();
+      const { data: { session } } = await supabase.auth.getSession();
+      const user = session?.user;
       if (!user) {
         navigate('/login');
         return;
@@ -107,15 +129,19 @@ export const PersonalProfile = () => {
         setConnectedProvider(user.app_metadata.provider.charAt(0).toUpperCase() + user.app_metadata.provider.slice(1));
       }
 
-      // Fetch user profile
-      let profile = null;
-      try {
-        const res = await apiClient.get(`/users/${user.id}`);
-        profile = res.data;
-      } catch (err) {
-        if (err.response?.status !== 404) console.error('Error fetching profile:', err);
-      }
+      // Fetch user profile and components concurrently to reduce loading time
+      const [profileRes, componentsRes] = await Promise.all([
+        apiClient.get(`/users/${user.id}`).catch(err => {
+          if (err.response?.status !== 404) console.error('Error fetching profile:', err);
+          return null;
+        }),
+        apiClient.get('/components', { params: { seller_id: user.id } }).catch(err => {
+          console.error('Error fetching components:', err);
+          return null;
+        })
+      ]);
       
+      const profile = profileRes ? profileRes.data : null;
       if (profile) {
         setUserData(profile);
         setFormData({
@@ -130,15 +156,7 @@ export const PersonalProfile = () => {
         setIsEditing(true);
       }
 
-      // Fetch basic stats and recent activity
-      let components = null;
-      try {
-        const res = await apiClient.get('/components', { params: { seller_id: user.id } });
-        components = res.data;
-      } catch (err) {
-        console.error('Error fetching components:', err);
-      }
-
+      const components = componentsRes ? componentsRes.data : null;
       if (components) {
         const soldCount = components.filter(c => c.status === 'SOLD' && !c.is_free).length;
         const donatedCount = components.filter(c => c.status === 'SOLD' && c.is_free).length;
@@ -180,11 +198,33 @@ export const PersonalProfile = () => {
       classroom_no: formData.classroom_no
     };
     try {
-      await apiClient.put(`/users/${authId}`, updates);
-      setUserData(updates);
+      const res = await apiClient.put(`/users/${authId}`, updates);
+      setUserData(res.data);
       setIsEditing(false);
     } catch (error) {
       alert('Error saving profile: ' + (error.response?.data?.error || error.message));
+    }
+    setLoading(false);
+  };
+
+  const handleMarkAsSold = async (id) => {
+    try {
+      await apiClient.put(`/components/${id}`, { status: 'SOLD' });
+      setRecentActivity(prev => prev.map(c => c.id === id ? { ...c, status: 'SOLD' } : c));
+      setStats(prev => ({ ...prev, sold: prev.sold + 1 }));
+    } catch (error) {
+      alert('Error marking item as sold: ' + (error.response?.data?.error || error.message));
+    }
+  };
+
+  const handleRequestEditAccess = async () => {
+    setLoading(true);
+    try {
+      const res = await apiClient.post(`/users/${authId}/request-edit`);
+      setUserData(res.data);
+      alert('Edit request submitted successfully to admin!');
+    } catch (error) {
+      alert('Failed to request edit access: ' + (error.response?.data?.error || error.message));
     }
     setLoading(false);
   };
@@ -368,15 +408,9 @@ export const PersonalProfile = () => {
               </div>
               
               <div className="w-full flex flex-col gap-2 pt-4 border-t border-[var(--color-border)] mb-2"></div>
-              <div className="grid grid-cols-2 w-full gap-4">
-                <div className="flex flex-col border-r border-[var(--color-border)]">
-                  <span className="text-3xl font-black text-[var(--color-text-primary)]">{stats.sold}</span>
-                  <span className="text-xs font-bold text-[var(--color-text-secondary)] uppercase tracking-wider">Sold</span>
-                </div>
-                <div className="flex flex-col">
-                  <span className="text-3xl font-black text-[var(--color-text-primary)]">{stats.donated}</span>
-                  <span className="text-xs font-bold text-[var(--color-text-secondary)] uppercase tracking-wider">Donated</span>
-                </div>
+              <div className="w-full flex flex-col items-center">
+                <span className="text-3xl font-black text-[var(--color-text-primary)]">{stats.sold}</span>
+                <span className="text-xs font-bold text-[var(--color-text-secondary)] uppercase tracking-wider">Sold</span>
               </div>
             </div>
             
@@ -405,14 +439,67 @@ export const PersonalProfile = () => {
                   <h3 className="text-h3">Account Details</h3>
                 </div>
                 {userData && (
-                  <button onClick={() => setIsEditing(!isEditing)} className="text-[var(--color-primary)] hover:underline font-bold text-sm">
-                    {isEditing ? 'Cancel' : 'Edit'}
-                  </button>
+                  <div>
+                    {isEditing ? (
+                      <button onClick={() => setIsEditing(false)} className="text-[var(--color-primary)] hover:underline font-bold text-sm">
+                        Cancel
+                      </button>
+                    ) : canEdit ? (
+                      <button onClick={() => setIsEditing(true)} className="text-[var(--color-primary)] hover:underline font-bold text-sm">
+                        Edit
+                      </button>
+                    ) : isRequestPending ? (
+                      <span className="text-[var(--color-warning)] font-bold text-xs bg-[var(--color-warning)]/10 px-3 py-1.5 rounded-lg">
+                        Edit Request Pending
+                      </span>
+                    ) : maxEditsReached ? (
+                      <button onClick={handleRequestEditAccess} className="text-[var(--color-primary)] hover:underline font-bold text-xs bg-[var(--color-primary)]/10 px-3 py-1.5 rounded-lg">
+                        Request Edit Access
+                      </button>
+                    ) : editLock.isLocked ? (
+                      <span className="text-[var(--color-text-secondary)] font-bold text-xs bg-[var(--color-border)]/50 px-3 py-1.5 rounded-lg" title={`Locked. Next edit available in ${editLock.remainingDays} days.`}>
+                        Locked (Cooldown)
+                      </span>
+                    ) : null}
+                  </div>
+                )}
+              </div>
+
+              {/* Edit lock banners */}
+              <div className="px-8 pt-6">
+                {editLock.isLocked && (
+                  <div className="badge-neutral bg-[var(--color-warning)]/10 text-[var(--color-warning)] p-3 rounded-xl border-[var(--color-warning)]/20 flex items-center gap-2 mb-4">
+                    <span className="material-symbols-outlined text-[20px]">lock</span>
+                    <span>Profile locked for editing. Cooldown active. Next edit available in <strong>{editLock.remainingDays} days</strong>.</span>
+                  </div>
+                )}
+                {maxEditsReached && !isRequestPending && (
+                  <div className="badge-neutral bg-[var(--color-danger)]/10 text-[var(--color-danger)] p-3 rounded-xl border-[var(--color-danger)]/20 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-4">
+                    <div className="flex items-center gap-2">
+                      <span className="material-symbols-outlined text-[20px]">block</span>
+                      <span>You have reached the maximum of 3 profile edits. Request admin approval to edit again.</span>
+                    </div>
+                    <button onClick={handleRequestEditAccess} className="bg-[var(--color-primary)] text-white px-4 py-2 rounded-xl text-xs font-bold shadow-sm hover:opacity-90 transition-opacity">
+                      Request Access
+                    </button>
+                  </div>
+                )}
+                {isRequestPending && (
+                  <div className="badge-neutral bg-[var(--color-warning)]/10 text-[var(--color-warning)] p-3 rounded-xl border-[var(--color-warning)]/20 flex items-center gap-2 mb-4">
+                    <span className="material-symbols-outlined text-[20px]">hourglass_empty</span>
+                    <span>An edit request is currently pending admin approval.</span>
+                  </div>
+                )}
+                {userData && !editLock.isLocked && !maxEditsReached && (
+                  <div className="badge-neutral bg-[var(--color-success)]/10 text-[var(--color-success)] p-3 rounded-xl border-[var(--color-success)]/20 flex items-center gap-2 mb-4">
+                    <span className="material-symbols-outlined text-[20px]">check_circle</span>
+                    <span>You have <strong>{3 - (userData.edit_count || 0)}/3</strong> edits remaining. Note that a 3-day lock applies after each edit.</span>
+                  </div>
                 )}
               </div>
 
               {isEditing ? (
-                <form onSubmit={handleSaveProfile} className="p-8 space-y-6">
+                <form onSubmit={handleSaveProfile} className="p-8 pt-2 space-y-6">
                   {!userData && (
                     <div className="badge-neutral bg-[var(--color-warning)]/10 text-[var(--color-warning)] p-3 rounded-xl border-[var(--color-warning)]/20 mb-6">
                       <span className="material-symbols-outlined text-[20px]">info</span>
@@ -507,7 +594,7 @@ export const PersonalProfile = () => {
                       <th className="px-8 py-4 text-xs font-bold text-[var(--color-text-secondary)] uppercase tracking-wider">Part Name</th>
                       <th className="px-8 py-4 text-xs font-bold text-[var(--color-text-secondary)] uppercase tracking-wider">Category</th>
                       <th className="px-8 py-4 text-xs font-bold text-[var(--color-text-secondary)] uppercase tracking-wider">Action</th>
-                      <th className="px-8 py-4 text-xs font-bold text-[var(--color-text-secondary)] uppercase tracking-wider">Status</th>
+                      <th className="px-8 py-4 text-xs font-bold text-[var(--color-text-secondary)] uppercase tracking-wider">Actions</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -517,15 +604,26 @@ export const PersonalProfile = () => {
                           <td className="px-8 py-5 text-sm font-semibold text-[var(--color-text-primary)]">{item.title}</td>
                           <td className="px-8 py-5 text-sm text-[var(--color-text-secondary)]">{item.category}</td>
                           <td className={`px-8 py-5 text-sm font-bold ${item.status === 'SOLD' ? 'text-[var(--color-primary)]' : (item.is_free ? 'text-[var(--color-success)]' : 'text-[var(--color-primary)]')}`}>
-                            {item.status === 'SOLD' ? 'Sold' : (item.is_free ? 'Donated' : 'Listed')}
+                            {item.status === 'SOLD' ? 'Sold' : (item.is_free ? 'Donated' : (item.listing_type === 'AUCTION' ? 'Listed for Auction' : 'Listed for Sale'))}
                           </td>
                           <td className="px-8 py-5 flex items-center gap-3">
                             <span className={`px-2.5 py-1 rounded-md text-xs font-bold ${item.status === 'SOLD' ? 'bg-[var(--color-primary)]/10 text-[var(--color-primary)]' : 'bg-[var(--color-border)] text-[var(--color-text-secondary)]'}`}>
                               {item.status === 'SOLD' ? 'Completed' : 'Active'}
                             </span>
-                            <Link to={`/edit-component/${item.id}`} className="text-[var(--color-text-secondary)] hover:text-[var(--color-primary)] transition-colors p-1.5 rounded-full hover:bg-[var(--color-surface)] border border-transparent hover:border-[var(--color-border)]" title="Edit Listing">
-                              <span className="material-symbols-outlined text-[18px]">edit</span>
-                            </Link>
+                            {item.status !== 'SOLD' && (
+                              <div className="flex items-center gap-1.5">
+                                <button 
+                                  onClick={() => handleMarkAsSold(item.id)} 
+                                  className="text-[var(--color-text-secondary)] hover:text-[var(--color-success)] transition-colors p-1.5 rounded-full hover:bg-[var(--color-surface)] border border-transparent hover:border-[var(--color-border)] flex items-center justify-center" 
+                                  title="Mark as Sold"
+                                >
+                                  <span className="material-symbols-outlined text-[18px]">check_circle</span>
+                                </button>
+                                <Link to={`/edit-component/${item.id}`} className="text-[var(--color-text-secondary)] hover:text-[var(--color-primary)] transition-colors p-1.5 rounded-full hover:bg-[var(--color-surface)] border border-transparent hover:border-[var(--color-border)] flex items-center justify-center" title="Edit Listing">
+                                  <span className="material-symbols-outlined text-[18px]">edit</span>
+                                </Link>
+                              </div>
+                            )}
                           </td>
                         </tr>
                       ))
