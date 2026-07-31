@@ -10,7 +10,6 @@ import { MyOrders } from './pages/MyOrders';
 import { SellerOrders } from './pages/SellerOrders';
 import { OrderDetails } from './pages/OrderDetails';
 import { Inbox } from './pages/Inbox';
-import { EngineerChat } from './pages/EngineerChat';
 import { Login } from './pages/Login';
 import { PersonalProfile } from './pages/PersonalProfile';
 import { PublicProfile } from './pages/PublicProfile';
@@ -131,7 +130,7 @@ function App() {
           <Route path="/seller-orders" element={<SellerOrders />} />
           <Route path="/orders/:id" element={<OrderDetails />} />
           <Route path="/inbox" element={<Inbox />} />
-          <Route path="/chat/:chatId" element={<EngineerChat />} />
+          <Route path="/chat/:chatId" element={<Inbox />} />
           <Route path="/profile" element={<PersonalProfile />} />
           <Route path="/user/:userId" element={<PublicProfile />} />
           <Route path="/events/hackathon" element={<Hackathon />} />

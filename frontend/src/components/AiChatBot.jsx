@@ -1,6 +1,8 @@
 import React, { useState, useRef, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 
 export const AiChatBot = () => {
+  const location = useLocation();
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState([
     { id: 1, sender: 'bot', text: 'Hi there! I am your AI assistant. How can I help with your projects or MakerMart today?' }
@@ -8,6 +10,10 @@ export const AiChatBot = () => {
   const [input, setInput] = useState('');
   const [isTyping, setIsTyping] = useState(false);
   const messagesEndRef = useRef(null);
+
+  // Hide AI Chat Bot floating button on Inbox and Chat pages to prevent UI overlap
+  const isChatPage = location.pathname.startsWith('/inbox') || location.pathname.startsWith('/chat');
+  if (isChatPage) return null;
 
   // Auto-scroll to bottom of chat
   useEffect(() => {
