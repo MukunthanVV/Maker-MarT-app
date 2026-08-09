@@ -266,9 +266,9 @@ export const CheckoutPayment = () => {
               </div>
             </div>
 
-            {/* Delivery Information */}
+            {/* Meetup Information */}
             <div className="card-standard p-6 md:p-8">
-              <h2 className="text-h3 mb-6">Delivery Information</h2>
+              <h2 className="text-h3 mb-6">Meetup Information</h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="space-y-1.5">
                   <label className="input-label block">Full Name</label>
@@ -287,20 +287,8 @@ export const CheckoutPayment = () => {
                   <input type="text" defaultValue="CSE / 3rd Year" className="input-standard" />
                 </div>
                 <div className="space-y-1.5 md:col-span-2">
-                  <label className="input-label block">Hostel / Day Scholar (Delivery Address)</label>
+                  <label className="input-label block">Classroom / Hostel / Preferred Meetup Spot</label>
                   <textarea rows="3" defaultValue="Block B, Room 304, SKCET Mens Hostel" className="input-standard resize-none"></textarea>
-                </div>
-                <div className="space-y-1.5 md:col-span-2 flex flex-col md:flex-row gap-4">
-                  <div className="flex-1 space-y-1.5">
-                    <label className="input-label block">Pincode</label>
-                    <input type="text" defaultValue="641008" className="input-standard" />
-                  </div>
-                  <div className="flex-1 space-y-1.5 flex flex-col justify-end">
-                    <div className="flex items-center gap-2 text-[var(--color-success)] font-bold bg-[var(--color-success)]/10 px-4 py-3.5 rounded-xl border border-[var(--color-success)]/20 shadow-sm">
-                      <span className="material-symbols-outlined">local_shipping</span>
-                      Estimated Delivery: Today, 5 PM
-                    </div>
-                  </div>
                 </div>
               </div>
             </div>

@@ -11,10 +11,6 @@ export const AiChatBot = () => {
   const [isTyping, setIsTyping] = useState(false);
   const messagesEndRef = useRef(null);
 
-  // Hide AI Chat Bot floating button on Inbox and Chat pages to prevent UI overlap
-  const isChatPage = location.pathname.startsWith('/inbox') || location.pathname.startsWith('/chat');
-  if (isChatPage) return null;
-
   // Auto-scroll to bottom of chat
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -43,6 +39,10 @@ export const AiChatBot = () => {
       ]);
     }, 1500);
   };
+
+  // Hide AI Chat Bot floating button on Inbox and Chat pages to prevent UI overlap
+  const isChatPage = location.pathname.startsWith('/inbox') || location.pathname.startsWith('/chat');
+  if (isChatPage) return null;
 
   return (
     <>

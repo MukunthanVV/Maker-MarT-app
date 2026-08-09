@@ -57,14 +57,14 @@ export const OrderSuccess = () => {
 
         <div className="w-full bg-[var(--color-success)]/10 rounded-xl p-4 border border-[var(--color-success)]/20 mb-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-left shadow-sm">
            <div className="flex items-center gap-3">
-             <span className="material-symbols-outlined text-[var(--color-success)]">local_shipping</span>
+             <span className="material-symbols-outlined text-[var(--color-success)]">handshake</span>
              <div>
-               <p className="font-bold text-[var(--color-success)]">Estimated Delivery</p>
-               <p className="text-sm text-[var(--color-text-primary)] font-semibold">Today, 5 PM</p>
+               <p className="font-bold text-[var(--color-success)]">On-Campus Meetup</p>
+               <p className="text-xs text-[var(--color-text-primary)] font-semibold">Coordinate the exchange location directly via chat.</p>
              </div>
            </div>
            <div className="flex items-center gap-2 text-sm font-bold text-[var(--color-success)]">
-             <span className="material-symbols-outlined text-sm">verified_user</span> Safe Exchange
+             <span className="material-symbols-outlined text-sm">verified_user</span> Safe Handover
            </div>
         </div>
 

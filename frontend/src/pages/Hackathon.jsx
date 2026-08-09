@@ -3,18 +3,10 @@ import { useNavigate } from 'react-router-dom';
 import { BottomNav } from '../components/BottomNav';
 import apiClient from '../api/client';
 
-const HACKATHONS = Array.from({ length: 10 }, (_, i) => ({
-  id: i + 1,
-  title: `👨‍💻 Hackathon ${i + 1}: ${['Web3', 'AI/ML', 'IoT', 'FinTech', 'HealthTech', 'EdTech', 'Cybersecurity', 'GameDev', 'Open Source', 'Robotics'][i]}`,
-  desc: "Join us for 48 hours of intense coding, problem-solving, and networking. Build the future with your peers!",
-  date: `October ${15 + i}-${17 + i}, 2026`,
-  location: `Main Library, ${i % 3 + 1} Floor`,
-  prize: `₹${(i + 1) * 10},000 Prize Pool`
-}));
-
 export const Hackathon = () => {
   const navigate = useNavigate();
   const [externalEvents, setExternalEvents] = useState([]);
+  const [visibleCount, setVisibleCount] = useState(5);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -44,9 +36,19 @@ export const Hackathon = () => {
       <main className="max-w-7xl mx-auto px-4 md:px-8 py-8">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8">
           <section className="lg:col-span-8 flex flex-col gap-6 min-w-0">
-          {HACKATHONS.map((event) => (
-            <div key={event.id} className="card-standard p-8 flex flex-col">
-              <h2 className="text-2xl font-bold mb-4">{event.title}</h2>
+          
+          {!loading && externalEvents.length === 0 && (
+            <div className="card-standard p-8 text-center text-[var(--color-text-secondary)]">
+              No upcoming hackathons found at the moment. Please check back later.
+            </div>
+          )}
+
+          {externalEvents.slice(0, visibleCount).map((event) => (
+            <div key={event.id} className="card-standard p-8 flex flex-col relative overflow-hidden border-2 border-transparent hover:border-[var(--color-primary)] transition-colors">
+              <div className="absolute top-4 right-4 bg-[var(--color-primary)]/10 text-[var(--color-primary)] px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wide">
+                {event.source}
+              </div>
+              <h2 className="text-2xl font-bold mb-4 pr-24">{event.title}</h2>
               <p className="text-base text-[var(--color-text-secondary)] mb-6 flex-1">{event.desc}</p>
               <div className="space-y-3 mb-6">
                 <div className="flex items-center gap-3">
@@ -54,7 +56,7 @@ export const Hackathon = () => {
                   <span className="font-semibold text-sm">{event.date}</span>
                 </div>
                 <div className="flex items-center gap-3">
-                  <span className="material-symbols-outlined text-blue-500">location_on</span>
+                  <span className="material-symbols-outlined text-blue-500">public</span>
                   <span className="font-semibold text-sm">{event.location}</span>
                 </div>
                 <div className="flex items-center gap-3">
@@ -62,46 +64,22 @@ export const Hackathon = () => {
                   <span className="font-semibold text-sm">{event.prize}</span>
                 </div>
               </div>
-              <button className="btn-primary w-full mt-auto">Register Team</button>
+              <a href={event.link} target="_blank" rel="noopener noreferrer" className="btn-primary w-full mt-auto text-center !bg-zinc-800 hover:!bg-zinc-700 flex justify-center items-center gap-2">
+                Apply Externally <span className="material-symbols-outlined text-sm">open_in_new</span>
+              </a>
             </div>
           ))}
 
-          {externalEvents.length > 0 && (
-            <>
-              <div className="flex items-center gap-3 mt-4 mb-2">
-                <div className="h-px flex-1 bg-[var(--color-border)]"></div>
-                <h3 className="text-xl font-bold text-[var(--color-text-secondary)] whitespace-nowrap">External Competitions</h3>
-                <div className="h-px flex-1 bg-[var(--color-border)]"></div>
-              </div>
-              
-              {externalEvents.map((event) => (
-                <div key={event.id} className="card-standard p-8 flex flex-col relative overflow-hidden border-2 border-transparent hover:border-[var(--color-primary)] transition-colors">
-                  <div className="absolute top-4 right-4 bg-[var(--color-primary)]/10 text-[var(--color-primary)] px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wide">
-                    {event.source}
-                  </div>
-                  <h2 className="text-2xl font-bold mb-4 pr-24">{event.title}</h2>
-                  <p className="text-base text-[var(--color-text-secondary)] mb-6 flex-1">{event.desc}</p>
-                  <div className="space-y-3 mb-6">
-                    <div className="flex items-center gap-3">
-                      <span className="material-symbols-outlined text-green-500">event</span>
-                      <span className="font-semibold text-sm">{event.date}</span>
-                    </div>
-                    <div className="flex items-center gap-3">
-                      <span className="material-symbols-outlined text-blue-500">public</span>
-                      <span className="font-semibold text-sm">{event.location}</span>
-                    </div>
-                    <div className="flex items-center gap-3">
-                      <span className="material-symbols-outlined text-yellow-500">emoji_events</span>
-                      <span className="font-semibold text-sm">{event.prize}</span>
-                    </div>
-                  </div>
-                  <a href={event.link} target="_blank" rel="noopener noreferrer" className="btn-primary w-full mt-auto text-center !bg-zinc-800 hover:!bg-zinc-700 flex justify-center items-center gap-2">
-                    Apply Externally <span className="material-symbols-outlined text-sm">open_in_new</span>
-                  </a>
-                </div>
-              ))}
-            </>
+          {!loading && externalEvents.length > visibleCount && (
+            <button
+              onClick={() => setVisibleCount(prev => Math.min(prev + 5, externalEvents.length))}
+              className="btn-secondary w-full py-3 mt-2 flex items-center justify-center gap-2 active:scale-95 transition-transform"
+            >
+              View More Hackathons
+              <span className="material-symbols-outlined text-sm">expand_more</span>
+            </button>
           )}
+          
           {loading && (
             <div className="flex justify-center p-8">
               <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[var(--color-primary)]"></div>

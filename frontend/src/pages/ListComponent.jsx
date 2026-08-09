@@ -20,6 +20,16 @@ export const ListComponent = () => {
     }
   };
 
+  const handleRemoveImage = (idxToRemove) => {
+    setImages((prev) => prev.filter((img, idx) => {
+      if (idx === idxToRemove) {
+        URL.revokeObjectURL(img.previewUrl);
+        return false;
+      }
+      return true;
+    }));
+  };
+
   const [formData, setFormData] = useState({
     title: '',
     category: 'Processing Units',
@@ -76,8 +86,8 @@ export const ListComponent = () => {
       await apiClient.post('/components', {
         title: formData.title,
         category: formData.category,
-        is_free: formData.listingType === 'DONATE',
-        price: formData.listingType === 'DONATE' ? 0 : parseFloat(formData.price || 0),
+        is_free: false,
+        price: parseFloat(formData.price || 0),
         condition: formData.condition,
         tech_specs: formData.techSpecs,
         why_sell: formData.whySell,
@@ -130,6 +140,14 @@ export const ListComponent = () => {
                 images.map((img, idx) => (
                   <div key={idx} className="aspect-square bg-[var(--color-background)] relative rounded-2xl overflow-hidden border border-[var(--color-border)] shadow-sm group">
                     <img className="w-full h-full object-cover" src={img.previewUrl} alt={`Uploaded preview ${idx + 1}`} />
+                    <button
+                      type="button"
+                      onClick={() => handleRemoveImage(idx)}
+                      className="absolute top-2 right-2 w-7 h-7 rounded-full bg-black/60 hover:bg-black/85 text-white flex items-center justify-center transition-all shadow-md active:scale-90"
+                      title="Remove image"
+                    >
+                      <span className="material-symbols-outlined text-[18px]">close</span>
+                    </button>
                   </div>
                 ))
               ) : (
@@ -147,15 +165,17 @@ export const ListComponent = () => {
           <section className="card-standard p-6 md:p-8 space-y-8">
             
             {/* Basic Info */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               <div className="space-y-2 col-span-full">
                 <label className="input-label block">Listing Title</label>
                 <input className="input-standard" placeholder="What are you selling?" type="text" value={formData.title} onChange={e => setFormData({...formData, title: e.target.value})} />
               </div>
-              <div className="space-y-2">
-                <label className="input-label block">Category</label>
+              <div className="space-y-2 col-span-1">
+                <div className="h-6 flex items-center">
+                  <label className="input-label block mb-0">Category</label>
+                </div>
                 <div className="relative">
-                  <select className="input-standard appearance-none pr-10" value={formData.category} onChange={e => setFormData({...formData, category: e.target.value})}>
+                  <select className="input-standard appearance-none bg-none pr-10" value={formData.category} onChange={e => setFormData({...formData, category: e.target.value})}>
                     <option>Processing Units</option>
                     <option>Sensors</option>
                     <option>Actuators and Displays</option>
@@ -170,14 +190,16 @@ export const ListComponent = () => {
               </div>
 
               {/* Listing Type */}
-              <div className="space-y-3 col-span-full mt-2">
-                <label className="input-label block">Listing Type</label>
-                <div className="grid grid-cols-3 gap-3">
-                  {['SELL', 'DONATE', 'AUCTION'].map(type => (
+              <div className="space-y-2 col-span-2">
+                <div className="h-6 flex items-center">
+                  <label className="input-label block mb-0">Listing Type</label>
+                </div>
+                <div className="grid grid-cols-2 gap-3">
+                  {['SELL', 'AUCTION'].map(type => (
                     <button 
                       key={type}
-                      className={`py-3 rounded-xl font-bold text-sm transition-all border-2 ${formData.listingType === type ? 'border-[var(--color-primary)] bg-[var(--color-primary)]/10 text-[var(--color-primary)] shadow-sm' : 'border-[var(--color-border)] bg-[var(--color-background)] text-[var(--color-text-secondary)] hover:border-[var(--color-primary)]/50 hover:text-[var(--color-primary)]'}`} 
-                      onClick={() => setFormData({...formData, listingType: type, price: type === 'DONATE' ? '0' : formData.price})}
+                      className={`py-3.5 rounded-xl font-bold text-sm transition-all border-2 ${formData.listingType === type ? 'border-[var(--color-primary)] bg-[var(--color-primary)]/10 text-[var(--color-primary)] shadow-sm' : 'border-[var(--color-border)] bg-[var(--color-background)] text-[var(--color-text-secondary)] hover:border-[var(--color-primary)]/50 hover:text-[var(--color-primary)]'}`} 
+                      onClick={() => setFormData({...formData, listingType: type})}
                     >
                       {type}
                     </button>
@@ -185,23 +207,25 @@ export const ListComponent = () => {
                 </div>
               </div>
 
-              {/* Conditional Fields based on Listing Type */}
-              {formData.listingType !== 'DONATE' && (
-                <div className="space-y-2">
-                  <label className="input-label block">{formData.listingType === 'AUCTION' ? 'Starting Bid' : 'Price'}</label>
-                  <div className="relative">
-                    <span className="absolute left-4 top-1/2 -translate-y-1/2 font-bold text-[var(--color-text-secondary)]">₹</span>
-                    <input className="input-standard pl-10" placeholder="0.00" type="number" min="0" onKeyDown={(e) => { if (e.key === '-') e.preventDefault(); }} value={formData.price} onChange={e => setFormData({...formData, price: e.target.value})} />
-                  </div>
+              {/* Price / Starting Bid */}
+              <div className="space-y-2 col-span-1">
+                <div className="h-6 flex items-center">
+                  <label className="input-label block mb-0">{formData.listingType === 'AUCTION' ? 'Starting Bid' : 'Price'}</label>
                 </div>
-              )}
+                <div className="relative">
+                  <span className="absolute left-4 top-1/2 -translate-y-1/2 font-bold text-[var(--color-text-secondary)]">₹</span>
+                  <input className="input-standard pl-10" placeholder="0.00" type="number" min="0" onKeyDown={(e) => { if (e.key === '-') e.preventDefault(); }} value={formData.price} onChange={e => setFormData({...formData, price: e.target.value})} />
+                </div>
+              </div>
 
               {formData.listingType === 'AUCTION' && (
                 <>
-                  <div className="space-y-2">
-                    <label className="input-label block">Auction Duration</label>
+                  <div className="space-y-2 col-span-1">
+                    <div className="h-6 flex items-center">
+                      <label className="input-label block mb-0">Auction Duration</label>
+                    </div>
                     <div className="relative">
-                      <select className="input-standard appearance-none pr-10" value={formData.auctionDuration} onChange={e => setFormData({...formData, auctionDuration: e.target.value})}>
+                      <select className="input-standard appearance-none bg-none pr-10" value={formData.auctionDuration} onChange={e => setFormData({...formData, auctionDuration: e.target.value})}>
                         <option>3 Days</option>
                         <option>5 Days</option>
                         <option>7 Days</option>
@@ -211,16 +235,16 @@ export const ListComponent = () => {
                     </div>
                   </div>
                   
-                  <div className="space-y-2">
-                    <div className="flex justify-between items-center">
-                      <label className="input-label block">Auto-Win Price (Optional)</label>
+                  <div className="space-y-2 col-span-1">
+                    <div className="h-6 flex items-center justify-between">
+                      <label className="input-label block mb-0">Auto-Win Price</label>
                       <span className="text-[10px] bg-[var(--color-background)] px-2 py-0.5 rounded text-[var(--color-text-secondary)] font-bold">Buy it Now</span>
                     </div>
                     <div className="relative">
                       <span className="absolute left-4 top-1/2 -translate-y-1/2 font-bold text-[var(--color-text-secondary)]">₹</span>
-                      <input className="input-standard pl-10" placeholder="e.g. 5000" type="number" min="0" onKeyDown={(e) => { if (e.key === '-') e.preventDefault(); }} value={formData.autoWinPrice} onChange={e => setFormData({...formData, autoWinPrice: e.target.value})} />
+                      <input className="input-standard pl-10" placeholder="e.g. 5000 (Optional)" type="number" min="0" onKeyDown={(e) => { if (e.key === '-') e.preventDefault(); }} value={formData.autoWinPrice} onChange={e => setFormData({...formData, autoWinPrice: e.target.value})} />
                     </div>
-                    <p className="text-xs text-[var(--color-text-secondary)]">Auction automatically ends if a bid reaches this amount.</p>
+                    <p className="text-xs text-[var(--color-text-secondary)] mt-1.5">Auction automatically ends if a bid reaches this amount.</p>
                   </div>
                 </>
               )}

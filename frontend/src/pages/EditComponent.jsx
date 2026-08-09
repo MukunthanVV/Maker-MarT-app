@@ -76,6 +76,16 @@ export const EditComponent = () => {
     }
   };
 
+  const handleRemoveImage = (idxToRemove) => {
+    setImages((prev) => prev.filter((img, idx) => {
+      if (idx === idxToRemove) {
+        URL.revokeObjectURL(img.previewUrl);
+        return false;
+      }
+      return true;
+    }));
+  };
+
   const handleUpdate = async () => {
     try {
       setIsPosting(true);
@@ -170,11 +180,19 @@ export const EditComponent = () => {
                   </button>
                 </div>
               ))}
-              {images.map((img, idx) => (
-                <div key={`new-${idx}`} className="aspect-square bg-[var(--color-background)] relative rounded-2xl overflow-hidden border-2 border-[var(--color-primary)] shadow-sm">
+               {images.map((img, idx) => (
+                <div key={`new-${idx}`} className="aspect-square bg-[var(--color-background)] relative rounded-2xl overflow-hidden border-2 border-[var(--color-primary)] shadow-sm group">
                   <img className="w-full h-full object-cover" src={img.previewUrl} alt={`New upload preview ${idx + 1}`} />
                   <div className="absolute inset-0 bg-[var(--color-primary)]/10 pointer-events-none"></div>
                   <span className="absolute bottom-2 left-2 text-[10px] bg-[var(--color-primary)] text-white px-2 py-1 rounded-md font-bold shadow-sm">NEW</span>
+                  <button
+                    type="button"
+                    onClick={() => handleRemoveImage(idx)}
+                    className="absolute top-2 right-2 w-7 h-7 rounded-full bg-black/60 hover:bg-black/85 text-white flex items-center justify-center transition-all shadow-md active:scale-90"
+                    title="Remove image"
+                  >
+                    <span className="material-symbols-outlined text-[18px]">close</span>
+                  </button>
                 </div>
               ))}
               <label className="aspect-square bg-[var(--color-surface)] border-2 border-dashed border-[var(--color-border)] rounded-2xl flex flex-col items-center justify-center gap-3 hover:border-[var(--color-primary)] hover:bg-[var(--color-primary)]/5 transition-all group cursor-pointer shadow-sm">
@@ -206,7 +224,7 @@ export const EditComponent = () => {
               <div className="space-y-2">
                 <label className="input-label block">Category</label>
                 <div className="relative">
-                  <select className="input-standard appearance-none pr-10" value={formData.category} onChange={e => setFormData({...formData, category: e.target.value})}>
+                  <select className="input-standard appearance-none bg-none pr-10" value={formData.category} onChange={e => setFormData({...formData, category: e.target.value})}>
                     <option>Development Boards</option>
                     <option>Robotics Components</option>
                     <option>Sensors</option>

@@ -13,6 +13,8 @@ export const Inbox = () => {
   const { chatId } = useParams();
   const navigate = useNavigate();
   
+  const [nowTime] = useState(() => Date.now());
+  
   // Sidebar state
   const [chats, setChats] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -285,7 +287,9 @@ export const Inbox = () => {
     try {
       const profileRes = await apiClient.get(`/users/${currentUserId}`);
       profile = profileRes.data;
-    } catch (err) {}
+    } catch (err) {
+      console.warn("Failed to fetch profile in handleSendMessage:", err);
+    }
     if (!isProfileComplete(profile)) {
       alert('Please complete your profile details (Name, Register No, Department, Year, Mobile Number) before sending a message.');
       navigate('/profile');
@@ -458,54 +462,69 @@ export const Inbox = () => {
     );
   }
 
+  const getOtherUserDisplay = () => {
+    if (!chatInfo) return { name: 'User', initial: 'U' };
+    const isBuyer = chatInfo.buyer_id === currentUserId;
+    const otherUser = isBuyer ? chatInfo.seller : chatInfo.buyer;
+    
+    const email = otherUser?.email || '';
+    const emailFallback = email ? email.split('@')[0] : 'User';
+    const name = otherUser?.name || emailFallback;
+    const initial = name ? name[0].toUpperCase() : 'U';
+    
+    return { name, initial };
+  };
+
+  const { name: otherUserName, initial: otherUserInitial } = getOtherUserDisplay();
+
   return (
-    <div className={`bg-[#f0f2f5] text-[var(--color-text-primary)] font-sans overflow-hidden flex flex-col relative ${chatId ? 'h-screen md:h-[calc(100vh-64px)]' : 'h-[calc(100vh-64px)]'}`}>
+    <div className={`bg-[var(--color-background)] text-[var(--color-text-primary)] font-sans overflow-hidden flex flex-col relative ${chatId ? 'h-screen md:h-[calc(100vh-64px)]' : 'h-[calc(100vh-64px)]'}`}>
       
-      {/* WhatsApp Split Layout Wrapper */}
-      <div className="flex flex-grow w-full h-full overflow-hidden shadow-2xl relative">
+      {/* Redesigned Dashboard Split Layout Wrapper */}
+      <div className="flex flex-grow w-full h-full overflow-hidden relative">
         
         {/* Left Column: Chats List panel */}
-        <aside className={`flex flex-col h-full bg-white border-r border-[#e9edef] ${chatId ? 'hidden md:flex md:w-[350px] lg:w-[410px] flex-shrink-0' : 'w-full md:w-[350px] lg:w-[410px] flex-shrink-0'}`}>
+        <aside className={`flex flex-col h-full bg-[var(--color-card)] border-r border-[var(--color-border)] ${chatId ? 'hidden md:flex md:w-[350px] lg:w-[410px] flex-shrink-0' : 'w-full md:w-[350px] lg:w-[410px] flex-shrink-0'}`}>
           
           {/* List panel Header */}
-          <div className="bg-[#f0f2f5] px-4 py-3 flex justify-between items-center h-[60px] border-b border-[#e9edef]">
+          <div className="bg-[var(--color-surface)] px-5 py-4 flex justify-between items-center h-16 border-b border-[var(--color-border)]">
             <div className="flex items-center gap-3">
-              <button onClick={() => navigate('/')} className="w-8 h-8 rounded-full flex items-center justify-center hover:bg-black/5 text-[var(--color-primary)] transition-all">
+              <button onClick={() => navigate('/')} className="w-8 h-8 rounded-xl flex items-center justify-center hover:bg-[var(--color-primary)]/10 text-[var(--color-primary)] transition-all">
                 <span className="material-symbols-outlined text-[20px]">arrow_back</span>
               </button>
               <h2 className="font-bold text-lg text-[var(--color-text-primary)] tracking-tight">Chats</h2>
             </div>
             <div className="flex items-center gap-2">
-              <button onClick={() => navigate('/')} title="Browse Listings" className="w-9 h-9 rounded-full flex items-center justify-center hover:bg-black/5 text-[#54656f]">
+              <button onClick={() => navigate('/')} title="Browse Listings" className="w-9 h-9 rounded-full flex items-center justify-center hover:bg-[var(--color-primary)]/10 text-[var(--color-text-secondary)] hover:text-[var(--color-primary)] transition-colors">
                 <span className="material-symbols-outlined text-[22px]">chat_add_on</span>
               </button>
-              <button onClick={() => setRefreshTrigger(p => p+1)} title="Refresh Chats" className="w-9 h-9 rounded-full flex items-center justify-center hover:bg-black/5 text-[#54656f]">
+              <button onClick={() => setRefreshTrigger(p => p+1)} title="Refresh Chats" className="w-9 h-9 rounded-full flex items-center justify-center hover:bg-[var(--color-primary)]/10 text-[var(--color-text-secondary)] hover:text-[var(--color-primary)] transition-colors">
                 <span className="material-symbols-outlined text-[22px]">sync</span>
               </button>
             </div>
           </div>
-
+ 
           {/* Search bar Container */}
-          <div className="bg-white p-2.5 border-b border-[#f0f2f5] flex items-center gap-2">
-            <div className="flex-grow bg-[#f0f2f5] rounded-lg px-3 py-1.5 flex items-center gap-3">
-              <span className="material-symbols-outlined text-[18px] text-[#667781] select-none">search</span>
+          <div className="bg-[var(--color-card)] p-3 border-b border-[var(--color-border)] flex items-center gap-2">
+            <div className="flex-grow bg-[var(--color-surface)] rounded-xl px-4 py-2 flex items-center gap-3 border border-[var(--color-border)] focus-within:ring-2 focus-within:ring-[var(--color-primary)]/30 focus-within:border-[var(--color-primary)] transition-all">
+              <span className="material-symbols-outlined text-[18px] text-[var(--color-text-secondary)] select-none">search</span>
               <input
                 type="text"
-                placeholder="Search by name or item title..."
+                placeholder="Search by name or item..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="bg-transparent border-none text-sm outline-none w-full text-[var(--color-text-primary)] placeholder-[#667781] p-0 focus:ring-0"
+                className="bg-transparent border-none text-sm outline-none w-full text-[var(--color-text-primary)] placeholder-[var(--color-text-secondary)]/50 p-0 focus:ring-0"
               />
               {searchQuery && (
-                <button onClick={() => setSearchQuery('')} className="text-[#667781] hover:text-black">
+                <button onClick={() => setSearchQuery('')} className="text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)]">
                   <span className="material-symbols-outlined text-[16px]">close</span>
                 </button>
               )}
             </div>
           </div>
-
-          {/* WhatsApp filters */}
-          <div className="px-3 py-2 border-b border-[#f0f2f5] flex gap-1.5 overflow-x-auto select-none no-scrollbar">
+ 
+          {/* Filter tabs */}
+          <div className="px-4 py-3 bg-[var(--color-card)] border-b border-[var(--color-border)] flex gap-2 overflow-x-auto select-none no-scrollbar">
             {[
               { id: 'all', label: 'All' },
               { id: 'unread', label: 'Unread' },
@@ -515,19 +534,19 @@ export const Inbox = () => {
               <button
                 key={tab.id}
                 onClick={() => setFilter(tab.id)}
-                className={`px-3.5 py-1 rounded-full text-xs font-bold transition-all border whitespace-nowrap ${
+                className={`px-4 py-1.5 rounded-full text-xs font-bold transition-all border whitespace-nowrap ${
                   filter === tab.id
-                    ? 'bg-[#e7f8f2] text-[var(--color-primary)] border-[var(--color-primary)]'
-                    : 'bg-[#f0f2f5] text-[#54656f] border-[#f0f2f5] hover:bg-[#e9edef]'
+                    ? 'bg-[var(--color-primary-dark)] text-white border-[var(--color-primary-dark)] shadow-sm'
+                    : 'bg-[var(--color-surface)] text-[var(--color-text-secondary)] border-[var(--color-border)] hover:bg-[var(--color-surface)]/80 hover:text-[var(--color-text-primary)]'
                 }`}
               >
                 {tab.label}
               </button>
             ))}
           </div>
-
+ 
           {/* Scrollable list items */}
-          <div className="flex-1 overflow-y-auto bg-white scroll-smooth">
+          <div className="flex-1 overflow-y-auto bg-[var(--color-card)] scroll-smooth">
             {filteredChats.length === 0 ? (
               <div className="py-12 px-6 text-center text-[var(--color-text-secondary)]">
                 <span className="material-symbols-outlined text-[48px] opacity-35 mb-2">chat_bubble</span>
@@ -562,17 +581,14 @@ export const Inbox = () => {
                 }
                 const isUnread = unreadCount > 0;
                 const isMe = latestMessage && latestMessage.sender_id === currentUserId;
-                
-                // Heuristic: if the latest message was sent by me and it's older than 2 minutes, or we have a read receipt, mark it read
-                const isRead = latestMessage && isMe && (new Date(latestMessage.created_at).getTime() < lastRead || Date.now() - new Date(latestMessage.created_at).getTime() > 120000);
-                
+                const isRead = latestMessage && isMe && (new Date(latestMessage.created_at).getTime() < lastRead || nowTime - new Date(latestMessage.created_at).getTime() > 120000);
                 const isActiveChat = chat.id === chatId;
-
+ 
                 return (
                   <div
                     key={chat.id}
                     onClick={() => navigate(`/chat/${chat.id}`)}
-                    className={`flex items-center gap-3.5 px-4 py-3.5 border-b border-[#f0f2f5] cursor-pointer transition-all select-none relative hover:bg-[#f0f2f5] ${isActiveChat ? 'bg-[#eae6df]/45 hover:bg-[#eae6df]/60' : ''}`}
+                    className={`flex items-center gap-4 px-5 py-4 border-b border-[var(--color-border)] cursor-pointer transition-all duration-200 select-none relative hover:bg-[var(--color-surface)]/50 ${isActiveChat ? 'bg-[var(--color-surface)] hover:bg-[var(--color-surface)]' : ''}`}
                   >
                     {/* User initial avatar circle */}
                     <div className={`w-12 h-12 rounded-full flex-shrink-0 bg-gradient-to-br ${getAvatarBg(otherName)} text-white font-extrabold text-lg flex items-center justify-center shadow-inner border border-black/5`}>
@@ -582,31 +598,31 @@ export const Inbox = () => {
                     <div className="flex-grow min-w-0">
                       <div className="flex justify-between items-baseline mb-1">
                         <span className="font-bold text-sm text-[var(--color-text-primary)] truncate">{otherName}</span>
-                        <span className={`text-[10px] font-bold ${isUnread ? 'text-[var(--color-primary)] font-black' : 'text-[#667781]'}`}>{timestamp}</span>
+                        <span className={`text-[10px] font-bold ${isUnread ? 'text-[var(--color-primary)]' : 'text-[var(--color-text-secondary)]'}`}>{timestamp}</span>
                       </div>
                       
                       {/* Product details indicator context */}
-                      <div className="flex items-center gap-1.5 mb-1">
-                        <span className="px-1.5 py-0.5 rounded bg-[var(--color-primary)]/10 text-[var(--color-primary)] text-[9px] font-black uppercase tracking-wider scale-95 origin-left">
+                      <div className="flex items-center gap-2 mb-1.5">
+                        <span className={`px-2 py-0.5 rounded-md text-[9px] font-black uppercase tracking-wider ${isBuyer ? 'bg-[var(--color-primary)]/10 text-[var(--color-primary)]' : 'bg-[var(--color-accent-light)]/20 text-[var(--color-primary-dark)] border border-[var(--color-accent-light)]/30'}`}>
                           {isBuyer ? 'Buying' : 'Selling'}
                         </span>
-                        <span className="text-[11px] font-semibold text-[#667781] truncate">{productTitle}</span>
+                        <span className="text-[11px] font-semibold text-[var(--color-text-secondary)] truncate">{productTitle}</span>
                       </div>
                       
                       {/* Snippet text */}
-                      <p className={`text-xs truncate flex items-center ${isUnread ? 'text-[var(--color-text-primary)] font-black' : 'text-[#667781] font-medium'}`}>
+                      <p className={`text-xs truncate flex items-center ${isUnread ? 'text-[var(--color-text-primary)] font-bold' : 'text-[var(--color-text-secondary)]'}`}>
                         {isMe && (
-                          <span className={`material-symbols-outlined text-[15px] mr-1 select-none flex-shrink-0 ${isRead ? 'text-[#53bdeb]' : 'text-gray-400'}`}>
+                          <span className={`material-symbols-outlined text-[15px] mr-1 select-none flex-shrink-0 ${isRead ? 'text-[var(--color-primary)]' : 'text-gray-400'}`}>
                             done_all
                           </span>
                         )}
                         <span className="truncate">{snippet}</span>
                       </p>
                     </div>
-
-                    {/* Unread badge / right chevron */}
+ 
+                    {/* Unread badge */}
                     {isUnread && (
-                      <div className="absolute right-4 bottom-3 w-5 h-5 flex items-center justify-center bg-[var(--color-primary)] text-white rounded-full text-[10px] font-bold shadow-sm scale-95">
+                      <div className="absolute right-5 bottom-4 w-5 h-5 flex items-center justify-center bg-[var(--color-primary)] text-white rounded-full text-[10px] font-bold shadow-sm">
                         {unreadCount}
                       </div>
                     )}
@@ -616,31 +632,31 @@ export const Inbox = () => {
             )}
           </div>
         </aside>
-
+ 
         {/* Right Column: Chat Window or Placeholder Empty State */}
-        <main className={`flex flex-col h-full bg-[#efeae2] relative ${chatId ? 'flex-grow min-w-0' : 'hidden md:flex md:flex-grow md:items-center md:justify-center'}`}>
+        <main className={`flex flex-col h-full bg-gradient-to-b from-[var(--color-background)] to-[var(--color-surface)] relative ${chatId ? 'flex-grow min-w-0' : 'hidden md:flex md:flex-grow md:items-center md:justify-center'}`}>
           
           {chatId ? (
             // ACTIVE CONVERSATION CONTAINER
             <div className="flex flex-col h-full w-full relative">
               
-              {/* Active Chat Header */}
-              <header className="bg-[#f0f2f5] px-4 py-2 border-b border-[#e9edef] h-[60px] flex justify-between items-center z-30 shadow-sm">
+              {/* Redesigned Active Chat Header */}
+              <header className="bg-[var(--color-surface)] px-5 py-3 border-b border-[var(--color-border)] h-16 flex justify-between items-center z-30 shadow-sm">
                 
                 {/* Contact information */}
                 <div className="flex items-center gap-3 min-w-0">
-                  <button onClick={() => navigate('/inbox')} className="md:hidden w-8 h-8 rounded-full flex items-center justify-center hover:bg-black/5 text-[#54656f]">
+                  <button onClick={() => navigate('/inbox')} className="md:hidden w-8 h-8 rounded-xl flex items-center justify-center hover:bg-black/5 text-[var(--color-text-secondary)]">
                     <span className="material-symbols-outlined">arrow_back</span>
                   </button>
                   
                   {chatInfo && (
                     <Link to={`/user/${chatInfo.buyer_id === currentUserId ? chatInfo.seller_id : chatInfo.buyer_id}`} className="flex items-center gap-3 min-w-0 hover:opacity-85 transition-opacity">
-                      <div className={`w-10 h-10 rounded-full flex-shrink-0 bg-gradient-to-br ${getAvatarBg(chatInfo.buyer_id === currentUserId ? chatInfo.seller?.name : chatInfo.buyer?.name)} text-white font-extrabold text-base flex items-center justify-center border border-black/5 shadow-inner`}>
-                        {(chatInfo.buyer_id === currentUserId ? (chatInfo.seller?.name || chatInfo.seller?.email) : (chatInfo.buyer?.name || chatInfo.buyer?.email))[0].toUpperCase()}
+                      <div className={`w-10 h-10 rounded-full flex-shrink-0 bg-gradient-to-br ${getAvatarBg(otherUserName)} text-white font-extrabold text-base flex items-center justify-center border border-black/5 shadow-inner`}>
+                        {otherUserInitial}
                       </div>
                       <div className="flex flex-col min-w-0">
                         <span className="font-bold text-sm text-[var(--color-text-primary)] truncate">
-                          {chatInfo.buyer_id === currentUserId ? (chatInfo.seller?.name || chatInfo.seller?.email.split('@')[0]) : (chatInfo.buyer?.name || chatInfo.buyer?.email.split('@')[0])}
+                          {otherUserName}
                         </span>
                         <span className="text-[10px] font-bold text-[var(--color-success)] flex items-center gap-1">
                           <span className="w-1.5 h-1.5 rounded-full bg-[var(--color-success)] animate-pulse"></span> Active now
@@ -649,15 +665,27 @@ export const Inbox = () => {
                     </Link>
                   )}
                 </div>
-
-                {/* Listing preview & More actions dropdown */}
+ 
+                {/* Redesigned mini product preview card */}
                 <div className="flex items-center gap-3">
                   {chatInfo?.components && (
-                    <div className="hidden lg:flex items-center gap-2 bg-white px-3 py-1 rounded-full border border-[#e9edef] shadow-inner select-none hover:bg-gray-50 transition-colors">
-                      <span className="material-symbols-outlined text-[16px] text-[var(--color-primary)]">shopping_bag</span>
-                      <span className="text-[11px] font-black text-[#54656f] truncate max-w-[120px]">{chatInfo.components.title}</span>
-                      <span className="text-[11px] font-black text-[var(--color-primary)]">₹{chatInfo.components.price}</span>
-                      <Link to={`/product/${chatInfo.component_id}`} className="text-[10px] font-black text-white bg-[var(--color-primary)] px-2 py-0.5 rounded-full hover:opacity-90 ml-1">
+                    <div className="hidden sm:flex items-center gap-3 bg-[var(--color-card)] px-4 py-1.5 rounded-2xl border border-[var(--color-border)] shadow-sm select-none hover:border-[var(--color-primary)] transition-all">
+                      {chatInfo.components.image_url ? (
+                        <img 
+                          src={chatInfo.components.image_url} 
+                          alt={chatInfo.components.title} 
+                          className="w-8 h-8 rounded-lg object-cover border border-[var(--color-border)]"
+                        />
+                      ) : (
+                        <div className="w-8 h-8 rounded-lg bg-[var(--color-surface)] flex items-center justify-center text-[var(--color-primary)]">
+                          <span className="material-symbols-outlined text-base">memory</span>
+                        </div>
+                      )}
+                      <div className="flex flex-col min-w-0">
+                        <span className="text-xs font-bold text-[var(--color-text-primary)] truncate max-w-[150px]">{chatInfo.components.title}</span>
+                        <span className="text-[11px] font-black text-[var(--color-primary)]">₹{chatInfo.components.price}</span>
+                      </div>
+                      <Link to={`/product/${chatInfo.component_id}`} className="text-[10px] font-black text-white bg-[var(--color-primary)] px-3 py-1 rounded-xl hover:bg-[var(--color-primary-hover)] active:scale-95 transition-all ml-1">
                         View
                       </Link>
                     </div>
@@ -665,49 +693,50 @@ export const Inbox = () => {
                   
                   {/* Option Dropdown Trigger */}
                   <div className="relative">
-                    <button onClick={() => setShowMenu(!showMenu)} className="w-9 h-9 rounded-full flex items-center justify-center hover:bg-black/5 text-[#54656f]">
+                    <button onClick={() => setShowMenu(!showMenu)} className="w-9 h-9 rounded-full flex items-center justify-center hover:bg-[var(--color-primary)]/10 text-[var(--color-text-secondary)] hover:text-[var(--color-primary)] transition-colors">
                       <span className="material-symbols-outlined text-[22px]">more_vert</span>
                     </button>
                     {showMenu && (
-                      <div className="absolute right-0 top-full mt-1.5 w-48 bg-white rounded-lg shadow-xl border border-[#e9edef] z-50 overflow-hidden py-1 animate-in fade-in slide-in-from-top-2 duration-150">
+                      <div className="absolute right-0 top-full mt-1.5 w-48 bg-white rounded-lg shadow-xl border border-[var(--color-border)] z-50 overflow-hidden py-1 animate-in fade-in slide-in-from-top-2 duration-150">
                         {chatInfo?.component_id && (
-                          <Link to={`/product/${chatInfo.component_id}`} className="lg:hidden w-full text-left px-4 py-2.5 text-xs font-bold text-[var(--color-text-primary)] hover:bg-[#f0f2f5] transition-colors flex items-center gap-2 border-b border-[#e9edef]">
-                            <span className="material-symbols-outlined text-[16px] text-[#54656f]">shopping_bag</span> View Listing Details
+                          <Link to={`/product/${chatInfo.component_id}`} className="sm:hidden w-full text-left px-4 py-2.5 text-xs font-bold text-[var(--color-text-primary)] hover:bg-[var(--color-surface)] transition-colors flex items-center gap-2 border-b border-[var(--color-border)]">
+                            <span className="material-symbols-outlined text-[16px] text-[var(--color-text-secondary)]">shopping_bag</span> View Listing Details
                           </Link>
                         )}
-                        <button onClick={handleDownloadChat} className="w-full text-left px-4 py-2.5 text-xs font-bold text-[var(--color-text-primary)] hover:bg-[#f0f2f5] transition-colors flex items-center gap-2">
-                          <span className="material-symbols-outlined text-[16px] text-[#54656f]">download</span> Download Chat History
+                        <button onClick={handleDownloadChat} className="w-full text-left px-4 py-2.5 text-xs font-bold text-[var(--color-text-primary)] hover:bg-[var(--color-surface)] transition-colors flex items-center gap-2">
+                          <span className="material-symbols-outlined text-[16px] text-[var(--color-text-secondary)]">download</span> Download Chat History
                         </button>
                       </div>
                     )}
                   </div>
                 </div>
               </header>
-
-              {/* Sticky Info Alert */}
-              <div className="bg-[#e7f8f2] text-[var(--color-primary)] py-1.5 px-4 flex items-center justify-center gap-2 text-[10px] font-black tracking-wider uppercase border-b border-[#e9edef] shadow-inner select-none">
-                <span className="material-symbols-outlined text-sm">security</span>
+ 
+              {/* Refreshed Sticky Info Alert */}
+              <div className="bg-[var(--color-primary)]/10 text-[var(--color-primary-dark)] py-2 px-4 flex items-center justify-center gap-2 text-[10px] font-bold tracking-wider uppercase border-b border-[var(--color-border)] shadow-inner select-none">
+                <span className="material-symbols-outlined text-base">verified_user</span>
                 <span>Security Notice: Meet in safe campus zones. Chats expire in 15 days.</span>
               </div>
-
-              {/* Chat messages list wrapper */}
+ 
+              {/* Chat messages list wrapper with subtle geometric pattern */}
               <div 
                 ref={chatThreadRef}
-                className="flex-1 w-full overflow-y-auto px-4 md:px-8 py-4 space-y-3 bg-[#efeae2] relative"
+                className="flex-1 w-full overflow-y-auto px-4 md:px-8 py-6 space-y-4 bg-[var(--color-background)] relative"
                 style={{
-                  backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'%3E%3Cg fill='%239C92AC' fill-opacity='0.04'%3E%3Cpath fill-rule='evenodd' d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm1-61c3.148 0 5.7-2.552 5.7-5.7 0-3.148-2.552-5.7-5.7-5.7-3.148 0-5.7 2.552-5.7 5.7 0 3.148 2.552 5.7 5.7 5.7zm10 50c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm-20-8c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4z'/%3E%3C/g%3E%3C/svg%3E")`
+                  backgroundImage: `radial-gradient(var(--color-border) 1px, transparent 1px)`,
+                  backgroundSize: '24px 24px'
                 }}
               >
                 {messagesLoading ? (
-                  <div className="h-full w-full flex flex-col justify-center items-center text-[#667781] gap-2">
+                  <div className="h-full w-full flex flex-col justify-center items-center text-[var(--color-text-secondary)] gap-2">
                     <span className="material-symbols-outlined animate-spin text-[24px] text-[var(--color-primary)]">progress_activity</span>
                     <span className="text-xs font-semibold">Retrieving message log...</span>
                   </div>
                 ) : messages.length === 0 ? (
-                  <div className="h-full w-full flex flex-col justify-center items-center text-[#667781] select-none text-center p-8 py-24">
+                  <div className="h-full w-full flex flex-col justify-center items-center text-[var(--color-text-secondary)] select-none text-center p-8 py-24">
                     <div className="w-[260px] md:w-[320px] flex flex-col items-center">
-                      <span className="material-symbols-outlined text-[48px] opacity-25 mb-3">chat</span>
-                      <p className="font-semibold text-sm mb-1">No messages yet</p>
+                      <span className="material-symbols-outlined text-[48px] opacity-25 mb-3 text-[var(--color-primary)]">chat</span>
+                      <p className="font-bold text-sm mb-1">No messages yet</p>
                       <p className="text-xs leading-relaxed opacity-75">
                         Send a message to introduce yourself and start discussing this listing details!
                       </p>
@@ -722,16 +751,15 @@ export const Inbox = () => {
                     const currentMsgDate = getDayLabel(msg.created_at);
                     const prevMsgDate = index > 0 ? getDayLabel(messages[index - 1].created_at) : null;
                     const showDateSeparator = currentMsgDate !== prevMsgDate;
-
+ 
                     const lastRead = readReceipts[chatId] || 0;
-                    // Heuristic: if the message was sent by me and it's older than 2 minutes, or we have a read receipt, mark it read
-                    const isRead = isMe && (new Date(msg.created_at).getTime() < lastRead || Date.now() - new Date(msg.created_at).getTime() > 120000);
-
+                    const isRead = isMe && (new Date(msg.created_at).getTime() < lastRead || nowTime - new Date(msg.created_at).getTime() > 120000);
+ 
                     return (
                       <React.Fragment key={msg.id}>
                         {showDateSeparator && (
                           <div className="flex justify-center my-4 select-none">
-                            <span className="bg-white/90 text-[#54656f] text-[10px] font-black px-3.5 py-1 rounded-lg border border-[#e9edef] shadow-sm uppercase tracking-wider">
+                            <span className="bg-[var(--color-surface)] text-[var(--color-text-secondary)] text-[10px] font-black px-3.5 py-1 rounded-lg border border-[var(--color-border)] shadow-sm uppercase tracking-wider">
                               {currentMsgDate}
                             </span>
                           </div>
@@ -740,22 +768,22 @@ export const Inbox = () => {
                         <div className={`flex ${isMe ? 'justify-end' : 'justify-start'} w-full`}>
                           <div className="max-w-[85%] md:max-w-[70%] relative group">
                             
-                            {/* Speech bubble */}
+                            {/* Modern redesigned speech bubble */}
                             <div 
-                              className={`p-3 rounded-xl shadow-[0_1px_0.5px_rgba(11,20,26,.13)] text-[14px] leading-relaxed relative ${
+                              className={`p-4 rounded-[20px] shadow-[0_2px_4px_rgba(0,0,0,0.02)] text-[14px] leading-relaxed relative ${
                                 isMe 
-                                  ? 'bg-[#d9fdd3] text-[#111b21] rounded-tr-none' 
-                                  : 'bg-white text-[#111b21] rounded-tl-none border border-[#e9edef]'
+                                  ? 'bg-[var(--color-primary-dark)] text-[var(--color-text-inverse)] rounded-tr-none' 
+                                  : 'bg-[var(--color-card)] text-[var(--color-text-primary)] rounded-tl-none border border-[var(--color-border)]'
                               }`}
                               style={{ 
                                 wordBreak: 'break-word',
-                                paddingBottom: '22px', 
+                                paddingBottom: '24px', 
                                 paddingRight: '48px' 
                               }}
                             >
                               {/* Content check if image url */}
                               {msg.content.startsWith('http') && (msg.content.includes('r2.dev') || msg.content.includes('r2.cloudflarestorage.com') || msg.content.includes('cloudinary')) ? (
-                                <div className="rounded-lg overflow-hidden border border-black/5 bg-black/5 mb-1 max-w-full">
+                                <div className="rounded-lg overflow-hidden border border-[var(--color-border)] bg-black/5 mb-1 max-w-full">
                                   <img 
                                     src={getPremiumImageUrl(msg.content)} 
                                     alt="Chat attachment" 
@@ -764,21 +792,19 @@ export const Inbox = () => {
                                   />
                                 </div>
                               ) : (
-                                <p className="font-medium whitespace-pre-wrap">{msg.content}</p>
+                                <p className="font-semibold whitespace-pre-wrap">{msg.content}</p>
                               )}
                               
                               {/* Bubble metadata bottom right */}
-                              <div className="absolute bottom-1 right-2.5 flex items-center gap-1 select-none">
-                                <span className="text-[9px] text-[#667781] font-semibold">{timeStr}</span>
+                              <div className="absolute bottom-1 right-3 flex items-center gap-1 select-none">
+                                <span className={`text-[9px] font-semibold ${isMe ? 'text-white/75' : 'text-[var(--color-text-secondary)]'}`}>{timeStr}</span>
                                 {isMe && (
-                                  <span className={`material-symbols-outlined text-[15px] leading-none ${isRead ? 'text-[#53bdeb]' : 'text-gray-400'}`}>
+                                  <span className={`material-symbols-outlined text-[15px] leading-none ${isRead ? 'text-[var(--color-accent-light)]' : 'text-white/40'}`}>
                                     done_all
                                   </span>
                                 )}
                               </div>
-
                             </div>
-
                           </div>
                         </div>
                       </React.Fragment>
@@ -787,14 +813,14 @@ export const Inbox = () => {
                 )}
                 <div ref={messagesEndRef} />
               </div>
-
-              {/* WhatsApp bottom message input footer */}
-              <footer className="bg-[#f0f2f5] border-t border-[#e9edef] px-4 pt-3 pb-3 md:pb-7 flex items-center gap-3 relative z-20">
+ 
+              {/* Redesigned modern bottom message input footer */}
+              <footer className="bg-[var(--color-surface)] border-t border-[var(--color-border)] px-4 py-4 md:px-6 md:pb-8 flex items-center gap-3 relative z-20 shadow-md">
                 {/* Emoji toggle & file attachments */}
                 <div className="flex items-center gap-1 flex-shrink-0">
                   <button 
                     onClick={() => setShowEmojiPicker(!showEmojiPicker)} 
-                    className={`w-9 h-9 rounded-full flex items-center justify-center hover:bg-black/5 transition-colors ${showEmojiPicker ? 'text-[var(--color-primary)]' : 'text-[#54656f]'}`}
+                    className={`w-10 h-10 rounded-full flex items-center justify-center hover:bg-[var(--color-primary)]/10 transition-colors ${showEmojiPicker ? 'text-[var(--color-primary)]' : 'text-[var(--color-text-secondary)] hover:text-[var(--color-primary)]'}`}
                     title="Emojis"
                   >
                     <span className="material-symbols-outlined text-[24px]">sentiment_satisfied</span>
@@ -802,7 +828,7 @@ export const Inbox = () => {
                   <button 
                     onClick={() => fileInputRef.current.click()} 
                     disabled={uploadingImage} 
-                    className="w-9 h-9 rounded-full flex items-center justify-center hover:bg-black/5 text-[#54656f] disabled:opacity-50 transition-colors"
+                    className="w-10 h-10 rounded-full flex items-center justify-center hover:bg-[var(--color-primary)]/10 text-[var(--color-text-secondary)] hover:text-[var(--color-primary)] disabled:opacity-50 transition-colors"
                     title="Attach Image"
                   >
                     <span className="material-symbols-outlined text-[24px]">{uploadingImage ? 'hourglass_empty' : 'add'}</span>
@@ -826,53 +852,52 @@ export const Inbox = () => {
                     onKeyDown={(e) => {
                       if (e.key === 'Enter') handleSendMessage();
                     }}
-                    className="w-full bg-white border border-none rounded-full px-5 py-2 text-sm outline-none text-[var(--color-text-primary)] placeholder-[#667781] focus:ring-0 shadow-[0_1px_1px_rgba(0,0,0,0.04)]"
+                    className="w-full bg-[var(--color-card)] border border-[var(--color-border)] rounded-full px-6 py-3 text-sm outline-none text-[var(--color-text-primary)] placeholder-[var(--color-text-secondary)]/50 focus:border-[var(--color-primary)] focus:ring-2 focus:ring-[var(--color-primary)]/20 transition-all shadow-inner"
                   />
                   {showEmojiPicker && (
-                    <div className="absolute bottom-[calc(100%+14px)] left-0 shadow-2xl rounded-xl overflow-hidden border border-[#e9edef] z-50">
+                    <div className="absolute bottom-[calc(100%+14px)] left-0 shadow-2xl rounded-xl overflow-hidden border border-[var(--color-border)] z-50">
                       <EmojiPicker onEmojiClick={onEmojiClick} />
                     </div>
                   )}
                 </div>
-
+ 
                 {/* Send Button or Mic button */}
                 <div className="flex-shrink-0">
                   {newMessage.trim() ? (
                     <button 
                       onClick={handleSendMessage} 
-                      className="w-9 h-9 rounded-full bg-[var(--color-primary)] text-white hover:opacity-90 flex items-center justify-center shadow-md active:scale-95 transition-all"
+                      className="w-10 h-10 rounded-full bg-[var(--color-primary-dark)] text-white hover:bg-[var(--color-primary)] flex items-center justify-center shadow-md active:scale-90 transition-all duration-150"
                     >
                       <span className="material-symbols-outlined text-[20px]">send</span>
                     </button>
                   ) : (
                     <button 
                       onClick={() => alert('Voice notes coming soon!')}
-                      className="w-9 h-9 rounded-full flex items-center justify-center hover:bg-black/5 text-[#54656f]"
+                      className="w-10 h-10 rounded-full flex items-center justify-center hover:bg-[var(--color-primary)]/10 text-[var(--color-text-secondary)] hover:text-[var(--color-primary)] transition-colors"
                       title="Voice Message"
                     >
                       <span className="material-symbols-outlined text-[22px]">mic</span>
                     </button>
                   )}
                 </div>
-
               </footer>
-
+ 
             </div>
           ) : (
             // DEFAULT EMPTY/UNSELECTED STATE LAYOUT
-            <div className="h-full w-full bg-[#f8f9fa] flex flex-col justify-center items-center text-center p-8 select-none border-l border-[#e9edef]">
+            <div className="h-full w-full bg-[var(--color-surface)] flex flex-col justify-center items-center text-center p-8 select-none border-l border-[var(--color-border)]">
               <div className="w-[280px] md:w-[320px] max-w-full flex flex-col items-center justify-center">
                 {/* Decorative icon wrapper */}
-                <div className="w-24 h-24 rounded-full bg-[#e7f8f2] text-[var(--color-primary)] flex items-center justify-center mb-6 shadow-sm border border-emerald-100">
+                <div className="w-24 h-24 rounded-full bg-[var(--color-primary)]/10 text-[var(--color-primary)] flex items-center justify-center mb-6 shadow-sm border border-[var(--color-primary)]/20">
                   <span className="material-symbols-outlined text-[48px] animate-pulse">forum</span>
                 </div>
                 <h3 className="text-xl font-bold text-[var(--color-text-primary)] mb-2.5">MakerMarT Inbox</h3>
-                <p className="text-xs text-[#667781] leading-relaxed mb-6 font-medium">
+                <p className="text-xs text-[var(--color-text-secondary)] leading-relaxed mb-6 font-medium">
                   Select a chat conversation from the list to start messaging. Discuss component listings, align prices, and negotiate secure on-campus deliveries instantly.
                 </p>
-                <div className="flex items-center gap-1.5 justify-center py-1 bg-[#efeae2]/50 px-4 rounded-full border border-gray-100">
-                  <span className="material-symbols-outlined text-[14px] text-[#667781]">lock</span>
-                  <span className="text-[10px] text-[#667781] font-bold uppercase tracking-wider">Secure On-Campus Messaging</span>
+                <div className="flex items-center gap-1.5 justify-center py-1.5 bg-[var(--color-background)] px-4 rounded-full border border-[var(--color-border)]">
+                  <span className="material-symbols-outlined text-[14px] text-[var(--color-text-secondary)]">lock</span>
+                  <span className="text-[10px] text-[var(--color-text-secondary)] font-bold uppercase tracking-wider">Secure On-Campus Messaging</span>
                 </div>
               </div>
             </div>

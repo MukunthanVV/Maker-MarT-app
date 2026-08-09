@@ -10,8 +10,8 @@ export const getChatsForUser = async (userId) => {
         },
         include: {
             component: { select: { id: true, title: true, image_url: true } },
-            buyer: { select: { id: true, name: true, avatar_url: true } },
-            seller: { select: { id: true, name: true, avatar_url: true } },
+            buyer: { select: { id: true, name: true, email: true, avatar_url: true } },
+            seller: { select: { id: true, name: true, email: true, avatar_url: true } },
             messages: {
                 orderBy: { createdAt: 'desc' }
             }
@@ -31,8 +31,8 @@ export const getChatById = async (chatId, userId) => {
         },
         include: {
             component: { select: { id: true, title: true, image_url: true, price: true } },
-            buyer: { select: { id: true, name: true, avatar_url: true } },
-            seller: { select: { id: true, name: true, avatar_url: true } },
+            buyer: { select: { id: true, name: true, email: true, avatar_url: true } },
+            seller: { select: { id: true, name: true, email: true, avatar_url: true } },
         }
     });
 };

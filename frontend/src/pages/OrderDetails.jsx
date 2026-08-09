@@ -10,37 +10,37 @@ export const OrderDetails = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetchOrderDetails();
-  }, [id]);
-
-  const fetchOrderDetails = async () => {
-    try {
-      const { data: { session } } = await supabase.auth.getSession();
-      if (!session) {
-        navigate('/login');
-        return;
-      }
-
-      const res = await fetch(`http://localhost:5000/api/orders/${id}`, {
-        headers: {
-          'Authorization': `Bearer ${session.access_token}`
+    const fetchOrderDetails = async () => {
+      try {
+        const { data: { session } } = await supabase.auth.getSession();
+        if (!session) {
+          navigate('/login');
+          return;
         }
-      });
-      
-      if (!res.ok) {
-        if (res.status === 403) throw new Error('You do not have permission to view this order.');
-        throw new Error('Failed to fetch order details.');
+
+        const res = await fetch(`http://localhost:5000/api/orders/${id}`, {
+          headers: {
+            'Authorization': `Bearer ${session.access_token}`
+          }
+        });
+        
+        if (!res.ok) {
+          if (res.status === 403) throw new Error('You do not have permission to view this order.');
+          throw new Error('Failed to fetch order details.');
+        }
+        
+        const data = await res.json();
+        setOrder(data);
+      } catch (err) {
+        console.error(err);
+        setError(err.message);
+      } finally {
+        setLoading(false);
       }
-      
-      const data = await res.json();
-      setOrder(data);
-    } catch (err) {
-      console.error(err);
-      setError(err.message);
-    } finally {
-      setLoading(false);
-    }
-  };
+    };
+
+    fetchOrderDetails();
+  }, [id, navigate]);
 
   if (loading) {
     return (
@@ -61,11 +61,7 @@ export const OrderDetails = () => {
     );
   }
 
-  const timelineSteps = ['Pending', 'Confirmed', 'Packed', 'Shipped', 'Out for Delivery', 'Delivered'];
   const isCancelled = order.order_status === 'Cancelled';
-  let currentStepIndex = timelineSteps.indexOf(order.order_status);
-  
-  if (currentStepIndex === -1 && !isCancelled) currentStepIndex = 0; // Fallback
 
   return (
     <div className="bg-[var(--color-background)] min-h-screen pb-24 font-sans text-[var(--color-text-primary)]">
@@ -92,36 +88,10 @@ export const OrderDetails = () => {
             </span>
           ) : (
             <span className="px-4 py-2 bg-[var(--color-primary)]/10 text-[var(--color-primary)] border border-[var(--color-primary)]/20 rounded-xl font-bold flex items-center gap-2 shadow-sm">
-              <span className="material-symbols-outlined">local_shipping</span> {order.order_status}
+              <span className="material-symbols-outlined">handshake</span> {order.order_status}
             </span>
           )}
         </div>
-
-        {/* Timeline */}
-        {!isCancelled && (
-          <div className="card-standard p-6 overflow-x-auto">
-            <h3 className="text-h3 mb-6">Tracking Timeline</h3>
-            <div className="flex items-center min-w-[600px] px-4">
-              {timelineSteps.map((step, index) => {
-                const isActive = index <= currentStepIndex;
-                const isLast = index === timelineSteps.length - 1;
-                return (
-                  <React.Fragment key={step}>
-                    <div className="flex flex-col items-center relative z-10 w-24">
-                      <div className={`w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm transition-colors ${isActive ? 'bg-[var(--color-primary)] text-white shadow-md' : 'bg-[var(--color-background)] text-[var(--color-text-secondary)] border border-[var(--color-border)]'}`}>
-                        {isActive ? <span className="material-symbols-outlined text-[16px]">check</span> : index + 1}
-                      </div>
-                      <span className={`text-xs font-bold mt-2 text-center ${isActive ? 'text-[var(--color-text-primary)]' : 'text-[var(--color-text-secondary)]'}`}>{step}</span>
-                    </div>
-                    {!isLast && (
-                      <div className={`flex-1 h-1 -mx-8 z-0 ${index < currentStepIndex ? 'bg-[var(--color-primary)]' : 'bg-[var(--color-border)]'}`}></div>
-                    )}
-                  </React.Fragment>
-                );
-              })}
-            </div>
-          </div>
-        )}
 
         {/* Two Column Layout for Details */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -142,7 +112,7 @@ export const OrderDetails = () => {
             </div>
 
             <div className="card-standard p-6">
-              <h3 className="text-h3 mb-4">Delivery Address</h3>
+              <h3 className="text-h3 mb-4">Meetup / Delivery Spot</h3>
               <div className="flex gap-3 text-[var(--color-text-secondary)]">
                 <span className="material-symbols-outlined mt-0.5">location_on</span>
                 <p className="whitespace-pre-wrap leading-relaxed font-semibold">{order.delivery_address || 'No address provided.'}</p>
