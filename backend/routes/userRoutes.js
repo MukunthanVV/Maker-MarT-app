@@ -10,5 +10,6 @@ router.post('/upsert', authMiddleware, UserController.upsertUser);
 router.put('/:id', authMiddleware, UserController.updateUser);
 router.post('/:id/request-edit', authMiddleware, UserController.requestEditAccess);
 router.post('/:id/approve-edit', authMiddleware, UserController.approveEditAccess);
+router.post('/:id/reject-edit', authMiddleware, UserController.rejectEditAccess);
 
 export default router;

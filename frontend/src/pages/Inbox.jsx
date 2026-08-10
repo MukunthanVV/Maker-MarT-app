@@ -291,7 +291,12 @@ export const Inbox = () => {
       console.warn("Failed to fetch profile in handleSendMessage:", err);
     }
     if (!isProfileComplete(profile)) {
-      alert('Please complete your profile details (Name, Register No, Department, Year, Mobile Number) before sending a message.');
+      alert('Please complete your profile details (Name, Register No, Department, Year, Mobile Number) and save them for verification before sending a message.');
+      navigate('/profile');
+      return;
+    }
+    if (!profile.is_profile_verified) {
+      alert('Your profile details are pending admin verification. You can only chat once verified.');
       navigate('/profile');
       return;
     }

@@ -3,6 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { BottomNav } from '../components/BottomNav';
 import { PRODUCTS } from '../data/products';
 import apiClient from '../api/client';
+import { supabase } from '../supabaseClient';
 
 export const ComponentDetails = () => {
   const { id } = useParams();
@@ -242,7 +243,10 @@ export const ComponentDetails = () => {
                     </div>
                   </div>
                 </div>
-                <button className="btn-outline w-full sm:w-auto">
+                <button 
+                  onClick={() => navigate(`/user/${DUMMY_PRODUCT.seller.id}`)}
+                  className="btn-outline w-full sm:w-auto"
+                >
                   View Profile
                 </button>
               </div>
@@ -250,12 +254,50 @@ export const ComponentDetails = () => {
               {/* Action Buttons */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-4">
                 {DUMMY_PRODUCT.isAuction ? (
-                  <button className="btn-auction col-span-1 sm:col-span-2 py-4 text-lg">
+                  <button 
+                    onClick={async () => {
+                      const { data: { user } } = await supabase.auth.getUser();
+                      if (!user) {
+                        alert("Please log in to join the auction.");
+                        return;
+                      }
+                      try {
+                        const { data: profile } = await apiClient.get(`/users/${user.id}`);
+                        if (!profile.is_profile_verified) {
+                          alert("Your profile is pending admin verification. You can only join auctions after verification.");
+                          return;
+                        }
+                        alert("Successfully joined the auction!");
+                      } catch (err) {
+                        console.error("Error checking verification:", err);
+                      }
+                    }}
+                    className="btn-auction col-span-1 sm:col-span-2 py-4 text-lg"
+                  >
                     <span className="material-symbols-outlined text-[24px]">gavel</span>
                     Join Auction
                   </button>
                 ) : (
-                  <button onClick={() => navigate(`/checkout/${DUMMY_PRODUCT.id}`)} className="btn-primary col-span-1 sm:col-span-2 py-4 text-lg">
+                  <button 
+                    onClick={async () => {
+                      const { data: { user } } = await supabase.auth.getUser();
+                      if (!user) {
+                        alert("Please log in to purchase.");
+                        return;
+                      }
+                      try {
+                        const { data: profile } = await apiClient.get(`/users/${user.id}`);
+                        if (!profile.is_profile_verified) {
+                          alert("Your profile is pending admin verification. You can only buy after verification.");
+                          return;
+                        }
+                        navigate(`/checkout/${DUMMY_PRODUCT.id}`);
+                      } catch (err) {
+                        console.error("Error checking verification:", err);
+                      }
+                    }} 
+                    className="btn-primary col-span-1 sm:col-span-2 py-4 text-lg"
+                  >
                     <span className="material-symbols-outlined text-[24px]">shopping_cart</span>
                     Buy Now
                   </button>
@@ -267,6 +309,21 @@ export const ComponentDetails = () => {
                   btn.disabled = true;
                   btn.innerHTML = '<span class="animate-spin material-symbols-outlined text-[20px]">sync</span> Starting...';
                   try {
+                    const { data: { user } } = await supabase.auth.getUser();
+                    if (!user) {
+                      alert("Please log in to chat.");
+                      btn.disabled = false;
+                      btn.innerHTML = originalHtml;
+                      return;
+                    }
+                    const { data: profile } = await apiClient.get(`/users/${user.id}`);
+                    if (!profile.is_profile_verified) {
+                      alert("Your profile is pending admin verification. You can only chat after verification.");
+                      btn.disabled = false;
+                      btn.innerHTML = originalHtml;
+                      return;
+                    }
+
                     const res = await apiClient.post('/chats', {
                       seller_id: DUMMY_PRODUCT.seller.id,
                       component_id: DUMMY_PRODUCT.id

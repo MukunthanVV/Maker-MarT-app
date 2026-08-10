@@ -7,7 +7,7 @@ import { BottomNav } from '../components/BottomNav';
 export const PersonalProfile = () => {
   const navigate = useNavigate();
   const [userData, setUserData] = useState(null);
-  const [stats, setStats] = useState({ sold: 0, donated: 0 });
+  const [stats, setStats] = useState({ listed: 0, sold: 0 });
   const [loading, setLoading] = useState(true);
   const [isEditing, setIsEditing] = useState(false);
   const [recentActivity, setRecentActivity] = useState([]);
@@ -80,26 +80,11 @@ export const PersonalProfile = () => {
     }
   };
 
-  const checkEditLock = () => {
-    if (!userData) return { isLocked: false, remainingDays: 0 };
-    if (!userData.last_edit_at) return { isLocked: false, remainingDays: 0 };
-    
-    const COOLDOWN_DAYS = 3;
-    const COOLDOWN_MS = COOLDOWN_DAYS * 24 * 60 * 60 * 1000;
-    const timeSinceLastEdit = Date.now() - new Date(userData.last_edit_at).getTime();
-    
-    if (timeSinceLastEdit < COOLDOWN_MS) {
-      const remainingDays = ((COOLDOWN_MS - timeSinceLastEdit) / (24 * 60 * 60 * 1000)).toFixed(1);
-      return { isLocked: true, remainingDays: parseFloat(remainingDays) };
-    }
-    
-    return { isLocked: false, remainingDays: 0 };
-  };
-
-  const editLock = checkEditLock();
-  const maxEditsReached = userData?.edit_count >= 3 && userData?.edit_request_status !== 'APPROVED';
+  const editLock = { isLocked: false, remainingDays: 0 };
+  const maxEditsReached = false;
   const isRequestPending = userData?.edit_request_status === 'PENDING';
-  const canEdit = !editLock.isLocked && !maxEditsReached;
+  const isRequestRejected = userData?.edit_request_status === 'REJECTED';
+  const canEdit = true;
 
   useEffect(() => {
     const fetchProfile = async () => {
@@ -158,9 +143,9 @@ export const PersonalProfile = () => {
 
       const components = componentsRes ? componentsRes.data : null;
       if (components) {
-        const soldCount = components.filter(c => c.status === 'SOLD' && !c.is_free).length;
-        const donatedCount = components.filter(c => c.status === 'SOLD' && c.is_free).length;
-        setStats({ sold: soldCount, donated: donatedCount });
+        const listedCount = components.length;
+        const soldCount = components.filter(c => c.status === 'SOLD').length;
+        setStats({ listed: listedCount, sold: soldCount });
         setRecentActivity(components);
       }
 
@@ -408,9 +393,15 @@ export const PersonalProfile = () => {
               </div>
               
               <div className="w-full flex flex-col gap-2 pt-4 border-t border-[var(--color-border)] mb-2"></div>
-              <div className="w-full flex flex-col items-center">
-                <span className="text-3xl font-black text-[var(--color-text-primary)]">{stats.sold}</span>
-                <span className="text-xs font-bold text-[var(--color-text-secondary)] uppercase tracking-wider">Sold</span>
+              <div className="grid grid-cols-2 w-full gap-4">
+                <div className="flex flex-col border-r border-[var(--color-border)] items-center">
+                  <span className="text-3xl font-black text-[var(--color-text-primary)]">{stats.listed}</span>
+                  <span className="text-xs font-bold text-[var(--color-text-secondary)] uppercase tracking-wider text-center">Listed</span>
+                </div>
+                <div className="flex flex-col items-center">
+                  <span className="text-3xl font-black text-[var(--color-text-primary)]">{stats.sold}</span>
+                  <span className="text-xs font-bold text-[var(--color-text-secondary)] uppercase tracking-wider text-center">Sold</span>
+                </div>
               </div>
             </div>
             
@@ -444,23 +435,11 @@ export const PersonalProfile = () => {
                       <button onClick={() => setIsEditing(false)} className="text-[var(--color-primary)] hover:underline font-bold text-sm">
                         Cancel
                       </button>
-                    ) : canEdit ? (
+                    ) : (
                       <button onClick={() => setIsEditing(true)} className="text-[var(--color-primary)] hover:underline font-bold text-sm">
                         Edit
                       </button>
-                    ) : isRequestPending ? (
-                      <span className="text-[var(--color-warning)] font-bold text-xs bg-[var(--color-warning)]/10 px-3 py-1.5 rounded-lg">
-                        Edit Request Pending
-                      </span>
-                    ) : maxEditsReached ? (
-                      <button onClick={handleRequestEditAccess} className="text-[var(--color-primary)] hover:underline font-bold text-xs bg-[var(--color-primary)]/10 px-3 py-1.5 rounded-lg">
-                        Request Edit Access
-                      </button>
-                    ) : editLock.isLocked ? (
-                      <span className="text-[var(--color-text-secondary)] font-bold text-xs bg-[var(--color-border)]/50 px-3 py-1.5 rounded-lg" title={`Locked. Next edit available in ${editLock.remainingDays} days.`}>
-                        Locked (Cooldown)
-                      </span>
-                    ) : null}
+                    )}
                   </div>
                 )}
               </div>
@@ -487,15 +466,22 @@ export const PersonalProfile = () => {
                 {isRequestPending && (
                   <div className="badge-neutral bg-[var(--color-warning)]/10 text-[var(--color-warning)] p-3 rounded-xl border-[var(--color-warning)]/20 flex items-center gap-2 mb-4">
                     <span className="material-symbols-outlined text-[20px]">hourglass_empty</span>
-                    <span>An edit request is currently pending admin approval.</span>
+                    <span>Your profile details are pending admin verification. You can buy, sell, or chat once approved.</span>
                   </div>
                 )}
-                {userData && !editLock.isLocked && !maxEditsReached && (
-                  <div className="badge-neutral bg-[var(--color-success)]/10 text-[var(--color-success)] p-3 rounded-xl border-[var(--color-success)]/20 flex items-center gap-2 mb-4">
-                    <span className="material-symbols-outlined text-[20px]">check_circle</span>
-                    <span>You have <strong>{3 - (userData.edit_count || 0)}/3</strong> edits remaining. Note that a 3-day lock applies after each edit.</span>
+                {isRequestRejected && userData?.admin_suggestion && (
+                  <div className="badge-neutral bg-[var(--color-danger)]/10 text-[var(--color-danger)] p-3 rounded-xl border-[var(--color-danger)]/20 flex items-start gap-2.5 mb-4">
+                    <span className="material-symbols-outlined text-[20px] mt-0.5">error_outline</span>
+                    <div>
+                      <div className="font-bold text-sm">Profile Details Rejected by Admin</div>
+                      <div className="text-xs text-[var(--color-text-secondary)] mt-0.5">
+                        Feedback: <strong className="text-[var(--color-danger)]">"{userData.admin_suggestion}"</strong>
+                      </div>
+                      <div className="text-[11px] text-[var(--color-text-secondary)] mt-1 font-medium">Please edit your details and resubmit for verification.</div>
+                    </div>
                   </div>
                 )}
+
               </div>
 
               {isEditing ? (
@@ -517,7 +503,14 @@ export const PersonalProfile = () => {
                     </div>
                     <div>
                       <label className="input-label block">Mobile Number</label>
-                      <input className="input-standard" type="tel" required value={formData.mobile_number} onChange={e => setFormData({...formData, mobile_number: e.target.value})} placeholder="9876543210" />
+                      <input 
+                        className="input-standard" 
+                        type="tel" 
+                        required 
+                        value={formData.mobile_number} 
+                        onChange={e => setFormData({...formData, mobile_number: e.target.value.replace(/\D/g, '')})} 
+                        placeholder="9876543210" 
+                      />
                       <p className="text-xs text-[var(--color-text-secondary)] mt-1.5 italic">Confidential. Not displayed publicly.</p>
                     </div>
                     <div>
@@ -569,10 +562,27 @@ export const PersonalProfile = () => {
                   </div>
                   <div>
                     <label className="text-xs font-bold text-[var(--color-text-secondary)] uppercase block mb-1">Account Status</label>
-                    <div className="flex items-center gap-1.5 text-[var(--color-success)]">
-                      <span className="material-symbols-outlined text-[20px]">verified_user</span>
-                      <p className="text-sm font-bold">Active &amp; Verified</p>
-                    </div>
+                    {userData?.edit_request_status === 'PENDING' ? (
+                      <div className="flex items-center gap-1.5 text-[var(--color-warning)]">
+                        <span className="material-symbols-outlined text-[20px]">hourglass_empty</span>
+                        <p className="text-sm font-bold">Pending Verification</p>
+                      </div>
+                    ) : userData?.edit_request_status === 'REJECTED' ? (
+                      <div className="flex items-center gap-1.5 text-[var(--color-danger)]">
+                        <span className="material-symbols-outlined text-[20px]">cancel</span>
+                        <p className="text-sm font-bold">Verification Rejected</p>
+                      </div>
+                    ) : userData?.is_profile_verified ? (
+                      <div className="flex items-center gap-1.5 text-[var(--color-success)]">
+                        <span className="material-symbols-outlined text-[20px]">verified_user</span>
+                        <p className="text-sm font-bold">Active &amp; Verified</p>
+                      </div>
+                    ) : (
+                      <div className="flex items-center gap-1.5 text-[var(--color-danger)]">
+                        <span className="material-symbols-outlined text-[20px]">error_outline</span>
+                        <p className="text-sm font-bold">Unverified / Incomplete</p>
+                      </div>
+                    )}
                   </div>
                 </div>
               )}

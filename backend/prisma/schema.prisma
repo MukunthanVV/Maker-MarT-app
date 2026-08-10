@@ -24,6 +24,9 @@ model User {
   edit_count       Int         @default(0)
   last_edit_at     DateTime?
   edit_request_status String?
+  is_profile_verified Boolean     @default(false)
+  pending_profile_updates String?
+  admin_suggestion String?
 
   components       Component[]
 

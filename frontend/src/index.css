@@ -10,9 +10,9 @@
   --color-primary-hover: #5B756C; /* Deep Sage */
   --color-primary-dark: #3A4F47;  /* Dark Forest Sage */
   --color-accent-light: #E8C39E;  /* Warm Sand/Peach */
-  --color-success: #92B4A7;       /* Muted Mint */
-  --color-warning: #F2D399;       /* Muted Honey */
-  --color-danger: #E29587;        /* Dusty Rose */
+  --color-success: #22C55E;       /* Bright Green */
+  --color-warning: #EAB308;       /* Bright Yellow */
+  --color-danger: #EF4444;        /* Vibrant Red */
   --color-info: #A5C4D4;          /* Dusty Blue */
 
   /* Light Mode Semantics */
@@ -80,7 +80,7 @@
   }
 
   .btn-danger {
-    @apply h-12 px-6 rounded-xl font-bold tracking-wide transition-all duration-200 flex items-center justify-center gap-2 active:scale-95 disabled:opacity-50 disabled:pointer-events-none bg-red-500 text-white hover:bg-red-600 shadow-sm hover:shadow-md;
+    @apply h-12 px-6 rounded-xl font-bold tracking-wide transition-all duration-200 flex items-center justify-center gap-2 active:scale-95 disabled:opacity-50 disabled:pointer-events-none bg-[var(--color-danger)] text-white hover:opacity-90 shadow-sm hover:shadow-md;
   }
 
   .btn-auction {

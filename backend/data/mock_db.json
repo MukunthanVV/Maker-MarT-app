@@ -3,7 +3,7 @@
     {
       "id": "87650734-b92a-4465-b397-325f392c0267",
       "createdAt": "2026-07-27T15:13:49.367Z",
-      "updatedAt": "2026-07-27T17:45:50.408Z",
+      "updatedAt": "2026-08-10T05:52:00.603Z",
       "email": "727824tuio032@skct.edu.in",
       "name": "Mukunthan vv",
       "mobile_number": "70927 45599",
@@ -15,7 +15,7 @@
     {
       "id": "ee73ba88-0838-4b39-bf82-c2677d661502",
       "createdAt": "2026-07-27T15:39:00.975Z",
-      "updatedAt": "2026-08-09T16:42:34.948Z",
+      "updatedAt": "2026-08-09T16:45:02.155Z",
       "email": "727824tuio054@skct.edu.in",
       "name": "tharun karthik av",
       "mobile_number": "7539973689",
@@ -26,6 +26,48 @@
       "edit_count": 1,
       "last_edit_at": "2026-07-27T17:23:43.206Z",
       "edit_request_status": null
+    },
+    {
+      "id": "6674aea4-5c02-4c86-9b27-ffae5b62f33c",
+      "createdAt": "2026-08-10T05:52:18.933Z",
+      "updatedAt": "2026-08-10T06:25:59.046Z",
+      "email": "tharunkarthikav21@gmail.com",
+      "is_admin": true,
+      "role": "Admin",
+      "name": "Tharun Karthik AV",
+      "mobile_number": "7539973689",
+      "register_no": "admin",
+      "year": "admin",
+      "department": "admin",
+      "classroom_no": "admin"
+    },
+    {
+      "id": "1b0d991b-4d31-4b6a-b2f1-a8a023edbc38",
+      "createdAt": "2026-08-10T06:13:37.357Z",
+      "updatedAt": "2026-08-10T06:19:05.800Z",
+      "email": "727824tuio041@skct.edu.in",
+      "pending_profile_updates": null,
+      "is_profile_verified": true,
+      "edit_request_status": "APPROVED",
+      "last_edit_at": "2026-08-10T06:14:37.130Z",
+      "edit_count": 0,
+      "name": "Sanjay V",
+      "mobile_number": "8148199064",
+      "register_no": "727824tuio054",
+      "year": "3rd year ",
+      "department": "BE CSE IOT",
+      "classroom_no": "C6"
+    },
+    {
+      "id": "60352e40-151c-4d37-9684-f5cffe5623d3",
+      "createdAt": "2026-08-10T06:19:56.545Z",
+      "updatedAt": "2026-08-10T07:02:15.151Z",
+      "email": "727824tuio023@skct.edu.in",
+      "pending_profile_updates": "{\"name\":\"kathir vel\",\"mobile_number\":\"1234567899\",\"register_no\":\"727824tuio023\",\"year\":\"3rd year\",\"department\":\"demoo\",\"classroom_no\":\"A \"}",
+      "is_profile_verified": false,
+      "edit_request_status": "REJECTED",
+      "last_edit_at": "2026-08-10T06:20:54.749Z",
+      "admin_suggestion": "give a valid department "
     }
   ],
   "component": [
@@ -77,7 +119,7 @@
     {
       "id": "0o6y664d8",
       "createdAt": "2026-07-28T06:37:11.950Z",
-      "updatedAt": "2026-08-09T15:36:01.863Z",
+      "updatedAt": "2026-08-10T05:48:02.062Z",
       "buyer_id": "ee73ba88-0838-4b39-bf82-c2677d661502",
       "seller_id": "87650734-b92a-4465-b397-325f392c0267",
       "component_id": "i7xjoez8t"
@@ -110,14 +152,35 @@
       "sender_id": "ee73ba88-0838-4b39-bf82-c2677d661502",
       "receiver_id": "87650734-b92a-4465-b397-325f392c0267",
       "content": "😤"
+    },
+    {
+      "id": "uj6x6h204",
+      "createdAt": "2026-08-10T05:48:02.061Z",
+      "updatedAt": "2026-08-10T05:48:02.061Z",
+      "chat_id": "0o6y664d8",
+      "sender_id": "87650734-b92a-4465-b397-325f392c0267",
+      "receiver_id": "ee73ba88-0838-4b39-bf82-c2677d661502",
+      "content": "hello"
     }
   ],
   "event": [],
   "news": [
     {
-      "id": "sz3sa17zm",
-      "createdAt": "2026-08-09T15:14:08.876Z",
-      "updatedAt": "2026-08-09T15:14:08.876Z",
+      "id": "aqdxepxhl",
+      "createdAt": "2026-08-10T06:30:01.897Z",
+      "updatedAt": "2026-08-10T06:30:01.897Z",
+      "title": "Tech leaders say AI means less work - their staff say they work up to 90 hours a week",
+      "source": "BBC Tech",
+      "time": "10/08/2026",
+      "link": "https://www.bbc.co.uk/news/articles/cvgx4yd1gl2o?at_medium=RSS&at_campaign=rss",
+      "image": "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/1075/live/0b27bfa0-8aa4-11f1-a7ab-8b30adf0800a.jpg",
+      "description": "Tech companies are not modelling their own claims of the technology giving people more free time.",
+      "author": "BBC Tech"
+    },
+    {
+      "id": "pody8qazw",
+      "createdAt": "2026-08-10T06:30:01.897Z",
+      "updatedAt": "2026-08-10T06:30:01.897Z",
       "title": "Is football AI-proof? Why tech investors wanted a slice of the World Cup",
       "source": "BBC Tech",
       "time": "08/08/2026",
@@ -127,9 +190,9 @@
       "author": "BBC Tech"
     },
     {
-      "id": "lagjou1ph",
-      "createdAt": "2026-08-09T15:14:08.876Z",
-      "updatedAt": "2026-08-09T15:14:08.876Z",
+      "id": "a1gxpwvyw",
+      "createdAt": "2026-08-10T06:30:01.897Z",
+      "updatedAt": "2026-08-10T06:30:01.897Z",
       "title": "Meta fined $567m in largest child safety ruling against social media giant",
       "source": "BBC Tech",
       "time": "07/08/2026",
@@ -139,9 +202,9 @@
       "author": "BBC Tech"
     },
     {
-      "id": "ywrqs754s",
-      "createdAt": "2026-08-09T15:14:08.876Z",
-      "updatedAt": "2026-08-09T15:14:08.876Z",
+      "id": "zo69x94hs",
+      "createdAt": "2026-08-10T06:30:01.897Z",
+      "updatedAt": "2026-08-10T06:30:01.897Z",
       "title": "Why airlines are warning over lithium-ion batteries",
       "source": "BBC Tech",
       "time": "07/08/2026",
@@ -151,9 +214,9 @@
       "author": "BBC Tech"
     },
     {
-      "id": "tmspil432",
-      "createdAt": "2026-08-09T15:14:08.876Z",
-      "updatedAt": "2026-08-09T15:14:08.876Z",
+      "id": "7ti6e6usi",
+      "createdAt": "2026-08-10T06:30:01.897Z",
+      "updatedAt": "2026-08-10T06:30:01.897Z",
       "title": "First OpenAI, now Meta - why do AI hacks keep happening?",
       "source": "BBC Tech",
       "time": "06/08/2026",
@@ -163,21 +226,9 @@
       "author": "BBC Tech"
     },
     {
-      "id": "gmaz8cis1",
-      "createdAt": "2026-08-09T15:14:08.876Z",
-      "updatedAt": "2026-08-09T15:14:08.876Z",
-      "title": "Cashing in on SpaceX: 'Every chance I get, I'll sell a little more'",
-      "source": "BBC Tech",
-      "time": "06/08/2026",
-      "link": "https://www.bbc.co.uk/news/articles/cm2g0j3y339o?at_medium=RSS&at_campaign=rss",
-      "image": "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/b1c4/live/1885b310-91a6-11f1-b8ee-9b3c26ad07bb.png",
-      "description": "Andre Lavoie joined SpaceX in 2009 as an engineer, now he's looking to cash in his shares in the company.",
-      "author": "BBC Tech"
-    },
-    {
-      "id": "1yhfymb1q",
-      "createdAt": "2026-08-09T15:14:08.876Z",
-      "updatedAt": "2026-08-09T15:14:08.876Z",
+      "id": "m1yrtw7p9",
+      "createdAt": "2026-08-10T06:30:01.897Z",
+      "updatedAt": "2026-08-10T06:30:01.897Z",
       "title": "Meta Ordered to Pay $567 Million Fine by New Mexico Judge",
       "source": "NYT Tech",
       "time": "07/08/2026",
@@ -187,9 +238,9 @@
       "author": "Eli Tan"
     },
     {
-      "id": "vcqlu7dmv",
-      "createdAt": "2026-08-09T15:14:08.876Z",
-      "updatedAt": "2026-08-09T15:14:08.876Z",
+      "id": "lqczfr96y",
+      "createdAt": "2026-08-10T06:30:01.897Z",
+      "updatedAt": "2026-08-10T06:30:01.897Z",
       "title": "China’s Unitree Prices IPO in Bet Investors Are Ready for Humanoid Robots",
       "source": "NYT Tech",
       "time": "07/08/2026",
@@ -199,9 +250,9 @@
       "author": "Steve Lohr and Xinyun Wu"
     },
     {
-      "id": "sxcs7a540",
-      "createdAt": "2026-08-09T15:14:08.876Z",
-      "updatedAt": "2026-08-09T15:14:08.876Z",
+      "id": "4ccdcn8ih",
+      "createdAt": "2026-08-10T06:30:01.897Z",
+      "updatedAt": "2026-08-10T06:30:01.897Z",
       "title": "Google Names Demis Hassabis to New AI Role in a Leadership Shake-up",
       "source": "NYT Tech",
       "time": "06/08/2026",
@@ -211,9 +262,9 @@
       "author": "Kate Conger and Cade Metz"
     },
     {
-      "id": "nzjn7pwtz",
-      "createdAt": "2026-08-09T15:14:08.876Z",
-      "updatedAt": "2026-08-09T15:14:08.876Z",
+      "id": "xwpwg9qzy",
+      "createdAt": "2026-08-10T06:30:01.897Z",
+      "updatedAt": "2026-08-10T06:30:01.897Z",
       "title": "The White House’s Secret A.I. Rules + The State of Model Alignment With METR’s Chris Painter + The Final Hot Mess Express",
       "source": "NYT Tech",
       "time": "07/08/2026",
@@ -223,9 +274,9 @@
       "author": "Kevin Roose, Casey Newton, Rachel Cohn, Whitney Jones, Vjeran Pavic, Katie McMurran, Dan Powell, Elisheba Ittoop, Rowan Niemisto and Alyssa Moxley"
     },
     {
-      "id": "jz667rbbo",
-      "createdAt": "2026-08-09T15:14:08.876Z",
-      "updatedAt": "2026-08-09T15:14:08.876Z",
+      "id": "n27n7d2lk",
+      "createdAt": "2026-08-10T06:30:01.897Z",
+      "updatedAt": "2026-08-10T06:30:01.897Z",
       "title": "New Amazon Data Center Stokes Worry It Would Be the Most Polluting Power Plant in the U.S.",
       "source": "NYT Tech",
       "time": "08/08/2026",
@@ -235,9 +286,45 @@
       "author": "Hiroko Tabuchi"
     },
     {
-      "id": "d79fsrp55",
-      "createdAt": "2026-08-09T15:14:08.876Z",
-      "updatedAt": "2026-08-09T15:14:08.876Z",
+      "id": "h1oa9cs60",
+      "createdAt": "2026-08-10T06:30:01.897Z",
+      "updatedAt": "2026-08-10T06:30:01.897Z",
+      "title": "No Dogs in Space is a music history podcast for true obsessives",
+      "source": "The Verge",
+      "time": "10/08/2026",
+      "link": "https://www.theverge.com/entertainment/977190/no-dogs-in-space-music-history-podcast",
+      "image": "https://platform.theverge.com/wp-content/uploads/sites/2/2026/08/NDIS_LOGO.webp?quality=90&#038;strip=all&#038;crop=0,0,100,100",
+      "description": "Sadly, there hasn't been a new episode of No Dogs in Space since July of 2024. Part four of the podcast's series on Can wrapped up an abbreviated s...",
+      "author": "The Verge"
+    },
+    {
+      "id": "vxcf9x2ns",
+      "createdAt": "2026-08-10T06:30:01.897Z",
+      "updatedAt": "2026-08-10T06:30:01.897Z",
+      "title": "Zuckerberg&#8217;s yacht was closer, but someone else saved a stranded boat",
+      "source": "The Verge",
+      "time": "09/08/2026",
+      "link": "https://www.theverge.com/tech/977161/mark-zuckerberg-yacht-wilderness-legacy-stranded-boat",
+      "image": "https://platform.theverge.com/wp-content/uploads/sites/2/2026/08/gettyimages-2190858037.jpg?quality=90&#038;strip=all&#038;crop=0,0,100,100",
+      "description": "Mark Zuckerberg's yacht \"The Launchpad\" | Image: Sylvain Lefevre / Getty Images\t\n\nEarlier this week, the Alaskan cruise ship Wilderness Legacy resc...",
+      "author": "The Verge"
+    },
+    {
+      "id": "lk7420tns",
+      "createdAt": "2026-08-10T06:30:01.897Z",
+      "updatedAt": "2026-08-10T06:30:01.897Z",
+      "title": "49ers coach says his Tesla was on Autopilot when he crashed",
+      "source": "The Verge",
+      "time": "09/08/2026",
+      "link": "https://www.theverge.com/transportation/977155/49ers-coach-tesla-autopilot-crash",
+      "image": "https://platform.theverge.com/wp-content/uploads/sites/2/2026/08/gettyimages-2275684974.jpg?quality=90&#038;strip=all&#038;crop=0,0,100,100",
+      "description": "Head Coach Kyle Shanahan of the San Francisco 49ers | Image: Michael Zagaris / San Francisco 49ers / Getty Images\t\n\nFour weeks ago, San Francisco 4...",
+      "author": "The Verge"
+    },
+    {
+      "id": "px8d4o20p",
+      "createdAt": "2026-08-10T06:30:01.897Z",
+      "updatedAt": "2026-08-10T06:30:01.897Z",
       "title": "Dropbox is a PC builder’s best friend",
       "source": "The Verge",
       "time": "09/08/2026",
@@ -247,51 +334,15 @@
       "author": "The Verge"
     },
     {
-      "id": "11kf27xk1",
-      "createdAt": "2026-08-09T15:14:08.876Z",
-      "updatedAt": "2026-08-09T15:14:08.876Z",
+      "id": "yu4dcp1eh",
+      "createdAt": "2026-08-10T06:30:01.897Z",
+      "updatedAt": "2026-08-10T06:30:01.897Z",
       "title": "AI detectors are creating a new era of distrust",
       "source": "The Verge",
       "time": "09/08/2026",
       "link": "https://www.theverge.com/column/976690/ai-writing-detectors-suspicion",
       "image": "https://platform.theverge.com/wp-content/uploads/sites/2/2026/08/268680_AI_detection_CVirginia-.jpg?quality=90&#038;strip=all&#038;crop=0,0,100,100",
       "description": "This is The Stepback, a weekly newsletter breaking down one essential story from the tech world. For more news about how AI is changing our daily l...",
-      "author": "The Verge"
-    },
-    {
-      "id": "w7ludfvhe",
-      "createdAt": "2026-08-09T15:14:08.876Z",
-      "updatedAt": "2026-08-09T15:14:08.876Z",
-      "title": "X replaces its revenue-sharing program with ‘Original Content Rewards’",
-      "source": "The Verge",
-      "time": "09/08/2026",
-      "link": "https://www.theverge.com/tech/977143/x-revenue-sharing-original-content-rewards",
-      "image": "https://platform.theverge.com/wp-content/uploads/sites/2/2025/07/STK160_X_TWITTER__B.jpg?quality=90&#038;strip=all&#038;crop=0,0,100,100",
-      "description": "X wants to make money on previously used handles. | Image: The Verge\t\n\nX is ending its controversial revenue-sharing program for content creators, ...",
-      "author": "The Verge"
-    },
-    {
-      "id": "m2rk1322u",
-      "createdAt": "2026-08-09T15:14:08.876Z",
-      "updatedAt": "2026-08-09T15:14:08.876Z",
-      "title": "An Amazon data center could have the worst polluting power plant in the country",
-      "source": "The Verge",
-      "time": "08/08/2026",
-      "link": "https://www.theverge.com/ai-artificial-intelligence/977124/amazon-data-center-worst-polluting-power-plant",
-      "image": "https://platform.theverge.com/wp-content/uploads/sites/2/2026/06/STKS528_DATA_CENTERS2_A.jpg?quality=90&#038;strip=all&#038;crop=0,0,100,100",
-      "description": "To power its new West Texas data center, Amazon is investing in the construction of a new power plant that could be one of the largest single produ...",
-      "author": "The Verge"
-    },
-    {
-      "id": "uqt4zd38s",
-      "createdAt": "2026-08-09T15:14:08.876Z",
-      "updatedAt": "2026-08-09T15:14:08.876Z",
-      "title": "Buc-ee’s dodges John Oliver to sue another small business",
-      "source": "The Verge",
-      "time": "08/08/2026",
-      "link": "https://www.theverge.com/business/977112/buc-ees-john-oliver-lawsuit-beaver-mini-mart",
-      "image": "https://platform.theverge.com/wp-content/uploads/sites/2/2026/08/gettyimages-2222931981.jpg?quality=90&#038;strip=all&#038;crop=0,0,100,100",
-      "description": "Buc-ee’s mega-convenience store and 120-pump gas station in Mount Crawford, Virginia. | Image: Chip Somodevilla / Getty Images\t\n\nBuc-ee's became so...",
       "author": "The Verge"
     }
   ],

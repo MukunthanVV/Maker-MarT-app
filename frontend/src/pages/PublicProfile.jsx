@@ -9,7 +9,7 @@ export const PublicProfile = () => {
   const { userId } = useParams();
   const [userData, setUserData] = useState(null);
   const [unauthorized, setUnauthorized] = useState(false);
-  const [stats, setStats] = useState({ sold: 0, donated: 0 });
+  const [stats, setStats] = useState({ listed: 0, sold: 0 });
   const [loading, setLoading] = useState(true);
   const [recentActivity, setRecentActivity] = useState([]);
 
@@ -59,9 +59,9 @@ export const PublicProfile = () => {
       }
 
       if (components) {
-        const soldCount = components.filter(c => c.status === 'SOLD' && !c.is_free).length;
-        const donatedCount = components.filter(c => c.status === 'SOLD' && c.is_free).length;
-        setStats({ sold: soldCount, donated: donatedCount });
+        const listedCount = components.length;
+        const soldCount = components.filter(c => c.status === 'SOLD').length;
+        setStats({ listed: listedCount, sold: soldCount });
         // Only show active listings on public profile
         setRecentActivity(components.filter(c => c.status === 'ACTIVE' || c.status === 'AVAILABLE'));
       }
@@ -144,13 +144,13 @@ export const PublicProfile = () => {
               
               <div className="w-full flex flex-col gap-2 pt-4 border-t border-[var(--color-border)] mb-2"></div>
               <div className="grid grid-cols-2 w-full gap-4">
-                <div className="flex flex-col border-r border-[var(--color-border)]">
-                  <span className="text-3xl font-black text-[var(--color-text-primary)]">{stats.sold}</span>
-                  <span className="text-xs font-bold text-[var(--color-text-secondary)] uppercase tracking-wider">Sold</span>
+                <div className="flex flex-col border-r border-[var(--color-border)] items-center">
+                  <span className="text-3xl font-black text-[var(--color-text-primary)]">{stats.listed}</span>
+                  <span className="text-xs font-bold text-[var(--color-text-secondary)] uppercase tracking-wider text-center">Listed</span>
                 </div>
-                <div className="flex flex-col">
-                  <span className="text-3xl font-black text-[var(--color-text-primary)]">{stats.donated}</span>
-                  <span className="text-xs font-bold text-[var(--color-text-secondary)] uppercase tracking-wider">Donated</span>
+                <div className="flex flex-col items-center">
+                  <span className="text-3xl font-black text-[var(--color-text-primary)]">{stats.sold}</span>
+                  <span className="text-xs font-bold text-[var(--color-text-secondary)] uppercase tracking-wider text-center">Sold</span>
                 </div>
               </div>
             </div>

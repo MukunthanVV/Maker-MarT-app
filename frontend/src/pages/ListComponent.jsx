@@ -56,7 +56,14 @@ export const ListComponent = () => {
 
       const { data: profile } = await apiClient.get(`/users/${user.id}`);
       if (!isProfileComplete(profile)) {
-        alert('Please complete your profile details (Name, Register No, Department, Year, Mobile Number) before posting a listing.');
+        alert('Please complete your profile details (Name, Register No, Department, Year, Mobile Number) and save them for verification before posting a listing.');
+        navigate('/profile');
+        setIsPosting(false);
+        return;
+      }
+
+      if (!profile.is_profile_verified) {
+        alert('Your profile details are pending admin verification. You can only list components once verified.');
         navigate('/profile');
         setIsPosting(false);
         return;
