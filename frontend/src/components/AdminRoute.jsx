@@ -7,36 +7,47 @@ export const AdminRoute = () => {
   const [isAdmin, setIsAdmin] = useState(undefined);
 
   useEffect(() => {
+    let isMounted = true;
+    const timer = setTimeout(() => {
+      if (isMounted) setIsAdmin(false);
+    }, 1500);
+
     const checkAdmin = async () => {
-      const { data: { user } } = await supabase.auth.getUser();
-      if (!user) {
-        setIsAdmin(false);
-        return;
-      }
-      
       try {
+        const { data: { user } } = await supabase.auth.getUser().catch(() => ({ data: {} }));
+        clearTimeout(timer);
+        if (!user) {
+          if (isMounted) setIsAdmin(false);
+          return;
+        }
+        
         let profile = null;
         let error = false;
         try {
-          const res = await apiClient.get(`/users/${user.id}`);
-          profile = res.data;
+          const res = await apiClient.get(`/users/${user.id}`).catch(() => null);
+          profile = res?.data || null;
         } catch (err) {
           error = true;
         }
           
-        const bypass = user.email === 'tharunkarthikav21@gmail.com';
+        const bypass = user.email === 'tharunkarthik21112006@gmail.com' || user.email === 'tharunkarthikav21@gmail.com';
         if (bypass || (!error && profile && profile.is_admin)) {
-          setIsAdmin(true);
+          if (isMounted) setIsAdmin(true);
         } else {
-          setIsAdmin(false);
+          if (isMounted) setIsAdmin(false);
         }
       } catch (err) {
         console.error("Error checking admin status", err);
-        setIsAdmin(false);
+        clearTimeout(timer);
+        if (isMounted) setIsAdmin(false);
       }
     };
     
     checkAdmin();
+    return () => {
+      isMounted = false;
+      clearTimeout(timer);
+    };
   }, []);
 
   if (isAdmin === undefined) {

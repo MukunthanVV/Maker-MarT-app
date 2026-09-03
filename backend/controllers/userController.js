@@ -56,10 +56,15 @@ export const updateUser = async (req, res, next) => {
         }
         
         // Fetch current user and requester
-        const currentUser = await UserService.getUserById(id);
-        if (!currentUser) return res.status(404).json({ error: 'User not found' });
+        let currentUser = await UserService.getUserById(id);
+        if (!currentUser) {
+            currentUser = await UserService.upsertUser(id, req.user?.email || 'user@skct.edu.in');
+        }
 
-        const requester = await UserService.getUserById(req.user.id);
+        let requester = await UserService.getUserById(req.user.id);
+        if (!requester) {
+            requester = currentUser;
+        }
         const isAdmin = requester?.is_admin || requester?.role === 'Admin';
         
         // Security check

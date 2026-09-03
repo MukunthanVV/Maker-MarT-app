@@ -20,55 +20,76 @@ export const ComponentDetails = () => {
     const fetchProduct = async () => {
       try {
         setIsLoading(true);
-        const [response, allRes] = await Promise.all([
-          apiClient.get(`/components/${id}`),
-          apiClient.get(`/components`).catch(() => ({ data: [] }))
-        ]);
-        
-        const comp = response.data;
+        setError(null);
+
+        let comp = null;
+        let allComps = [];
+
+        try {
+          const response = await apiClient.get(`/components/${id}`);
+          comp = response.data;
+        } catch (apiErr) {
+          const staticFallback = PRODUCTS.find(p => String(p.id) === String(id));
+          if (staticFallback) {
+            comp = staticFallback;
+          } else {
+            throw apiErr;
+          }
+        }
+
+        try {
+          const allRes = await apiClient.get(`/components`);
+          allComps = allRes.data || [];
+        } catch (e) {
+          allComps = PRODUCTS;
+        }
+
+        const rawPrice = comp.price;
+        const formattedPrice = typeof rawPrice === 'number' ? `₹${rawPrice}` : (rawPrice || '₹0');
+        const formattedOriginal = comp.originalPrice || (typeof rawPrice === 'number' ? `₹${rawPrice + 200}` : '₹999');
+
         const mappedProduct = {
           id: comp.id,
-          name: comp.title,
-          price: `₹${comp.price}`,
-          originalPrice: `₹${comp.price + 200}`,
-          condition: comp.condition,
-          availability: comp.status === 'ACTIVE' ? 'Available' : 'Sold',
-          sellerRating: '5.0',
-          sellerCollege: 'SKCT',
-          postedTime: 'Just now',
+          name: comp.title || comp.name,
+          price: formattedPrice,
+          originalPrice: formattedOriginal,
+          condition: comp.condition || 'Good',
+          availability: comp.status === 'ACTIVE' || comp.availability === 'In Stock' || comp.availability === 'Available' ? 'Available' : 'Sold',
+          sellerRating: comp.sellerRating || comp.rating || '5.0',
+          sellerCollege: comp.sellerCollege || comp.college || 'SKCT',
+          postedTime: comp.postedTime || comp.time || 'Just now',
           description: comp.why_sell || comp.tech_specs || comp.description || '',
-          category: comp.category,
-          isAuction: comp.listing_type === 'AUCTION',
-          images: comp.images?.length > 0 ? comp.images : ['https://picsum.photos/800/800?random=99'],
-          image: comp.image_url || (comp.images?.length > 0 ? comp.images[0] : 'https://picsum.photos/800/800?random=99'),
+          category: comp.category || 'Electronics',
+          isAuction: comp.listing_type === 'AUCTION' || comp.isAuction === true,
+          images: comp.images?.length > 0 ? comp.images : (comp.image ? [comp.image] : ['https://picsum.photos/800/800?random=99']),
+          image: comp.image_url || (comp.images?.length > 0 ? comp.images[0] : (comp.image || 'https://picsum.photos/800/800?random=99')),
           seller: { 
-            id: comp.seller_id,
+            id: comp.seller_id || comp.seller?.id || 'maker-1',
             name: comp.seller?.name || 'Maker', 
-            avatar: comp.seller?.avatar_url || 'https://i.pravatar.cc/150?u=maker', 
+            avatar: comp.seller?.avatar_url || comp.seller?.avatar || 'https://i.pravatar.cc/150?u=maker', 
             role: comp.seller?.role || 'Member',
-            college: 'SKCT',
-            isVerified: true,
-            rating: '4.9',
-            responseTime: '< 1 hr'
+            college: comp.seller?.college || 'SKCT',
+            isVerified: comp.seller?.isVerified ?? true,
+            rating: comp.seller?.rating || '4.9',
+            responseTime: comp.seller?.responseTime || '< 1 hr'
           },
-          specs: [
-            { label: 'Category', value: comp.category },
-            { label: 'Condition', value: comp.condition },
+          specs: comp.specs || [
+            { label: 'Category', value: comp.category || 'Electronics' },
+            { label: 'Condition', value: comp.condition || 'Good' },
             ...(comp.tech_specs ? [{ label: 'Tech Specs', value: comp.tech_specs }] : [])
           ],
           techSpecs: comp.tech_specs || '',
           whySell: comp.why_sell || ''
         };
         
-        const allComps = allRes.data || [];
-        const related = allComps
+        const related = (allComps.length > 0 ? allComps : PRODUCTS)
           .filter(c => String(c.id) !== String(id))
           .map(c => ({
             id: c.id,
-            name: c.title,
-            price: `₹${c.price}`,
+            name: c.title || c.name,
+            price: typeof c.price === 'number' ? `₹${c.price}` : c.price,
             condition: c.condition,
-            image: c.image_url || (c.images?.length > 0 ? c.images[0] : null)
+            image: c.image_url || (c.images?.length > 0 ? c.images[0] : c.image)
           }))
           .slice(0, 4);
           

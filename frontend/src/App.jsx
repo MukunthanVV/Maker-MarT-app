@@ -35,6 +35,14 @@ const ProtectedRoute = () => {
   useEffect(() => {
     const handleAuthChange = async (sessionData) => {
       if (!sessionData) {
+        const demoUserStr = localStorage.getItem('demo_user_session');
+        if (demoUserStr) {
+          try {
+            const parsed = JSON.parse(demoUserStr);
+            setSession(parsed);
+            return;
+          } catch (e) {}
+        }
         setSession(null);
         return;
       }
@@ -68,9 +76,10 @@ const ProtectedRoute = () => {
           }
 
           // Admin Bootstrap Logic
-          if (sessionData.user.email === 'tharunkarthikav21@gmail.com' && !profile?.is_admin) {
+          const isAdminEmail = sessionData.user.email === 'tharunkarthik21112006@gmail.com' || sessionData.user.email === 'tharunkarthikav21@gmail.com';
+          if (isAdminEmail && !profile?.is_admin) {
             try {
-              await apiClient.put(`/users/${sessionData.user.id}`, { is_admin: true, role: 'Admin' });
+              await apiClient.put(`/users/${sessionData.user.id}`, { is_admin: true, role: 'Admin', is_profile_verified: true });
             } catch (err) {
               console.error("Error bootstrapping admin", err);
             }
@@ -86,17 +95,36 @@ const ProtectedRoute = () => {
       }
     };
 
-    supabase.auth.getSession().then(({ data: { session: initialSession } }) => {
-      handleAuthChange(initialSession);
-    });
+    let isMounted = true;
+
+    const timer = setTimeout(() => {
+      if (isMounted) {
+        setSession((prev) => (prev === undefined ? null : prev));
+      }
+    }, 1500);
+
+    supabase.auth.getSession()
+      .then(({ data }) => {
+        clearTimeout(timer);
+        if (isMounted) handleAuthChange(data?.session || null);
+      })
+      .catch((err) => {
+        console.error("Session error:", err);
+        clearTimeout(timer);
+        if (isMounted) setSession(null);
+      });
 
     const {
       data: { subscription },
     } = supabase.auth.onAuthStateChange((_event, currentSession) => {
-      handleAuthChange(currentSession);
+      if (isMounted) handleAuthChange(currentSession);
     });
 
-    return () => subscription.unsubscribe();
+    return () => {
+      isMounted = false;
+      clearTimeout(timer);
+      subscription.unsubscribe();
+    };
   }, []);
 
   if (session === undefined) {

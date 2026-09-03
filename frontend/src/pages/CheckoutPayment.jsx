@@ -86,7 +86,7 @@ export const CheckoutPayment = () => {
       setIsProcessing(true);
       setPaymentFailed(null);
       
-      const API_URL = 'http://localhost:5000/api/payment/create-order';
+      const API_URL = 'http://localhost:5001/api/payment/create-order';
       const res = await fetch(API_URL, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -115,7 +115,7 @@ export const CheckoutPayment = () => {
             const { data: { session } } = await supabase.auth.getSession();
             const token = session?.access_token;
             
-            const verifyRes = await fetch('http://localhost:5000/api/payment/verify', {
+            const verifyRes = await fetch('http://localhost:5001/api/payment/verify', {
               method: 'POST',
               headers: { 
                   'Content-Type': 'application/json',

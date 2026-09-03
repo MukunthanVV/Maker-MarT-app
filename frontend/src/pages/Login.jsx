@@ -23,9 +23,10 @@ export const Login = () => {
     setLoading(true);
     setError(null);
 
-    const isCollegeEmail = email.endsWith('.edu') || email.endsWith('.edu.in');
+    const isAdminEmail = email === 'tharunkarthik21112006@gmail.com' || email === 'tharunkarthikav21@gmail.com';
+    const isCollegeEmail = email.endsWith('.edu') || email.endsWith('.edu.in') || isAdminEmail;
     if (!isCollegeEmail) {
-      setError('Only college domains (like @skct.edu.in or .edu) are allowed.');
+      setError('Only college domains (like @skct.edu.in or .edu) or Admin emails are allowed.');
       setLoading(false);
       return;
     }
@@ -38,7 +39,9 @@ export const Login = () => {
         if (data?.session) {
           navigate('/profile');
         } else {
-          alert('Check your email for the login link! (If you don\'t receive it, you may need to disable Email Confirmations in your Supabase Dashboard during development).');
+          alert('Account created successfully! You can now sign in with your credentials.');
+          setIsSignUpMode(false);
+          setError(null);
         }
       } else {
         const { error } = await supabase.auth.signInWithPassword({ email, password });
@@ -46,15 +49,47 @@ export const Login = () => {
         navigate('/profile');
       }
     } catch (err) {
-      setError(err.message);
+      if (err.message === 'Failed to fetch' || err.message?.includes('fetch')) {
+        setError('Cannot connect to Supabase authentication server. Please check your Supabase project URL in .env file or use Demo Mode.');
+      } else {
+        setError(err.message);
+      }
     } finally {
       setLoading(false);
     }
   };
 
+  const handleDemoLogin = () => {
+    const isAdmin = email === 'tharunkarthik21112006@gmail.com' || email === 'tharunkarthikav21@gmail.com';
+    const userEmail = isAdmin ? 'tharunkarthik21112006@gmail.com' : (email || '727824tuio032@skct.edu.in');
+    const userId = isAdmin ? 'admin-user-001' : '87650734-b92a-4465-b397-325f392c0267';
+    
+    const demoSession = {
+      user: {
+        id: userId,
+        email: userEmail,
+        user_metadata: { name: isAdmin ? 'Admin' : 'Maker Student' }
+      }
+    };
+    localStorage.setItem('demo_user_session', JSON.stringify(demoSession));
+    navigate(isAdmin ? '/admin' : '/');
+    window.location.reload();
+  };
+
   const handleGoogleLogin = async () => {
-    const { error } = await supabase.auth.signInWithOAuth({ provider: 'google' });
-    if (error) setError(error.message);
+    try {
+      const { error } = await supabase.auth.signInWithOAuth({ provider: 'google' });
+      if (error) {
+        if (error.message === 'Failed to fetch' || error.message?.includes('fetch')) {
+          setError("Cannot connect to Supabase authentication server. Please check VITE_SUPABASE_URL in .env.");
+        } else {
+          setError(error.message);
+        }
+      }
+    } catch (err) {
+      console.error("Google login failed:", err);
+      setError("Unable to connect to authentication server. Please check your Supabase project URL in .env file.");
+    }
   };
 
   return (
@@ -155,15 +190,21 @@ export const Login = () => {
               </div>
 
               {/* Google Login Action */}
-              <button onClick={handleGoogleLogin} className="btn-secondary w-full h-14 text-base justify-center shadow-sm" type="button">
-                <svg viewBox="0 0 24 24" width="20" height="20" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
-                  <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
-                  <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
-                  <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
-                </svg>
-                Google
-              </button>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <button onClick={handleGoogleLogin} className="btn-secondary w-full h-12 text-sm justify-center shadow-sm" type="button">
+                  <svg viewBox="0 0 24 24" width="18" height="18" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
+                    <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+                    <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
+                    <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
+                  </svg>
+                  Google
+                </button>
+                <button onClick={handleDemoLogin} className="btn-secondary w-full h-12 text-sm justify-center shadow-sm border border-[var(--color-primary)]/30 text-[var(--color-primary)] hover:bg-[var(--color-primary)]/10" type="button">
+                  <span className="material-symbols-outlined text-[18px]">bolt</span>
+                  Demo Access
+                </button>
+              </div>
 
               {/* Divider */}
               <div className="flex items-center gap-4 py-4">
