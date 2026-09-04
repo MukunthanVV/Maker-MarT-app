@@ -82,9 +82,30 @@ export const PersonalProfile = () => {
 
   const editLock = { isLocked: false, remainingDays: 0 };
   const maxEditsReached = false;
-  const isRequestPending = userData?.edit_request_status === 'PENDING';
+  const isRequestPending = userData?.edit_request_status === 'PENDING' || !!userData?.pending_profile_updates;
   const isRequestRejected = userData?.edit_request_status === 'REJECTED';
   const canEdit = true;
+
+  const getMergedProfileData = (profile) => {
+    if (!profile) return null;
+    let pending = {};
+    if (profile.pending_profile_updates) {
+      try {
+        pending = typeof profile.pending_profile_updates === 'string'
+          ? JSON.parse(profile.pending_profile_updates)
+          : profile.pending_profile_updates;
+      } catch (e) {}
+    }
+    return {
+      ...profile,
+      name: profile.name || pending.name || '',
+      mobile_number: profile.mobile_number || pending.mobile_number || '',
+      register_no: profile.register_no || pending.register_no || '',
+      year: profile.year || pending.year || '',
+      department: profile.department || pending.department || '',
+      classroom_no: profile.classroom_no || pending.classroom_no || ''
+    };
+  };
 
   useEffect(() => {
     const fetchProfile = async () => {
@@ -136,14 +157,15 @@ export const PersonalProfile = () => {
       
       const profile = profileRes ? profileRes.data : null;
       if (profile) {
-        setUserData(profile);
+        const merged = getMergedProfileData(profile);
+        setUserData(merged);
         setFormData({
-          name: profile.name || '',
-          mobile_number: profile.mobile_number || '',
-          register_no: profile.register_no || '',
-          year: profile.year || '',
-          department: profile.department || '',
-          classroom_no: profile.classroom_no || ''
+          name: merged.name,
+          mobile_number: merged.mobile_number,
+          register_no: merged.register_no,
+          year: merged.year,
+          department: merged.department,
+          classroom_no: merged.classroom_no
         });
       } else {
         setIsEditing(true);
@@ -221,7 +243,16 @@ export const PersonalProfile = () => {
       });
 
       if (res?.data) {
-        setUserData(res.data);
+        const merged = getMergedProfileData(res.data);
+        setUserData(merged);
+        setFormData({
+          name: merged.name,
+          mobile_number: merged.mobile_number,
+          register_no: merged.register_no,
+          year: merged.year,
+          department: merged.department,
+          classroom_no: merged.classroom_no
+        });
       }
       setIsEditing(false);
       alert('Profile details saved successfully!');
@@ -235,7 +266,8 @@ export const PersonalProfile = () => {
         pending_profile_updates: JSON.stringify(updates),
         is_profile_verified: userData?.is_profile_verified || false
       };
-      setUserData(updatedProfile);
+      const merged = getMergedProfileData(updatedProfile);
+      setUserData(merged);
       setIsEditing(false);
       alert('Profile details saved successfully!');
     }
@@ -456,7 +488,7 @@ export const PersonalProfile = () => {
             </div>
             
             <div className="flex flex-col gap-3">
-              {(userData?.is_admin || authEmail === 'tharunkarthik21112006@gmail.com' || authEmail === 'tharunkarthikav21@gmail.com') && (
+              {(userData?.is_admin || authEmail === 'tharunkarthikav21@gmail.com') && (
                 <button onClick={() => navigate('/admin')} className="btn-secondary text-[var(--color-primary)]">
                   <span className="material-symbols-outlined">admin_panel_settings</span>
                   Admin Portal

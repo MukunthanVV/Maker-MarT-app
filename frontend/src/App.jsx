@@ -76,7 +76,7 @@ const ProtectedRoute = () => {
           }
 
           // Admin Bootstrap Logic
-          const isAdminEmail = sessionData.user.email === 'tharunkarthik21112006@gmail.com' || sessionData.user.email === 'tharunkarthikav21@gmail.com';
+          const isAdminEmail = sessionData.user.email === 'tharunkarthikav21@gmail.com';
           if (isAdminEmail && !profile?.is_admin) {
             try {
               await apiClient.put(`/users/${sessionData.user.id}`, { is_admin: true, role: 'Admin', is_profile_verified: true });

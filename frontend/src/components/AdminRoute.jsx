@@ -14,7 +14,20 @@ export const AdminRoute = () => {
 
     const checkAdmin = async () => {
       try {
-        const { data: { user } } = await supabase.auth.getUser().catch(() => ({ data: {} }));
+        let user = null;
+        const { data: { user: sbUser } } = await supabase.auth.getUser().catch(() => ({ data: {} }));
+        user = sbUser;
+
+        if (!user) {
+          const demoUserStr = localStorage.getItem('demo_user_session');
+          if (demoUserStr) {
+            try {
+              const parsed = JSON.parse(demoUserStr);
+              user = parsed?.user || null;
+            } catch (e) {}
+          }
+        }
+
         clearTimeout(timer);
         if (!user) {
           if (isMounted) setIsAdmin(false);
@@ -30,7 +43,7 @@ export const AdminRoute = () => {
           error = true;
         }
           
-        const bypass = user.email === 'tharunkarthik21112006@gmail.com' || user.email === 'tharunkarthikav21@gmail.com';
+        const bypass = user.email === 'tharunkarthikav21@gmail.com' || user.id === 'admin-user-001' || user.id === 'admin-001';
         if (bypass || (!error && profile && profile.is_admin)) {
           if (isMounted) setIsAdmin(true);
         } else {

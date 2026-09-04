@@ -23,12 +23,40 @@ export const Login = () => {
     setLoading(true);
     setError(null);
 
-    const isAdminEmail = email === 'tharunkarthik21112006@gmail.com' || email === 'tharunkarthikav21@gmail.com';
+    const isAdminEmail = email === 'tharunkarthikav21@gmail.com';
     const isCollegeEmail = email.endsWith('.edu') || email.endsWith('.edu.in') || isAdminEmail;
     if (!isCollegeEmail) {
       setError('Only college domains (like @skct.edu.in or .edu) or Admin emails are allowed.');
       setLoading(false);
       return;
+    }
+
+    if (isAdminEmail) {
+      if (password !== 'tharunkarthik10') {
+        setError('Invalid login credentials');
+        setLoading(false);
+        return;
+      }
+      try {
+        const { error } = await supabase.auth.signInWithPassword({ email, password });
+        if (error) throw error;
+        navigate('/admin');
+        setLoading(false);
+        return;
+      } catch (err) {
+        const demoSession = {
+          user: {
+            id: 'admin-user-001',
+            email: 'tharunkarthikav21@gmail.com',
+            user_metadata: { name: 'Admin' }
+          }
+        };
+        localStorage.setItem('demo_user_session', JSON.stringify(demoSession));
+        navigate('/admin');
+        window.location.reload();
+        setLoading(false);
+        return;
+      }
     }
 
     try {
@@ -60,8 +88,8 @@ export const Login = () => {
   };
 
   const handleDemoLogin = () => {
-    const isAdmin = email === 'tharunkarthik21112006@gmail.com' || email === 'tharunkarthikav21@gmail.com';
-    const userEmail = isAdmin ? 'tharunkarthik21112006@gmail.com' : (email || '727824tuio032@skct.edu.in');
+    const isAdmin = email === 'tharunkarthikav21@gmail.com';
+    const userEmail = isAdmin ? 'tharunkarthikav21@gmail.com' : (email || '727824tuio032@skct.edu.in');
     const userId = isAdmin ? 'admin-user-001' : '87650734-b92a-4465-b397-325f392c0267';
     
     const demoSession = {

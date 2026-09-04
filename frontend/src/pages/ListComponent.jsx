@@ -62,7 +62,7 @@ export const ListComponent = () => {
         return;
       }
 
-      const isAdminUser = profile?.is_admin || profile?.role === 'Admin' || user?.email === 'tharunkarthik21112006@gmail.com' || user?.email === 'tharunkarthikav21@gmail.com';
+      const isAdminUser = profile?.is_admin || profile?.role === 'Admin' || user?.email === 'tharunkarthikav21@gmail.com';
       if (!isAdminUser && !profile?.is_profile_verified && !profile?.pending_profile_updates) {
         alert('Your profile details are pending admin verification. You can only list components once verified.');
         navigate('/profile');
