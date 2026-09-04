@@ -258,14 +258,31 @@ export const PersonalProfile = () => {
       alert('Profile details saved successfully!');
     } catch (error) {
       console.warn('Network fallback triggered for profile save:', error);
+      const pendingJson = JSON.stringify(updates);
       const updatedProfile = {
         ...(userData || {}),
         id: targetId,
         email: targetEmail,
         ...updates,
-        pending_profile_updates: JSON.stringify(updates),
+        pending_profile_updates: pendingJson,
+        edit_request_status: 'PENDING',
         is_profile_verified: userData?.is_profile_verified || false
       };
+      
+      try {
+        await supabase.from('User').upsert({
+          id: targetId,
+          email: targetEmail,
+          name: formData.name,
+          pending_profile_updates: pendingJson,
+          edit_request_status: 'PENDING',
+          is_profile_verified: false,
+          admin_suggestion: null
+        }, { onConflict: 'id' });
+      } catch (sbErr) {
+        console.error('Supabase direct profile save error:', sbErr);
+      }
+
       const merged = getMergedProfileData(updatedProfile);
       setUserData(merged);
       setIsEditing(false);

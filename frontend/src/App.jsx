@@ -55,7 +55,11 @@ const ProtectedRoute = () => {
           try {
             await apiClient.post('/users/upsert', { id: user.id, email: user.email });
           } catch (e) {
-            console.error("Upsert error", e);
+            try {
+              await supabase.from('User').upsert({ id: user.id, email: user.email }, { onConflict: 'id' });
+            } catch (sbErr) {
+              console.error("Supabase user upsert fallback error", sbErr);
+            }
           }
 
           // Fetch their public profile to check if blocked
@@ -64,7 +68,10 @@ const ProtectedRoute = () => {
             const res = await apiClient.get(`/users/${user.id}`);
             profile = res.data;
           } catch (err) {
-            // Profile might not exist yet or other error
+            try {
+              const { data } = await supabase.from('User').select('*').eq('id', user.id).single();
+              profile = data;
+            } catch (sbErr) {}
           }
             
           if (profile?.is_blocked) {

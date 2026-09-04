@@ -125,8 +125,13 @@
     {
       "id": "admin-user-001",
       "createdAt": "2026-09-03T05:33:38.446Z",
-      "updatedAt": "2026-09-04T05:26:07.504Z",
-      "email": "727824tuio032@skct.edu.in"
+      "updatedAt": "2026-09-04T07:21:43.993Z",
+      "email": "tharunkarthikav21@gmail.com",
+      "pending_profile_updates": null,
+      "is_profile_verified": true,
+      "edit_request_status": "APPROVED",
+      "admin_suggestion": null,
+      "last_edit_at": "2026-09-04T07:21:43.993Z"
     },
     {
       "id": "94c9aa4b-de0c-4d50-a3fa-34c06257f408",
@@ -320,9 +325,9 @@
   "event": [],
   "news": [
     {
-      "id": "ql4jdo0nm",
-      "createdAt": "2026-09-04T05:22:51.495Z",
-      "updatedAt": "2026-09-04T05:22:51.495Z",
+      "id": "typbxj254",
+      "createdAt": "2026-09-04T06:30:16.416Z",
+      "updatedAt": "2026-09-04T06:30:16.416Z",
       "title": "From 'dog fruit' to darling: India's avocado boom",
       "source": "BBC Tech",
       "time": "04/09/2026",
@@ -332,9 +337,9 @@
       "author": "BBC Tech"
     },
     {
-      "id": "tzhmlmffk",
-      "createdAt": "2026-09-04T05:22:51.495Z",
-      "updatedAt": "2026-09-04T05:22:51.495Z",
+      "id": "wfrdeuefo",
+      "createdAt": "2026-09-04T06:30:16.416Z",
+      "updatedAt": "2026-09-04T06:30:16.416Z",
       "title": "Could robots be the future of theme parks?",
       "source": "BBC Tech",
       "time": "04/09/2026",
@@ -344,21 +349,21 @@
       "author": "BBC Tech"
     },
     {
-      "id": "trzbw4915",
-      "createdAt": "2026-09-04T05:22:51.495Z",
-      "updatedAt": "2026-09-04T05:22:51.495Z",
+      "id": "b4oes2pl9",
+      "createdAt": "2026-09-04T06:30:16.416Z",
+      "updatedAt": "2026-09-04T06:30:16.416Z",
       "title": "AI data centres are booming in Australia - but at what cost?",
       "source": "BBC Tech",
       "time": "04/09/2026",
       "link": "https://www.bbc.co.uk/news/articles/cgl3we7wdr3o?at_medium=RSS&at_campaign=rss",
-      "image": "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/9176/live/0e5ba530-a5a5-11f1-b109-879e35c24276.jpg",
+      "image": "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/2f90/live/402d60f0-a828-11f1-aed2-8d6da8d75094.jpg",
       "description": "Advocates say data centres will bring jobs but others worry they will suck up resources while providing little advantage.",
       "author": "BBC Tech"
     },
     {
-      "id": "q1m7w3b80",
-      "createdAt": "2026-09-04T05:22:51.495Z",
-      "updatedAt": "2026-09-04T05:22:51.495Z",
+      "id": "sme51447r",
+      "createdAt": "2026-09-04T06:30:16.416Z",
+      "updatedAt": "2026-09-04T06:30:16.416Z",
       "title": "Nvidia strikes $12.9bn deal to buy AI platform Hugging Face",
       "source": "BBC Tech",
       "time": "03/09/2026",
@@ -368,9 +373,9 @@
       "author": "BBC Tech"
     },
     {
-      "id": "eorapbgbh",
-      "createdAt": "2026-09-04T05:22:51.495Z",
-      "updatedAt": "2026-09-04T05:22:51.495Z",
+      "id": "gv4383wee",
+      "createdAt": "2026-09-04T06:30:16.416Z",
+      "updatedAt": "2026-09-04T06:30:16.416Z",
       "title": "Watch: BBC travels in self-driving Uber around London",
       "source": "BBC Tech",
       "time": "03/09/2026",
@@ -380,9 +385,9 @@
       "author": "BBC Tech"
     },
     {
-      "id": "3ww0p7n5c",
-      "createdAt": "2026-09-04T05:22:51.495Z",
-      "updatedAt": "2026-09-04T05:22:51.495Z",
+      "id": "8t23jzn3z",
+      "createdAt": "2026-09-04T06:30:16.416Z",
+      "updatedAt": "2026-09-04T06:30:16.416Z",
       "title": "Nvidia Buys Hugging Face in $12.9 Billion Deal",
       "source": "NYT Tech",
       "time": "04/09/2026",
@@ -392,9 +397,9 @@
       "author": "Kalley Huang, Lauren Hirsch and Kate Conger"
     },
     {
-      "id": "tqnfiy9st",
-      "createdAt": "2026-09-04T05:22:51.495Z",
-      "updatedAt": "2026-09-04T05:22:51.495Z",
+      "id": "h13fm78ha",
+      "createdAt": "2026-09-04T06:30:16.416Z",
+      "updatedAt": "2026-09-04T06:30:16.416Z",
       "title": "Which Investors Will Get Rich From Anthropic’s IPO?",
       "source": "NYT Tech",
       "time": "04/09/2026",
@@ -404,9 +409,9 @@
       "author": "Erin Griffith"
     },
     {
-      "id": "ojynsk7ux",
-      "createdAt": "2026-09-04T05:22:51.495Z",
-      "updatedAt": "2026-09-04T05:22:51.495Z",
+      "id": "xcpw9bfnz",
+      "createdAt": "2026-09-04T06:30:16.416Z",
+      "updatedAt": "2026-09-04T06:30:16.416Z",
       "title": "Why the Courts Are Hesitant to Punish Tech Giants Like Meta and Google",
       "source": "NYT Tech",
       "time": "03/09/2026",
@@ -416,9 +421,9 @@
       "author": "Steve Lohr"
     },
     {
-      "id": "w07py552s",
-      "createdAt": "2026-09-04T05:22:51.495Z",
-      "updatedAt": "2026-09-04T05:22:51.495Z",
+      "id": "woo3o27de",
+      "createdAt": "2026-09-04T06:30:16.416Z",
+      "updatedAt": "2026-09-04T06:30:16.416Z",
       "title": "In a Big Win, Google Won’t Have to Break Up Its Ad Tech Business, Court Rules",
       "source": "NYT Tech",
       "time": "03/09/2026",
@@ -428,9 +433,9 @@
       "author": "David McCabe and Tripp Mickle"
     },
     {
-      "id": "o8h63m16a",
-      "createdAt": "2026-09-04T05:22:51.495Z",
-      "updatedAt": "2026-09-04T05:22:51.495Z",
+      "id": "5pxu2azbh",
+      "createdAt": "2026-09-04T06:30:16.416Z",
+      "updatedAt": "2026-09-04T06:30:16.416Z",
       "title": "Why the Hugging Face Hack Should Make You Worry More About A.I.",
       "source": "NYT Tech",
       "time": "04/09/2026",
@@ -440,9 +445,9 @@
       "author": "Kevin Roose"
     },
     {
-      "id": "u13vltuvc",
-      "createdAt": "2026-09-04T05:22:51.495Z",
-      "updatedAt": "2026-09-04T05:22:51.495Z",
+      "id": "x5y9gt0v4",
+      "createdAt": "2026-09-04T06:30:16.416Z",
+      "updatedAt": "2026-09-04T06:30:16.416Z",
       "title": "Nvidia will officially bring DLSS 5 to older GPUs — but won’t give gamers full control",
       "source": "The Verge",
       "time": "04/09/2026",
@@ -452,9 +457,9 @@
       "author": "The Verge"
     },
     {
-      "id": "jfurv8vgr",
-      "createdAt": "2026-09-04T05:22:51.495Z",
-      "updatedAt": "2026-09-04T05:22:51.495Z",
+      "id": "lmbbr7543",
+      "createdAt": "2026-09-04T06:30:16.416Z",
+      "updatedAt": "2026-09-04T06:30:16.416Z",
       "title": "The unusually muted Tesla Cybercab launch",
       "source": "The Verge",
       "time": "04/09/2026",
@@ -464,9 +469,9 @@
       "author": "The Verge"
     },
     {
-      "id": "mzsemwjq6",
-      "createdAt": "2026-09-04T05:22:51.495Z",
-      "updatedAt": "2026-09-04T05:22:51.495Z",
+      "id": "jic9mj2eb",
+      "createdAt": "2026-09-04T06:30:16.416Z",
+      "updatedAt": "2026-09-04T06:30:16.416Z",
       "title": "Steve Ballmer got suspended by the NBA because of a podcast and a jumbotron corruption scandal",
       "source": "The Verge",
       "time": "04/09/2026",
@@ -476,9 +481,9 @@
       "author": "The Verge"
     },
     {
-      "id": "tj3wkifrj",
-      "createdAt": "2026-09-04T05:22:51.495Z",
-      "updatedAt": "2026-09-04T05:22:51.495Z",
+      "id": "2yasdy6tl",
+      "createdAt": "2026-09-04T06:30:16.416Z",
+      "updatedAt": "2026-09-04T06:30:16.416Z",
       "title": "You can watch the coolant flow inside Ugreen’s liquid-cooled power bank",
       "source": "The Verge",
       "time": "04/09/2026",
@@ -488,9 +493,9 @@
       "author": "The Verge"
     },
     {
-      "id": "y74k2nkpw",
-      "createdAt": "2026-09-04T05:22:51.495Z",
-      "updatedAt": "2026-09-04T05:22:51.495Z",
+      "id": "0rbyvghuk",
+      "createdAt": "2026-09-04T06:30:16.416Z",
+      "updatedAt": "2026-09-04T06:30:16.416Z",
       "title": "Dungeons &#038; Dragons is getting a &#8216;Ravenloft&#8217; live-action Netflix series",
       "source": "The Verge",
       "time": "04/09/2026",
